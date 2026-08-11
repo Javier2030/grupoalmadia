@@ -14,17 +14,245 @@
 <meta property="og:description" content="Comercializadora en Bogotá: dotación y EPP, aseo, papelería, ferretería, mobiliario, cómputo, menaje, deporte y agro. Un solo proveedor, una sola factura.">
 <meta property="og:url" content="https://grupoalmadia.com/">
 <meta property="og:image" content="https://grupoalmadia.com/assets/img/logistica-960.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="/assets/img/dotacion-480.webp" type="image/webp" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/style.css?v=6060ba39">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap"></noscript>
+<link rel="preload" as="image" href="/assets/img/dotacion-320.webp" type="image/webp" fetchpriority="high">
+<style>@font-face{
+font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;
+src:url(/assets/fuentes/fraunces-latin.woff2) format("woff2");
+unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;
+src:url(/assets/fuentes/fraunces-latin-ext.woff2) format("woff2");
+unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+:root{
+--tinta:#0d1117;
+--tinta-2:#3d4854;
+--tinta-3:#6b7684;
+--hueso:#f7f6f3;
+--hueso-2:#efede8;
+--linea:#e2dfd8;
+--verde:#0f5c4e;
+--verde-claro:#147a67;
+--cobre:#b0722a;
+--blanco:#fff;
+--ff-display:"Fraunces","Georgia",serif;
+--ff-texto:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+--radio:14px;
+--sombra:0 1px 2px rgba(13,17,23,.04),0 8px 24px -12px rgba(13,17,23,.14);
+--sombra-alta:0 2px 4px rgba(13,17,23,.05),0 24px 48px -20px rgba(13,17,23,.28);
+--ancho:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+margin:0;background:var(--hueso);color:var(--tinta);
+font-family:var(--ff-texto);font-size:17px;line-height:1.62;
+-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:var(--ancho);margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--ff-display);font-weight:600;letter-spacing:-.02em;line-height:1.08;margin:0}
+h1{font-size:clamp(2.6rem,6.2vw,4.6rem);font-weight:600}
+h2{font-size:clamp(1.9rem,3.7vw,2.9rem)}
+h3{font-size:1.16rem;letter-spacing:-.01em;line-height:1.3}
+p{margin:0 0 1em}
+.lead{font-size:clamp(1.06rem,1.7vw,1.28rem);color:var(--tinta-2);line-height:1.6}
+.eyebrow{
+font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+color:var(--verde);margin:0 0 18px;display:block;
+}
+.hdr{
+position:sticky;top:0;z-index:50;
+background:rgba(247,246,243,.82);backdrop-filter:saturate(180%) blur(14px);
+border-bottom:1px solid transparent;transition:border-color .3s,background .3s;
+}
+.hdr.fija{border-bottom-color:var(--linea)}
+.hdr .wrap{display:flex;align-items:center;gap:28px;height:70px}
+.marca{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:600;letter-spacing:-.02em}
+.marca svg{width:30px;height:30px;flex:none}
+.marca b{font-family:var(--ff-display);font-size:1.14rem;font-weight:600}
+.marca span{display:block;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta-3);font-weight:500;margin-top:-2px}
+.nav{margin-left:auto;display:flex;align-items:center;gap:28px}
+.nav a{text-decoration:none;font-size:.93rem;color:var(--tinta-2);font-weight:500;transition:color .2s}
+.nav a:hover{color:var(--tinta)}
+.nav a.btn-p,.nav a.btn-p:hover{color:#fff}
+.btn{
+display:inline-flex;align-items:center;justify-content:center;gap:9px;
+padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:600;
+font-size:.95rem;border:1px solid transparent;cursor:pointer;
+transition:transform .18s cubic-bezier(.2,.8,.3,1),box-shadow .18s,background .18s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-p{background:var(--verde);color:#fff;box-shadow:0 8px 20px -10px rgba(15,92,78,.7)}
+.btn-p:hover{background:var(--verde-claro);box-shadow:0 14px 28px -12px rgba(15,92,78,.8)}
+.btn-g{background:transparent;color:var(--tinta);border-color:var(--linea)}
+.btn-g:hover{border-color:var(--tinta-3);background:var(--blanco)}
+.btn-claro{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.28);backdrop-filter:blur(8px)}
+.btn-claro:hover{background:rgba(255,255,255,.2)}
+.btn-sm{padding:10px 18px;font-size:.89rem}
+.burger{display:none;margin-left:auto;background:none;border:0;padding:9px;cursor:pointer}
+.burger span{display:block;width:22px;height:2px;background:var(--tinta);margin:4px 0;transition:.25s}
+.hero{
+position:relative;color:#fff;overflow:hidden;isolation:isolate;background:#0b1014;
+}
+.hero::before{
+content:'';position:absolute;inset:0;z-index:0;opacity:.9;
+background:
+radial-gradient(120% 90% at 82% 8%,rgba(20,122,103,.32) 0%,transparent 58%),
+radial-gradient(80% 70% at 0% 100%,rgba(176,114,42,.2) 0%,transparent 60%);
+}
+.hero::after{
+content:'';position:absolute;inset:0;z-index:0;opacity:.35;
+background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+background-size:64px 64px;
+mask-image:radial-gradient(120% 90% at 50% 0%,#000 20%,transparent 75%);
+}
+.hero .wrap{position:relative;z-index:1;padding-top:96px;padding-bottom:84px}
+.hero-split{display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center}
+.hero h1{color:#fff;max-width:15ch}
+.hero .lead{color:rgba(255,255,255,.78);max-width:52ch;margin-top:26px}
+.hero .eyebrow{color:#8fd8c6}
+.hero-cta{display:flex;gap:13px;flex-wrap:wrap;margin-top:38px}
+.mosaico{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mosaico figure{
+margin:0;position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/2;
+box-shadow:0 20px 40px -24px rgba(0,0,0,.8);border:1px solid rgba(255,255,255,.1);
+}
+.mosaico figure:nth-child(1){transform:translateY(-16px)}
+.mosaico figure:nth-child(4){transform:translateY(16px)}
+.mosaico img{width:100%;height:100%;object-fit:cover}
+.mosaico figcaption{
+position:absolute;left:0;right:0;bottom:0;padding:22px 12px 9px;
+font-size:.73rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#fff;
+background:linear-gradient(180deg,transparent,rgba(6,10,13,.88));
+}
+.datos{
+display:flex;flex-wrap:wrap;gap:0;margin-top:64px;
+border-top:1px solid rgba(255,255,255,.16);
+}
+.datos div{flex:1 1 190px;padding:22px 26px 0 0}
+.datos dt{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px}
+.datos dd{margin:0;font-size:1.02rem;font-weight:600;font-variant-numeric:lining-nums tabular-nums}
+.seccion{padding:96px 0}
+.seccion-clara{background:var(--blanco)}
+.cab{max-width:64ch;margin-bottom:56px}
+.cab p{margin-top:18px}
+.rejilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:26px}
+.linea{
+position:relative;border-radius:var(--radio);overflow:hidden;background:var(--blanco);
+border:1px solid var(--linea);box-shadow:var(--sombra);
+transition:transform .3s cubic-bezier(.2,.8,.3,1),box-shadow .3s,border-color .3s;
+}
+.linea:hover{transform:translateY(-6px);box-shadow:var(--sombra-alta);border-color:transparent}
+.linea .foto{position:relative;aspect-ratio:3/2;overflow:hidden;background:var(--hueso-2)}
+.linea .foto img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.3,1)}
+.linea:hover .foto img{transform:scale(1.06)}
+.linea .foto::after{
+content:'';position:absolute;inset:0;
+background:linear-gradient(180deg,rgba(13,17,23,0) 40%,rgba(13,17,23,.5) 100%);
+}
+.linea .cuerpo{padding:24px 24px 26px}
+.linea h3{margin-bottom:9px}
+.linea p{color:var(--tinta-2);font-size:.96rem;margin:0}
+.etiquetas{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.etiquetas span{
+font-size:.76rem;font-weight:500;color:var(--tinta-2);
+background:var(--hueso-2);border-radius:999px;padding:5px 11px;
+}
+.pasos{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;border-top:1px solid var(--linea)}
+.paso{padding:32px 28px 32px 0;border-right:1px solid var(--linea)}
+.paso:last-child{border-right:0}
+.paso .num{
+font-family:var(--ff-display);font-size:2.1rem;color:var(--cobre);
+font-variant-numeric:lining-nums;line-height:1;margin-bottom:16px;display:block;
+}
+.paso h3{margin-bottom:8px}
+.paso p{color:var(--tinta-2);font-size:.94rem;margin:0}
+.servicios{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:2px;background:var(--linea);border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden}
+.serv{background:var(--blanco);padding:32px 28px;transition:background .25s}
+.serv:hover{background:var(--hueso)}
+.serv h3{margin-bottom:10px}
+.serv p{color:var(--tinta-2);font-size:.95rem;margin:0}
+.duo{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+.duo img{border-radius:var(--radio);box-shadow:var(--sombra-alta)}
+.lista{list-style:none;padding:0;margin:26px 0 0}
+.lista li{position:relative;padding-left:30px;margin-bottom:14px;color:var(--tinta-2)}
+.lista li::before{
+content:'';position:absolute;left:0;top:.55em;width:14px;height:2px;background:var(--cobre);
+}
+.lista b{color:var(--tinta);font-weight:600}
+.cta{background:var(--tinta);color:#fff;border-radius:var(--radio);padding:64px 56px;text-align:center}
+.cta h2{color:#fff;max-width:20ch;margin:0 auto}
+.cta p{color:rgba(255,255,255,.72);max-width:52ch;margin:20px auto 34px}
+.cta .btns{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
+.ftr{background:var(--tinta);color:rgba(255,255,255,.66);padding:72px 0 34px;font-size:.92rem}
+.ftr a{color:rgba(255,255,255,.66);text-decoration:none}
+.ftr a:hover{color:#fff}
+.ftr-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.12)}
+.ftr h4{color:#fff;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 16px;font-family:var(--ff-texto);font-weight:600}
+.ftr ul{list-style:none;padding:0;margin:0}
+.ftr li{margin-bottom:9px}
+.ftr .marca b,.ftr .marca span{color:#fff}
+.ftr-legal{padding-top:26px;font-size:.83rem;color:rgba(255,255,255,.44);display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap}
+.js .rev{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.8,.3,1),transform .7s cubic-bezier(.2,.8,.3,1)}
+.js .rev.visto{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+.js .rev{opacity:1;transform:none;transition:none}
+html{scroll-behavior:auto}
+.linea:hover{transform:none}
+.linea:hover .foto img{transform:none}
+}
+@media (max-width:1000px){
+.hero-split{grid-template-columns:1fr;gap:44px}
+.mosaico figure:nth-child(1),.mosaico figure:nth-child(4){transform:none}
+}
+@media (max-width:900px){
+.duo{grid-template-columns:1fr;gap:36px}
+.ftr-grid{grid-template-columns:1fr 1fr;gap:32px}
+.paso{border-right:0;border-bottom:1px solid var(--linea);padding:26px 0}
+.paso:last-child{border-bottom:0}
+}
+@media (max-width:760px){
+body{font-size:16px}
+.seccion{padding:64px 0}
+.hero .wrap{padding-top:64px;padding-bottom:60px}
+.nav{
+position:fixed;inset:70px 0 auto;background:var(--hueso);flex-direction:column;
+align-items:stretch;gap:0;padding:14px 24px 26px;border-bottom:1px solid var(--linea);
+transform:translateY(-130%);transition:transform .3s cubic-bezier(.2,.8,.3,1);
+}
+.nav.abierto{transform:none}
+.nav a{padding:13px 0;border-bottom:1px solid var(--linea);font-size:1rem}
+.nav .btn{margin-top:16px}
+.burger{display:block}
+.datos{margin-top:44px}
+.datos div{flex-basis:45%;padding:18px 18px 0 0}
+.cta{padding:44px 26px}
+.ftr-grid{grid-template-columns:1fr}
+}
+.catalogo{columns:3 300px;column-gap:34px}
+.cat-grupo{break-inside:avoid;margin:0 0 30px;padding:0}
+.cat-grupo h3{
+font-family:var(--ff-texto);font-size:.76rem;font-weight:600;letter-spacing:.14em;
+text-transform:uppercase;color:var(--verde);margin-bottom:12px;
+padding-bottom:9px;border-bottom:1px solid var(--linea);
+}
+.cat-grupo ul{list-style:none;margin:0;padding:0}
+.cat-grupo li{
+font-size:.93rem;color:var(--tinta-2);padding:3px 0 3px 16px;position:relative;line-height:1.45;
+}
+.cat-grupo li::before{content:'';position:absolute;left:0;top:.72em;width:6px;height:1px;background:var(--cobre)}
+.nota-catalogo{margin-top:34px;padding-top:22px;border-top:1px solid var(--linea);color:var(--tinta-3);font-size:.9rem}
+@media (max-width:760px){ .catalogo{columns:1} }</style>
 <link rel="icon" href="/assets/img/logo.svg" type="image/svg+xml">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Grupo Empresarial Almadía S.A.S.","alternateName":"Almadía","url":"https://grupoalmadia.com","logo":"https://grupoalmadia.com/assets/img/logo.svg","foundingDate":"2026-07-28","taxID":"902.090.075-9","address":{"@type":"PostalAddress","streetAddress":"Carrera 91 N.º 132C-17","addressLocality":"Bogotá","addressRegion":"Bogotá D.C.","addressCountry":"CO"},"contactPoint":[{"@type":"ContactPoint","telephone":"+573014232500","contactType":"sales","email":"comercial@grupoalmadia.com","areaServed":"CO","availableLanguage":"es"}],"knowsAbout":["Dotación y protección personal","Aseo, higiene y cafetería","Papelería y material escolar","Ferretería y construcción","Mobiliario y equipamiento","Cómputo y tecnología","Menaje y cocina institucional","Deporte y recreación","Agropecuario y agroindustrial","Kits y armado a medida"]}</script>
 <script defer src="/assets/js/main.js?v=1ad86d71"></script>
 </head>
 <body>
+<script>document.documentElement.className+=" js"</script>
 
 <header class="hdr">
   <div class="wrap">
@@ -38,6 +266,7 @@
     <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
     <nav class="nav" id="nav">
       <a href="#lineas">Líneas</a>
+      <a href="#catalogo">Catálogo</a>
       <a href="#servicios">Servicios</a>
       <a href="#proceso">Cómo trabajamos</a>
       <a href="#empresa">La empresa</a>
@@ -63,29 +292,29 @@
       <div class="mosaico">
         <figure>
           <picture>
-            <source type="image/webp" srcset="/assets/img/dotacion-480.webp">
-            <img src="/assets/img/dotacion-480.jpg" width="480" height="320" alt="Dotación y protección personal" fetchpriority="high" decoding="async">
+            <source type="image/webp" srcset="/assets/img/dotacion-320.webp 320w, /assets/img/dotacion-480.webp 480w" sizes="(max-width:1000px) 45vw, 240px">
+            <img src="/assets/img/dotacion-320.jpg" width="480" height="320" alt="Dotación y protección personal" fetchpriority="high" decoding="async">
           </picture>
           <figcaption>Dotación</figcaption>
         </figure>
         <figure>
           <picture>
-            <source type="image/webp" srcset="/assets/img/ferreteria-480.webp">
-            <img src="/assets/img/ferreteria-480.jpg" width="480" height="320" alt="Ferretería y construcción" fetchpriority="high" decoding="async">
+            <source type="image/webp" srcset="/assets/img/ferreteria-320.webp 320w, /assets/img/ferreteria-480.webp 480w" sizes="(max-width:1000px) 45vw, 240px">
+            <img src="/assets/img/ferreteria-320.jpg" width="480" height="320" alt="Ferretería y construcción" fetchpriority="high" decoding="async">
           </picture>
           <figcaption>Ferretería</figcaption>
         </figure>
         <figure>
           <picture>
-            <source type="image/webp" srcset="/assets/img/papeleria-480.webp">
-            <img src="/assets/img/papeleria-480.jpg" width="480" height="320" alt="Papelería y material escolar" loading="lazy" decoding="async">
+            <source type="image/webp" srcset="/assets/img/papeleria-320.webp 320w, /assets/img/papeleria-480.webp 480w" sizes="(max-width:1000px) 45vw, 240px">
+            <img src="/assets/img/papeleria-320.jpg" width="480" height="320" alt="Papelería y material escolar" loading="lazy" decoding="async">
           </picture>
           <figcaption>Papelería</figcaption>
         </figure>
         <figure>
           <picture>
-            <source type="image/webp" srcset="/assets/img/logistica-480.webp">
-            <img src="/assets/img/logistica-480.jpg" width="480" height="320" alt="Kits y armado a medida" loading="lazy" decoding="async">
+            <source type="image/webp" srcset="/assets/img/logistica-320.webp 320w, /assets/img/logistica-480.webp 480w" sizes="(max-width:1000px) 45vw, 240px">
+            <img src="/assets/img/logistica-320.jpg" width="480" height="320" alt="Kits y armado a medida" loading="lazy" decoding="async">
           </picture>
           <figcaption>Kits</figcaption>
         </figure>
@@ -232,7 +461,68 @@
   </div>
 </section>
 
-<section class="seccion seccion-clara" id="servicios">
+<section class="seccion seccion-clara" id="catalogo">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">Catálogo</span>
+      <h2>La lista larga, sin letra menuda.</h2>
+      <p class="lead">Esto es lo que suministramos hoy con proveedor identificado. Está agrupado para que encuentre rápido lo suyo; si su requerimiento combina varios grupos, va en una sola cotización y una sola factura.</p>
+    </div>
+    <div class="catalogo rev">
+      <section class="cat-grupo">
+        <h3>Dotación y protección personal</h3>
+        <ul><li>Uniformes administrativos y operativos</li><li>Overoles, batas y ropa de labor</li><li>Calzado de seguridad y botas</li><li>Guantes de todo tipo</li><li>Cascos, gafas y caretas</li><li>Protección auditiva y respiratoria</li><li>Arneses y líneas de vida</li><li>Chalecos y ropa reflectiva</li><li>Impermeables y ropa de lluvia</li><li>Dotación de ley</li></ul>
+      </section>
+      <section class="cat-grupo">
+        <h3>Aseo, higiene y cafetería</h3>
+        <ul><li>Detergentes y desinfectantes</li><li>Jabón de manos y gel antibacterial</li><li>Papel higiénico y toallas de mano</li><li>Traperos, escobas y baldes</li><li>Bolsas y canecas para residuos</li><li>Ambientadores y aromatizantes</li><li>Dispensadores y accesorios</li><li>Café, azúcar y aromáticas</li><li>Vasos, platos y desechables</li><li>Lencería y paños</li></ul>
+      </section>
+      <section class="cat-grupo">
+        <h3>Papelería, impresos y didáctico</h3>
+        <ul><li>Resmas y papel de impresión</li><li>Cuadernos, bolígrafos y marcadores</li><li>Carpetas, AZ y archivadores</li><li>Tóner, tintas y cintas</li><li>Sellos y elementos de escritorio</li><li>Impresión de formatos y talonarios</li><li>Pendones, avisos y publicidad</li><li>Material didáctico y pedagógico</li><li>Juguetería educativa</li><li>Libros y material bibliográfico</li></ul>
+      </section>
+      <section class="cat-grupo">
+        <h3>Ferretería, eléctricos y construcción</h3>
+        <ul><li>Herramienta manual y eléctrica</li><li>Tornillería y fijaciones</li><li>Pinturas y recubrimientos</li><li>Cemento, agregados y morteros</li><li>Tubería, griferías y accesorios</li><li>Cable, canalización y tableros</li><li>Luminarias e iluminación LED</li><li>Cerraduras y herrajes</li><li>Señalización y avisos de seguridad</li><li>Extintores (suministro)</li></ul>
+      </section>
+      <section class="cat-grupo">
+        <h3>Mobiliario y equipamiento</h3>
+        <ul><li>Escritorios y puestos de trabajo</li><li>Sillas ergonómicas y de espera</li><li>Archivadores, lockers y estantería</li><li>Pupitres, mesas y sillas escolares</li><li>Tableros y mobiliario de aula</li><li>Camillas y mobiliario clínico</li><li>Mobiliario de cafetería y comedor</li><li>Sofás y salas de espera</li></ul>
+      </section>
+      <section class="cat-grupo">
+        <h3>Cómputo, tecnología y software</h3>
+        <ul><li>Computadores de escritorio y portátiles</li><li>Impresoras y multifuncionales</li><li>Escáneres y digitalización</li><li>UPS y regulación eléctrica</li><li>Redes, cableado y conectividad</li><li>Servidores y almacenamiento</li><li>Videoproyectores y pantallas</li><li>Sonido y equipos audiovisuales</li><li>Licenciamiento de software</li><li>Antivirus y seguridad informática</li></ul>
+      </section>
+      <section class="cat-grupo">
+        <h3>Menaje y cocina institucional</h3>
+        <ul><li>Estufas y hornos industriales</li><li>Refrigeración y congelación</li><li>Menaje en acero inoxidable</li><li>Vajilla, cubertería y cristalería</li><li>Ollas, sartenes y utensilios</li><li>Líneas de autoservicio</li><li>Termos, hidratación y dispensadores</li></ul>
+      </section>
+      <section class="cat-grupo">
+        <h3>Salud, bienestar e inclusión</h3>
+        <ul><li>Lencería hospitalaria</li><li>Botiquines y primeros auxilios</li><li>Insumos y dispositivos médicos de uso general</li><li>Sillas de ruedas, caminadores y bastones</li><li>Ayudas técnicas para discapacidad</li><li>Insumos veterinarios</li><li>Elementos de bioseguridad</li></ul>
+      </section>
+      <section class="cat-grupo">
+        <h3>Deporte, recreación y protocolo</h3>
+        <ul><li>Implementación deportiva</li><li>Uniformes y dotación deportiva</li><li>Trofeos, medallas y condecoraciones</li><li>Banderas, escudos y elementos de protocolo</li><li>Carpas, toldos y mobiliario de evento</li><li>Kits recreativos y de bienestar</li><li>Instrumentos musicales</li></ul>
+      </section>
+      <section class="cat-grupo">
+        <h3>Agro, ambiente y campo</h3>
+        <ul><li>Insumos y abonos agrícolas</li><li>Herramienta de campo</li><li>Sistemas y accesorios de riego</li><li>Elementos de vivero y jardinería</li><li>Dotación para trabajo rural</li><li>Baterías, pilas y energía portátil</li></ul>
+      </section>
+      <section class="cat-grupo">
+        <h3>Kits y armado a medida</h3>
+        <ul><li>Kits escolares</li><li>Kits de aseo personal y del hogar</li><li>Kits de dotación</li><li>Kits de emergencia y primeros auxilios</li><li>Kits de bienestar y navideños</li><li>Empaque, marcación y personalización</li></ul>
+      </section>
+      <section class="cat-grupo">
+        <h3>Servicios</h3>
+        <ul><li>Aseo, limpieza y cafetería con personal</li><li>Logística y montaje de eventos</li><li>Transporte y distribución</li><li>Mantenimiento locativo y servicios generales</li><li>Obra civil menor</li><li>Maquila y confección</li><li>Consultoría y acompañamiento comercial</li></ul>
+      </section>
+    </div>
+    <p class="nota-catalogo rev">¿No está en la lista? El objeto social cubre cualquier actividad comercial lícita: mándenos la ficha técnica y le decimos en 24 horas si podemos y a qué precio. No prometemos lo que no podemos cumplir.</p>
+  </div>
+</section>
+
+<section class="seccion" id="servicios">
   <div class="wrap">
     <div class="cab rev">
       <span class="eyebrow">Servicios</span>
@@ -250,7 +540,7 @@
   </div>
 </section>
 
-<section class="seccion" id="proceso">
+<section class="seccion seccion-clara" id="proceso">
   <div class="wrap">
     <div class="cab rev">
       <span class="eyebrow">Cómo trabajamos</span>
@@ -265,7 +555,7 @@
   </div>
 </section>
 
-<section class="seccion seccion-clara" id="empresa">
+<section class="seccion" id="empresa">
   <div class="wrap">
     <div class="duo">
       <div class="rev">

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Grupo Empresarial Almadía — Suministro integral para empresas </title>
+<title>Almadía: suministro para empresas e instituciones en Colombia</title>
 <meta name="description" content="Comercializadora en Bogotá: dotación y EPP, aseo, papelería, ferretería, mobiliario, cómputo, menaje, deporte y agro. Un solo proveedor, una sola factura.">
 <link rel="canonical" href="https://grupoalmadia.com/">
 <meta name="robots" content="index,follow,max-image-preview:large">
@@ -246,7 +246,29 @@ font-size:.93rem;color:var(--tinta-2);padding:3px 0 3px 16px;position:relative;l
 }
 .cat-grupo li::before{content:'';position:absolute;left:0;top:.72em;width:6px;height:1px;background:var(--cobre)}
 .nota-catalogo{margin-top:34px;padding-top:22px;border-top:1px solid var(--linea);color:var(--tinta-3);font-size:.9rem}
-@media (max-width:760px){ .catalogo{columns:1} }</style>
+@media (max-width:760px){ .catalogo{columns:1} }
+.tabla-envoltura{overflow-x:auto;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);box-shadow:var(--sombra)}
+.tabla{width:100%;border-collapse:collapse;font-size:.94rem;min-width:640px}
+.tabla caption{text-align:left;padding:16px 18px 0;color:var(--tinta-3);font-size:.86rem}
+.tabla th,.tabla td{padding:12px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--linea)}
+.tabla thead th{
+font-family:var(--ff-texto);font-size:.72rem;font-weight:600;letter-spacing:.13em;
+text-transform:uppercase;color:var(--verde);background:var(--hueso-2);border-bottom:1px solid var(--linea);
+}
+.tabla tbody tr:last-child td{border-bottom:0}
+.tabla tbody th{font-weight:600;color:var(--tinta)}
+.tabla td{color:var(--tinta-2)}
+.tabla td b{color:var(--tinta)}
+.fichas{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.ficha{
+display:block;text-decoration:none;color:inherit;background:var(--blanco);
+border:1px solid var(--linea);border-radius:var(--radio);padding:20px 22px;box-shadow:var(--sombra);
+transition:transform .18s ease,box-shadow .18s ease;
+}
+.ficha:hover{transform:translateY(-2px);box-shadow:var(--sombra-alta)}
+.ficha h3{margin-bottom:6px}
+.ficha p{margin:0;color:var(--tinta-3);font-size:.9rem;line-height:1.5}
+.ficha span{display:block;margin-top:10px;font-weight:700;color:var(--verde);font-size:.86rem}</style>
 <link rel="icon" href="/assets/img/logo.svg" type="image/svg+xml">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Grupo Empresarial Almadía S.A.S.","alternateName":"Almadía","url":"https://grupoalmadia.com","logo":"https://grupoalmadia.com/assets/img/logo.svg","foundingDate":"2026-07-28","taxID":"902.090.075-9","address":{"@type":"PostalAddress","streetAddress":"Carrera 91 N.º 132C-17","addressLocality":"Bogotá","addressRegion":"Bogotá D.C.","addressCountry":"CO"},"contactPoint":[{"@type":"ContactPoint","telephone":"+573223623930","contactType":"sales","email":"comercial@grupoalmadia.com","areaServed":"CO","availableLanguage":"es"}],"knowsAbout":["Dotación y protección personal","Aseo, higiene y cafetería","Papelería y material escolar","Ferretería y construcción","Mobiliario y equipamiento","Cómputo y tecnología","Menaje y cocina institucional","Deporte y recreación","Agropecuario y agroindustrial","Kits y armado a medida"]}</script>
 <script defer src="/assets/js/main.js?v=1ad86d71"></script>
@@ -268,6 +290,7 @@ font-size:.93rem;color:var(--tinta-2);padding:3px 0 3px 16px;position:relative;l
       <a href="#lineas">Líneas</a>
       <a href="#catalogo">Catálogo</a>
       <a href="#servicios">Servicios</a>
+      <a href="/invertir-en-colombia/">Invertir</a>
       <a href="/empresas/">Crear empresa</a>
       <a href="/servicios-digitales/">Digital e IA</a>
       <a href="#empresa">La empresa</a>
@@ -532,6 +555,7 @@ font-size:.93rem;color:var(--tinta-2);padding:3px 0 3px 16px;position:relative;l
     </div>
     <div class="servicios rev">
       <a class="serv" href="/licitaciones/" style="text-decoration:none;color:inherit;display:block"><h3>Licitaciones y ventas al Estado</h3><p>Encontramos procesos que su empresa puede ganar y le armamos la oferta completa en SECOP II. Honorario por oferta o porcentaje de éxito.</p><p style="margin-top:10px;font-weight:700;color:#0f5c4e">Conozca el servicio →</p></a>
+      <a class="serv" href="/invertir-en-colombia/" style="text-decoration:none;color:inherit;display:block"><h3>Invertir en Colombia desde el exterior</h3><p>Para el extranjero o el colombiano de afuera: qué sociedad conviene, cómo se registra la inversión ante el Banco de la República y cómo constituir sin viajar.</p><p style="margin-top:10px;font-weight:700;color:#0f5c4e">Conozca el servicio →</p></a>
       <a class="serv" href="/empresas/" style="text-decoration:none;color:inherit;display:block"><h3>Creación de empresas (SAS, RUT, facturación)</h3><p>Gestión completa del trámite: estatutos, Cámara de Comercio, RUT, facturación electrónica y carpeta para el banco. También con PPT o cédula de extranjería. Precio fijo.</p><p style="margin-top:10px;font-weight:700;color:#0f5c4e">Conozca el servicio →</p></a>
       <a class="serv" href="/servicios-digitales/" style="text-decoration:none;color:inherit;display:block"><h3>Servicios digitales con IA</h3><p>Página web en 72 horas, ficha de Google, posicionamiento, automatización de WhatsApp, estudios de mercado y redacción de trámites. Precio fijo por entrega.</p><p style="margin-top:10px;font-weight:700;color:#0f5c4e">Conozca el servicio →</p></a>
       <div class="serv"><h3>Suministro y distribución</h3><p>Compra, consolidación y entrega de bienes en las diez líneas, con una sola factura y un solo interlocutor.</p></div>

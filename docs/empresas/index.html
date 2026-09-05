@@ -245,7 +245,29 @@ font-size:.93rem;color:var(--tinta-2);padding:3px 0 3px 16px;position:relative;l
 }
 .cat-grupo li::before{content:'';position:absolute;left:0;top:.72em;width:6px;height:1px;background:var(--cobre)}
 .nota-catalogo{margin-top:34px;padding-top:22px;border-top:1px solid var(--linea);color:var(--tinta-3);font-size:.9rem}
-@media (max-width:760px){ .catalogo{columns:1} }</style>
+@media (max-width:760px){ .catalogo{columns:1} }
+.tabla-envoltura{overflow-x:auto;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);box-shadow:var(--sombra)}
+.tabla{width:100%;border-collapse:collapse;font-size:.94rem;min-width:640px}
+.tabla caption{text-align:left;padding:16px 18px 0;color:var(--tinta-3);font-size:.86rem}
+.tabla th,.tabla td{padding:12px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--linea)}
+.tabla thead th{
+font-family:var(--ff-texto);font-size:.72rem;font-weight:600;letter-spacing:.13em;
+text-transform:uppercase;color:var(--verde);background:var(--hueso-2);border-bottom:1px solid var(--linea);
+}
+.tabla tbody tr:last-child td{border-bottom:0}
+.tabla tbody th{font-weight:600;color:var(--tinta)}
+.tabla td{color:var(--tinta-2)}
+.tabla td b{color:var(--tinta)}
+.fichas{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.ficha{
+display:block;text-decoration:none;color:inherit;background:var(--blanco);
+border:1px solid var(--linea);border-radius:var(--radio);padding:20px 22px;box-shadow:var(--sombra);
+transition:transform .18s ease,box-shadow .18s ease;
+}
+.ficha:hover{transform:translateY(-2px);box-shadow:var(--sombra-alta)}
+.ficha h3{margin-bottom:6px}
+.ficha p{margin:0;color:var(--tinta-3);font-size:.9rem;line-height:1.5}
+.ficha span{display:block;margin-top:10px;font-weight:700;color:var(--verde);font-size:.86rem}</style>
 <link rel="icon" href="/assets/img/logo.svg" type="image/svg+xml">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","serviceType":"Gestión de constitución de empresas (SAS), RUT y facturación electrónica","url":"https://grupoalmadia.com/empresas/","provider":{"@type":"Organization","name":"Grupo Empresarial Almadía S.A.S.","taxID":"902.090.075-9","telephone":"+573223623930","email":"comercial@grupoalmadia.com"},"areaServed":{"@type":"Country","name":"Colombia"},"description":"Constituimos su SAS, sacamos el RUT, activamos la facturación electrónica y armamos la carpeta del banco. Precio fijo. Con PPT o cédula de extranjería.","offers":[{"@type":"Offer","name":"Constitución de SAS (gestión completa)","priceCurrency":"COP","price":"350000","url":"https://grupoalmadia.com/empresas/"},{"@type":"Offer","name":"RUT + facturación electrónica","priceCurrency":"COP","price":"230000","url":"https://grupoalmadia.com/empresas/"},{"@type":"Offer","name":"Paquete Empresa Lista","priceCurrency":"COP","price":"890000","url":"https://grupoalmadia.com/empresas/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Cuánto cuesta crear una SAS en Colombia en 2026?","acceptedAnswer":{"@type":"Answer","text":"Nuestra gestión de constitución vale $350.000. Aparte van los costos oficiales de la Cámara de Comercio: el impuesto de registro (0,7 % del capital suscrito) y los derechos de matrícula según activos; para una empresa pequeña suelen sumar entre $150.000 y $400.000. Se los calculamos antes de empezar y usted los paga directamente a la Cámara."}},{"@type":"Question","name":"¿Cuánto se demora?","acceptedAnswer":{"@type":"Answer","text":"Con los documentos completos, la Cámara de Comercio de Bogotá inscribe la SAS en 1 a 3 días hábiles. El RUT sale el mismo día de la inscripción y la facturación electrónica se habilita en la DIAN en 1 a 5 días más. El paquete completo suele estar listo en una semana."}},{"@type":"Question","name":"¿Puedo crear empresa siendo extranjero, con PPT o cédula de extranjería?","acceptedAnswer":{"@type":"Answer","text":"Sí. Constituimos nuestra propia empresa, Grupo Empresarial Almadía S.A.S., con Permiso por Protección Temporal en julio de 2026, y conocemos cada obstáculo real del proceso: la Cámara, la DIAN y qué bancos abren cuenta de persona jurídica con PPT. Esa experiencia es exactamente lo que le ahorramos."}},{"@type":"Question","name":"¿Ustedes son abogados?","acceptedAnswer":{"@type":"Answer","text":"No, y se lo decimos de frente: somos una empresa de gestión de trámites. Constituir una SAS por documento privado no exige abogado y lo hacemos completo por usted. Si su caso necesita concepto jurídico (socios en conflicto, aportes en especie, cláusulas especiales), se lo decimos y lo remitimos a un abogado titulado."}},{"@type":"Question","name":"¿Qué necesito para empezar?","acceptedAnswer":{"@type":"Answer","text":"Copia del documento de identidad de cada accionista, dirección de la empresa, correo, nombre deseado (verificamos que esté libre en el RUES) y una descripción de la actividad para elegir los códigos CIIU. Con eso redactamos los estatutos y le enviamos todo para firma."}},{"@type":"Question","name":"¿Me ayudan a abrir la cuenta bancaria de la empresa?","acceptedAnswer":{"@type":"Answer","text":"Le entregamos la carpeta que piden los bancos (certificado, RUT, estatutos, balance de apertura, documento del representante) y la lista de las entidades que ya nos confirmaron por escrito que abren cuenta a personas jurídicas cuyo representante se identifica con PPT. La apertura la hace usted en la oficina."}}]}</script>
@@ -267,6 +289,7 @@ font-size:.93rem;color:var(--tinta-2);padding:3px 0 3px 16px;position:relative;l
     <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
     <nav class="nav" id="nav">
       <a href="/#lineas">Líneas</a>
+      <a href="/invertir-en-colombia/">Invertir</a>
       <a href="/licitaciones/">Licitaciones</a>
       <a href="/empresas/" aria-current="page">Crear empresa</a>
       <a href="/servicios-digitales/">Digital e IA</a>
@@ -383,7 +406,7 @@ font-size:.93rem;color:var(--tinta-2);padding:3px 0 3px 16px;position:relative;l
   <div class="wrap">
     <div class="ftr-legal">
       <span>Grupo Empresarial Almadía S.A.S. · NIT 902.090.075-9 · Matrícula 04133931 Cámara de Comercio de Bogotá</span>
-      <span>© 2026 Almadía · <a href="/licitaciones/">Licitaciones</a> · <a href="/empresas/">Crear empresa</a> · <a href="/servicios-digitales/">Digital e IA</a></span>
+      <span>© 2026 Almadía · <a href="/invertir-en-colombia/">Invertir en Colombia</a> · <a href="/licitaciones/">Licitaciones</a> · <a href="/empresas/">Crear empresa</a> · <a href="/servicios-digitales/">Digital e IA</a></span>
     </div>
   </div>
 </footer>

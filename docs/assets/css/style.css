@@ -270,3 +270,29 @@ p{margin:0 0 1em}
 .cat-grupo li::before{content:'';position:absolute;left:0;top:.72em;width:6px;height:1px;background:var(--cobre)}
 .nota-catalogo{margin-top:34px;padding-top:22px;border-top:1px solid var(--linea);color:var(--tinta-3);font-size:.9rem}
 @media (max-width:760px){ .catalogo{columns:1} }
+
+/* ------------------------------------------------------- tablas de costos */
+.tabla-envoltura{overflow-x:auto;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);box-shadow:var(--sombra)}
+.tabla{width:100%;border-collapse:collapse;font-size:.94rem;min-width:640px}
+.tabla caption{text-align:left;padding:16px 18px 0;color:var(--tinta-3);font-size:.86rem}
+.tabla th,.tabla td{padding:12px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--linea)}
+.tabla thead th{
+  font-family:var(--ff-texto);font-size:.72rem;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--verde);background:var(--hueso-2);border-bottom:1px solid var(--linea);
+}
+.tabla tbody tr:last-child td{border-bottom:0}
+.tabla tbody th{font-weight:600;color:var(--tinta)}
+.tabla td{color:var(--tinta-2)}
+.tabla td b{color:var(--tinta)}
+
+/* ------------------------------------------------ rejilla de ciudades/país */
+.fichas{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.ficha{
+  display:block;text-decoration:none;color:inherit;background:var(--blanco);
+  border:1px solid var(--linea);border-radius:var(--radio);padding:20px 22px;box-shadow:var(--sombra);
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.ficha:hover{transform:translateY(-2px);box-shadow:var(--sombra-alta)}
+.ficha h3{margin-bottom:6px}
+.ficha p{margin:0;color:var(--tinta-3);font-size:.9rem;line-height:1.5}
+.ficha span{display:block;margin-top:10px;font-weight:700;color:var(--verde);font-size:.86rem}

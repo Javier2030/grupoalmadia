@@ -64,7 +64,7 @@ p{margin:0 0 1em}
 .hdr.fija{border-bottom-color:var(--linea)}
 .hdr .wrap{display:flex;align-items:center;gap:28px;height:70px}
 .marca{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:600;letter-spacing:-.02em}
-.marca svg{width:30px;height:30px;flex:none}
+.marca svg,.marca img{width:34px;height:34px;flex:none;object-fit:contain}
 .marca b{font-family:var(--ff-display);font-size:1.14rem;font-weight:600}
 .marca span{display:block;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta-3);font-weight:500;margin-top:-2px}
 .nav{margin-left:auto;display:flex;align-items:center;gap:28px}

@@ -13,7 +13,8 @@
 <meta property="og:title" content="Asesoría en Licitaciones SECOP II — Le armamos su oferta">
 <meta property="og:description" content="Vigilamos SECOP II a diario, le decimos qué procesos puede ganar su pyme y le armamos la oferta sin causales de rechazo. Por oferta o % de éxito.">
 <meta property="og:url" content="https://grupoalmadia.com/licitaciones/">
-<meta property="og:image" content="https://grupoalmadia.com/assets/img/logistica-960.jpg">
+<meta property="og:image" content="https://grupoalmadia.com/assets/img/og-almadia.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <style>@font-face{
 font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;
 src:url(/assets/fuentes/fraunces-latin.woff2) format("woff2");
@@ -70,7 +71,7 @@ border-bottom:1px solid transparent;transition:border-color .3s,background .3s;
 .hdr.fija{border-bottom-color:var(--linea)}
 .hdr .wrap{display:flex;align-items:center;gap:28px;height:70px}
 .marca{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:600;letter-spacing:-.02em}
-.marca svg{width:30px;height:30px;flex:none}
+.marca svg,.marca img{width:34px;height:34px;flex:none;object-fit:contain}
 .marca b{font-family:var(--ff-display);font-size:1.14rem;font-weight:600}
 .marca span{display:block;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta-3);font-weight:500;margin-top:-2px}
 .nav{margin-left:auto;display:flex;align-items:center;gap:28px}
@@ -268,7 +269,9 @@ transition:transform .18s ease,box-shadow .18s ease;
 .ficha h3{margin-bottom:6px}
 .ficha p{margin:0;color:var(--tinta-3);font-size:.9rem;line-height:1.5}
 .ficha span{display:block;margin-top:10px;font-weight:700;color:var(--verde);font-size:.86rem}</style>
-<link rel="icon" href="/assets/img/logo.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/img/icono-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/img/icono-180.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","serviceType":"Asesoría en licitaciones y contratación estatal (SECOP II)","url":"https://grupoalmadia.com/licitaciones/","provider":{"@type":"Organization","name":"Grupo Empresarial Almadía S.A.S.","taxID":"902.090.075-9","telephone":"+573223623930","email":"comercial@grupoalmadia.com"},"areaServed":{"@type":"Country","name":"Colombia"},"description":"Vigilamos SECOP II a diario, le decimos qué procesos puede ganar su pyme y le armamos la oferta sin causales de rechazo. Por oferta o % de éxito.","offers":[{"@type":"Offer","name":"Armado de oferta en SECOP II (mínima cuantía)","priceCurrency":"COP","price":"400000","url":"https://grupoalmadia.com/licitaciones/"},{"@type":"Offer","name":"Vigilancia mensual de procesos SECOP II","priceCurrency":"COP","price":"200000","url":"https://grupoalmadia.com/licitaciones/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Qué necesito para venderle al Estado colombiano?","acceptedAnswer":{"@type":"Answer","text":"Para la mayoría de procesos de mínima cuantía basta su empresa activa (Cámara de Comercio y RUT), usuario en SECOP II y una oferta bien armada. El RUP solo se exige en licitaciones y selecciones abreviadas. Nosotros revisamos su caso y le decimos exactamente qué le falta."}},{"@type":"Question","name":"¿Cuánto cobran por armar una oferta?","acceptedAnswer":{"@type":"Answer","text":"El armado de una oferta de mínima cuantía parte de $400.000 según la complejidad del proceso, más un porcentaje de éxito del 2 % solo si le adjudican. La vigilancia mensual de procesos de su sector cuesta $200.000 al mes. Precios públicos, sin sorpresas."}},{"@type":"Question","name":"¿Me garantizan que voy a ganar?","acceptedAnswer":{"@type":"Answer","text":"No, y desconfíe de quien se lo garantice: la adjudicación depende del precio y de los demás oferentes. Lo que sí controlamos es que su oferta no sea rechazada por requisitos: la causa más frecuente de pérdida no es el precio, es la descalificación por documentos."}},{"@type":"Question","name":"¿Atienden fuera de Bogotá?","acceptedAnswer":{"@type":"Answer","text":"Sí. SECOP II es 100 % electrónico, así que armamos ofertas para procesos de cualquier municipio de Colombia sin desplazamientos."}},{"@type":"Question","name":"¿Cómo saben qué procesos me convienen?","acceptedAnswer":{"@type":"Answer","text":"Operamos a diario nuestro propio sistema de monitoreo del SECOP II: filtra los procesos por sector, cuantía y municipio, y detecta los que se declaran desiertos o reciben una sola oferta, que es donde una pyme preparada tiene la mayor probabilidad real."}},{"@type":"Question","name":"¿Ustedes también licitan?","acceptedAnswer":{"@type":"Answer","text":"Sí: somos proveedores activos y ese es el punto. El servicio no sale de un curso sino de operar el canal todos los días con nuestra propia empresa."}}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://grupoalmadia.com/"},{"@type":"ListItem","position":2,"name":"Licitaciones","item":"https://grupoalmadia.com/licitaciones/"}]}</script>
@@ -280,10 +283,7 @@ transition:transform .18s ease,box-shadow .18s ease;
 <header class="hdr">
   <div class="wrap">
     <a class="marca" href="/">
-      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-  <rect width="32" height="32" rx="8" fill="#0f5c4e"/>
-  <path d="M9 23 16 9l7 14h-3.1l-1.32-2.8h-5.16L12.1 23H9Zm4.5-5.3h5L16 12.4l-2.5 5.3Z" fill="#fff"/>
-</svg>
+      <img src="/assets/img/icono-192.png" alt="" width="34" height="34" loading="eager" decoding="async">
       <span><b>Almadía</b><span>Grupo Empresarial</span></span>
     </a>
     <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
@@ -405,6 +405,7 @@ transition:transform .18s ease,box-shadow .18s ease;
 
 <footer class="ftr">
   <div class="wrap">
+    <div style="text-align:center;padding:6px 0 16px"><img src="/assets/img/logo-pie.jpg" alt="Grupo Empresarial Almadía" width="260" height="185" loading="lazy" decoding="async" style="width:230px;height:auto;border-radius:14px"></div>
     <div class="ftr-legal">
       <span>Grupo Empresarial Almadía S.A.S. · NIT 902.090.075-9 · Matrícula 04133931 Cámara de Comercio de Bogotá</span>
       <span>© 2026 Almadía · <a href="/">grupoalmadia.com</a></span>

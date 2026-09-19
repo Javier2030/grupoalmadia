@@ -13,7 +13,8 @@
 <meta property="og:title" content="Crear Empresa en Medellín siendo Extranjero: Guía Real">
 <meta property="og:description" content="Cámara de Comercio de Medellín para Antioquia, zonas francas de Rionegro y Valle de Aburrá, sectores que mueven la ciudad y trámite sin viajar.">
 <meta property="og:url" content="https://grupoalmadia.com/crear-empresa/medellin/">
-<meta property="og:image" content="https://grupoalmadia.com/assets/img/logistica-960.jpg">
+<meta property="og:image" content="https://grupoalmadia.com/assets/img/og-almadia.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <style>@font-face{
 font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;
 src:url(/assets/fuentes/fraunces-latin.woff2) format("woff2");
@@ -70,7 +71,7 @@ border-bottom:1px solid transparent;transition:border-color .3s,background .3s;
 .hdr.fija{border-bottom-color:var(--linea)}
 .hdr .wrap{display:flex;align-items:center;gap:28px;height:70px}
 .marca{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:600;letter-spacing:-.02em}
-.marca svg{width:30px;height:30px;flex:none}
+.marca svg,.marca img{width:34px;height:34px;flex:none;object-fit:contain}
 .marca b{font-family:var(--ff-display);font-size:1.14rem;font-weight:600}
 .marca span{display:block;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta-3);font-weight:500;margin-top:-2px}
 .nav{margin-left:auto;display:flex;align-items:center;gap:28px}
@@ -268,7 +269,9 @@ transition:transform .18s ease,box-shadow .18s ease;
 .ficha h3{margin-bottom:6px}
 .ficha p{margin:0;color:var(--tinta-3);font-size:.9rem;line-height:1.5}
 .ficha span{display:block;margin-top:10px;font-weight:700;color:var(--verde);font-size:.86rem}</style>
-<link rel="icon" href="/assets/img/logo.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/img/icono-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/img/icono-180.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","serviceType":"Gestión de constitución de empresas en Medellín","url":"https://grupoalmadia.com/crear-empresa/medellin/","provider":{"@type":"Organization","name":"Grupo Empresarial Almadía S.A.S.","taxID":"902.090.075-9","telephone":"+573223623930","email":"comercial@grupoalmadia.com"},"areaServed":{"@type":"City","name":"Medellín"},"description":"Cámara de Comercio de Medellín para Antioquia, zonas francas de Rionegro y Valle de Aburrá, sectores que mueven la ciudad y trámite sin viajar."}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Conviene domiciliar en Medellín o en Rionegro?","acceptedAnswer":{"@type":"Answer","text":"Depende de si va a usar zona franca. Estar dentro de una zona franca no es solo una dirección: implica calificarse como usuario ante el usuario operador y cumplir compromisos de inversión y empleo. Si no va a entrar al régimen franco, el domicilio en el valle suele ser más práctico por costos y por cercanía a proveedores."}},{"@type":"Question","name":"¿Puedo fabricar aquí y vender solo afuera?","acceptedAnswer":{"@type":"Answer","text":"Sí, y es un caso frecuente. Necesita la sociedad, el RUT con las responsabilidades de comercio exterior, registro como exportador y decidir si opera en régimen ordinario o franco. La parte de trámites la hacemos nosotros; el diseño aduanero conviene revisarlo con un agente de aduanas."}},{"@type":"Question","name":"¿La Cámara de Medellín pide algo distinto a la de Bogotá?","acceptedAnswer":{"@type":"Answer","text":"El documento de constitución y los formularios son los mismos porque la norma es nacional. Lo que cambia son detalles operativos de radicación y los valores del impuesto de registro, que fija la Gobernación de Antioquia y no coincide necesariamente con el de Bogotá."}}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://grupoalmadia.com/"},{"@type":"ListItem","position":2,"name":"Crear empresa por ciudad","item":"https://grupoalmadia.com/crear-empresa/"},{"@type":"ListItem","position":3,"name":"Crear empresa en Medellín","item":"https://grupoalmadia.com/crear-empresa/medellin/"}]}</script>
@@ -280,10 +283,7 @@ transition:transform .18s ease,box-shadow .18s ease;
 <header class="hdr">
   <div class="wrap">
     <a class="marca" href="/">
-      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-  <rect width="32" height="32" rx="8" fill="#0f5c4e"/>
-  <path d="M9 23 16 9l7 14h-3.1l-1.32-2.8h-5.16L12.1 23H9Zm4.5-5.3h5L16 12.4l-2.5 5.3Z" fill="#fff"/>
-</svg>
+      <img src="/assets/img/icono-192.png" alt="" width="34" height="34" loading="eager" decoding="async">
       <span><b>Almadía</b><span>Grupo Empresarial</span></span>
     </a>
     <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
@@ -432,6 +432,7 @@ transition:transform .18s ease,box-shadow .18s ease;
 
 <footer class="ftr">
   <div class="wrap">
+    <div style="text-align:center;padding:6px 0 16px"><img src="/assets/img/logo-pie.jpg" alt="Grupo Empresarial Almadía" width="260" height="185" loading="lazy" decoding="async" style="width:230px;height:auto;border-radius:14px"></div>
     <div class="ftr-legal">
       <span>Grupo Empresarial Almadía S.A.S. · NIT 902.090.075-9 · Matrícula 04133931 Cámara de Comercio de Bogotá</span>
       <span>© 2026 Almadía · <a href="/invertir-en-colombia/">Invertir en Colombia</a> · <a href="/licitaciones/">Licitaciones</a> · <a href="/empresas/">Crear empresa</a> · <a href="/servicios-digitales/">Digital e IA</a> · <a href="/proteccion-digital/">Paquetes pyme</a></span>

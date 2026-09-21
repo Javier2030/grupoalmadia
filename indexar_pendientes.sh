@@ -6,7 +6,7 @@ LISTA="https://grupoalmadia.com/
 https://grupoalmadia.com/servicios/asesoria-secop-ii/
 https://grupoalmadia.com/servicios/posicionamiento-seo-para-pymes/
 https://grupoalmadia.com/servicios/ficha-de-google-para-empresas/
-https://grupoalmadia.com/servicios/como-contratar-con-el-estado-colombia/
+https://grupoalmadia.com/servicios/rup-que-es-y-como-inscribirse/
 https://grupoalmadia.com/proteccion-digital/
 https://grupoalmadia.com/servicios-digitales/
 https://grupoalmadia.com/servicios/correo-suplantado-spf-dkim-dmarc/
@@ -23,12 +23,8 @@ https://grupoalmadia.com/pt/packages/
 https://grupoalmadia.com/fr/packages/
 https://grupoalmadia.com/de/packages/
 https://grupoalmadia.com/it/packages/
-https://grupoalmadia.com/nl/packages/
-https://grupoalmadia.com/ru/packages/
 https://grupoalmadia.com/zh/packages/
-https://grupoalmadia.com/ja/packages/
 https://grupoalmadia.com/ar/packages/
-https://grupoalmadia.com/hi/packages/
 https://grupoalmadia.com/tr/packages/"
 HECHO=/home/caper_mata/grupoalmadia/.indexadas.txt
 touch $HECHO

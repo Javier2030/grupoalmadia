@@ -3,9 +3,8 @@
 cd /mnt/c/temp || exit 1
 PS=/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe
 LISTA="https://grupoalmadia.com/
-https://grupoalmadia.com/hidrocarburos/
-https://grupoalmadia.com/servicios/como-ser-proveedor-de-ecopetrol/
 https://grupoalmadia.com/servicios/ruc-consejo-colombiano-de-seguridad/
+https://grupoalmadia.com/hidrocarburos/
 https://grupoalmadia.com/servicios/asesoria-secop-ii/
 https://grupoalmadia.com/servicios/posicionamiento-seo-para-pymes/
 https://grupoalmadia.com/servicios/ficha-de-google-para-empresas/
@@ -28,7 +27,8 @@ https://grupoalmadia.com/de/packages/
 https://grupoalmadia.com/it/packages/
 https://grupoalmadia.com/zh/packages/
 https://grupoalmadia.com/ar/packages/
-https://grupoalmadia.com/tr/packages/"
+https://grupoalmadia.com/tr/packages/
+https://grupoalmadia.com/servicios/como-ser-proveedor-de-ecopetrol/"
 HECHO=/home/caper_mata/grupoalmadia/.indexadas.txt
 touch $HECHO
 # Abre una pestaña GSC de la propiedad correcta (el PS1 toma la primera search-console de la lista).

@@ -3,6 +3,7 @@
 cd /mnt/c/temp || exit 1
 PS=/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe
 LISTA="https://grupoalmadia.com/
+https://grupoalmadia.com/servicios/documentos-para-ser-proveedor-de-una-petrolera/
 https://grupoalmadia.com/servicios/ruc-consejo-colombiano-de-seguridad/
 https://grupoalmadia.com/hidrocarburos/
 https://grupoalmadia.com/servicios/asesoria-secop-ii/

@@ -496,7 +496,8 @@ const pp=kp.value.split('|').map(Number);$('o7').textContent=f(Math.min(Math.max
       <button class="btn btn-p" type="submit" style="margin-top:18px">Pedir mi cotización</button>
       <p id="gracias" style="display:none;margin-top:14px;font-weight:700">Recibimos su solicitud. Le respondemos por escrito en menos de 24 horas hábiles.</p>
     </form>
-<script>if(/enviado=1/.test(location.search)){var g=document.getElementById('gracias');if(g)g.style.display='block';}</script>
+<script>if(/enviado=1/.test(location.search)){var g=document.getElementById('gracias');if(g)g.style.display='block';}
+(function(){var fm=document.querySelector('form[action*="formsubmit"]');if(!fm)return;fm.addEventListener('submit',function(){var e=fm.querySelector('[name=empresa]'),s=fm.querySelector('[name=_subject]');if(e&&s&&e.value)s.value='Cotización certificado UPME — '+e.value.slice(0,60)+' [INC-CO]';});})();</script>
   </div>
 </section>
 

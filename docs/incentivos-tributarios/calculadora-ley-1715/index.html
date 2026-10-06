@@ -325,6 +325,12 @@ transition:transform .18s ease,box-shadow .18s ease;
       </select>
       <label for="kr" style="display:block;font-weight:600;margin:16px 0 8px">Renta líquida anual de su empresa, en pesos (opcional)</label>
       <input id="kr" inputmode="numeric" autocomplete="off" placeholder="Ej.: 1.500.000.000" style="width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)">
+      <label for="kp" style="display:block;font-weight:600;margin:16px 0 8px">Plan de Almadía</label>
+      <select id="kp" style="width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)">
+        <option value="1.2|4000000|20000000">Certificado: 1,2 % (proyecto con instalador)</option>
+        <option value="1.5|5000000|25000000">Eficiencia energética o biomasa: 1,5 %</option>
+        <option value="2|8000000|40000000">Integral, antes de comprar: 2 %</option>
+      </select>
       <label for="kt" style="display:block;font-weight:600;margin:16px 0 8px">Tarifa del impuesto de renta</label>
       <select id="kt" style="width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)">
         <option value="35">35 %: tarifa general de sociedades</option>
@@ -341,6 +347,7 @@ transition:transform .18s ease,box-shadow .18s ease;
           <tr><th scope="row">Años para usar la deducción</th><td id="o3">—</td></tr>
           <tr><th scope="row">Impuesto de renta que se ahorra con la deducción</th><td id="o4">—</td></tr>
           <tr><th scope="row">Tarifa que cobra la UPME por estudiar la solicitud</th><td id="o5">—</td></tr>
+          <tr><th scope="row">Honorario de Almadía (más IVA)</th><td id="o7">—</td></tr>
           <tr><th scope="row">Beneficio estimado total</th><td id="o6"><b>—</b></td></tr>
         </tbody>
       </table>
@@ -351,16 +358,17 @@ transition:transform .18s ease,box-shadow .18s ease;
 <script>
 (()=>{const $=i=>document.getElementById(i),inv=$('ki'),ya=$('ky'),ren=$('kr'),tar=$('kt');if(!inv)return;
 const U=52374,f=x=>'$'+Math.round(x).toLocaleString('es-CO');
-const num=el=>{const d=el.value.replace(/\D/g,'');el.value=d?Number(d).toLocaleString('es-CO'):'';return Number(d)};
+const kp=$('kp');const num=el=>{const d=el.value.replace(/\D/g,'');el.value=d?Number(d).toLocaleString('es-CO'):'';return Number(d)};
 function tu(v){const u=Math.round(v/U*100)/100;if(u<275)return 1.2;if(u<826)return 3.4;if(u<1652)return 6.7;if(u<3305)return 13.4;return Math.min(13.4+.005*(u-3305)*.405,275)}
 function calc(){const v=num(inv),rl=num(ren),t=Number(tar.value)/100;
-if(!v){['o1','o2','o3','o4','o5'].forEach(i=>$(i).textContent='—');$('o6').innerHTML='<b>—</b>';return;}
+if(!v){['o1','o2','o3','o4','o5','o7'].forEach(i=>$(i).textContent='—');$('o6').innerHTML='<b>—</b>';return;}
 const iva=ya.value==='no'?v*.19:0,ded=v*.5;let anos='Depende de su renta líquida',usable=ded;
 if(rl){const tope=rl*.5;const n=Math.ceil(ded/tope);if(n<=15){anos=n===1?'1 año':n+' años';}else{anos='15 años (no alcanza a usarla toda)';usable=tope*15;}}
 const ahorro=usable*t,tf=tu(v)*U;
 $('o1').textContent=iva?f(iva):'$0 (el IVA ya pagado no se recupera)';$('o2').textContent=f(ded);$('o3').textContent=anos;
-$('o4').textContent=f(ahorro);$('o5').textContent=f(tf);$('o6').innerHTML='<b>'+f(iva+ahorro)+'</b> ('+Math.round((iva+ahorro)/v*100)+' % de la inversión)';}
-[inv,ren].forEach(x=>x.addEventListener('input',calc));[ya,tar].forEach(x=>x.addEventListener('change',calc));})();
+$('o4').textContent=f(ahorro);$('o5').textContent=f(tf);
+const pp=kp.value.split('|').map(Number);$('o7').textContent=f(Math.min(Math.max(v*pp[0]/100,pp[1]),pp[2]));$('o6').innerHTML='<b>'+f(iva+ahorro)+'</b> ('+Math.round((iva+ahorro)/v*100)+' % de la inversión)';}
+[inv,ren].forEach(x=>x.addEventListener('input',calc));[ya,tar,kp].forEach(x=>x.addEventListener('change',calc));})();
 </script>
 
 <section class="seccion seccion-clara">
@@ -398,7 +406,7 @@ $('o4').textContent=f(ahorro);$('o5').textContent=f(tf);$('o6').innerHTML='<b>'+
         <a class="btn btn-p" href="https://wa.me/573223623930?text=Buen%20d%C3%ADa.%20Us%C3%A9%20la%20calculadora%20de%20la%20Ley%201715%20y%20quiero%20tramitar%20el%20certificado%20UPME.%20%5BINC-CO%5D" rel="noopener">WhatsApp 322 362 3930</a>
         <a class="btn btn-claro" href="mailto:comercial@grupoalmadia.com?subject=Calculadora%20Ley%201715%20%5BINC-CO%5D">comercial@grupoalmadia.com</a>
       </div>
-      <p style="margin-top:14px"><a href="/incentivos-tributarios/certificado-upme/">El servicio de certificado UPME →</a> · <a href="/incentivos-tributarios/">Otros incentivos tributarios →</a></p>
+      <p style="margin-top:14px"><a href="/incentivos-tributarios/certificado-upme/#cotizar">Pedir cotización por escrito →</a> · <a href="/incentivos-tributarios/certificado-upme/#precios">Los tres planes →</a> · <a href="/incentivos-tributarios/beneficios-tributarios-ley-1715/">Beneficios de la Ley 1715 →</a></p>
       <p style="margin-top:10px;font-size:.9rem">Grupo Empresarial Almadía S.A.S. gestiona el trámite ante la UPME. No es una firma de contadores ni de abogados: la memoria de cálculo la firma un ingeniero con matrícula profesional, la declaración de renta la firma el contador o revisor fiscal de su empresa y cualquier actuación ante la DIAN la hace un abogado. La tarifa de la UPME la paga su empresa directamente a la UPME, por PSE.</p>
     </div>
   </div>

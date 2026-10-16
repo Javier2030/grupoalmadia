@@ -268,7 +268,40 @@ transition:transform .18s ease,box-shadow .18s ease;
 .ficha:hover{transform:translateY(-2px);box-shadow:var(--sombra-alta)}
 .ficha h3{margin-bottom:6px}
 .ficha p{margin:0;color:var(--tinta-3);font-size:.9rem;line-height:1.5}
-.ficha span{display:block;margin-top:10px;font-weight:700;color:var(--verde);font-size:.86rem}</style>
+.ficha span{display:block;margin-top:10px;font-weight:700;color:var(--verde);font-size:.86rem}
+.cb-barra{margin:0 0 18px;max-width:640px}
+.cb-lab{display:block;font-weight:600;margin-bottom:8px}
+.cb-barra input{width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)}
+.cb-chica{font-size:.88rem;color:var(--tinta-3);margin:8px 0 0}
+.cb-texto{max-width:760px}.cb-texto p{color:var(--tinta-2)}
+.cb-indice{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.cb-indice a{font-size:.82rem;text-decoration:none;color:var(--verde);background:var(--blanco);border:1px solid var(--linea);border-radius:999px;padding:6px 12px}
+.cb-indice a:hover{border-color:var(--verde)}
+.cb-cap{border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);margin-bottom:10px;scroll-margin-top:84px}
+.cb-cap>summary{cursor:pointer;padding:15px 18px;display:flex;justify-content:space-between;gap:12px;align-items:center;list-style:none}
+.cb-cap>summary::-webkit-details-marker{display:none}
+.cb-cap>summary::after{content:'+';font-size:1.3rem;color:var(--cobre);margin-left:auto;padding-left:12px}
+.cb-cap[open]>summary::after{content:'−'}
+.cb-cap>summary span{font-size:.82rem;color:var(--tinta-3);white-space:nowrap}
+.cb-sc{border:0;border-top:1px solid var(--linea);border-radius:0 0 var(--radio) var(--radio);box-shadow:none}
+.tabla.cb{min-width:0;table-layout:auto}
+.tabla.cb td{padding:11px 14px;vertical-align:top;border-top:1px solid var(--linea);font-size:.92rem}
+.tabla.cb .cb-n{white-space:nowrap;color:var(--tinta-3);width:1%}
+.tabla.cb .cb-v{white-space:nowrap;font-weight:600;font-variant-numeric:tabular-nums}
+.tabla.cb .cb-r{color:var(--tinta-2)}
+.tabla.cb tr[hidden]{display:none}
+.cb-corr td{background:#fbf4e8}
+.cb-aviso{font-size:.72rem;background:var(--cobre);color:#fff;border-radius:999px;padding:2px 8px;text-decoration:none;margin-left:6px;white-space:nowrap}
+@media (max-width:700px){
+.tabla.cb thead{display:none}
+.tabla.cb,.tabla.cb tbody,.tabla.cb tr,.tabla.cb td{display:block;width:auto}
+.tabla.cb tr{padding:12px 14px;border-top:1px solid var(--linea)}
+.tabla.cb td{padding:2px 0;border:0}
+.tabla.cb .cb-n{font-size:.78rem;width:auto}
+.tabla.cb .cb-e{font-weight:600;color:var(--tinta)}
+.tabla.cb .cb-r::before{content:'Referencia: ';color:var(--tinta-3)}
+.tabla.cb .cb-v::before{content:'En pesos 2026: ';color:var(--tinta-3);font-weight:400}
+}</style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/assets/img/icono-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/assets/img/icono-180.png">
@@ -542,7 +575,7 @@ const pp=kp.value.split('|').map(Number);$('o7').textContent=f(Math.min(Math.max
     <div style="text-align:center;padding:6px 0 16px"><img src="/assets/img/logo-pie.jpg" alt="Grupo Empresarial Almadía" width="260" height="185" loading="lazy" decoding="async" style="width:230px;height:auto;border-radius:14px"></div>
     <div class="ftr-legal">
       <span>Grupo Empresarial Almadía S.A.S. · NIT 902.090.075-9 · Matrícula 04133931 Cámara de Comercio de Bogotá</span>
-      <span>© 2026 Almadía · <a href="/invertir-en-colombia/">Invertir en Colombia</a> · <a href="/licitaciones/">Licitaciones</a> · <a href="/empresas/">Crear empresa</a> · <a href="/empresa-llave-en-mano/">Llave en mano</a> · <a href="/contador-publico/">Contador público</a> · <a href="/cobranza/cobro-de-cartera-empresas/">Cobranza de cartera</a> · <a href="/incentivos-tributarios/">Incentivos tributarios</a> · <a href="/tramites-desde-el-exterior/">Trámites desde el exterior</a> · <a href="/tarifas-abogados-colombia-2026/">Tarifas de abogados 2026</a> · <a href="/servicios-digitales/">Digital e IA</a> · <a href="/proteccion-digital/">Paquetes pyme</a></span>
+      <span>© 2026 Almadía · <a href="/invertir-en-colombia/">Invertir en Colombia</a> · <a href="/licitaciones/">Licitaciones</a> · <a href="/empresas/">Crear empresa</a> · <a href="/crear-empresa/bogota/">Crear empresa en Bogotá</a> · <a href="/empresa-llave-en-mano/">Llave en mano</a> · <a href="/contador-publico/">Contador público</a> · <a href="/cobranza/cobro-de-cartera-empresas/">Cobranza de cartera</a> · <a href="/incentivos-tributarios/">Incentivos tributarios</a> · <a href="/tramites-desde-el-exterior/">Trámites desde el exterior</a> · <a href="/tarifas-abogados-colombia-2026/">Tarifas de abogados 2026</a> · <a href="/servicios-digitales/">Digital e IA</a> · <a href="/proteccion-digital/">Paquetes pyme</a></span>
       <span style="display:block;margin-top:6px;font-size:.82rem">Todos los derechos reservados. Prohibida la reproducción total o parcial de textos, imágenes, datos y diseño sin autorización escrita (Ley 23 de 1982).</span>
     </div>
   </div>

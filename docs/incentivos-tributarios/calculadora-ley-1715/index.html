@@ -306,7 +306,7 @@ transition:transform .18s ease,box-shadow .18s ease;
 <link rel="icon" href="/assets/img/icono-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/assets/img/icono-180.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Calculadora del beneficio de la Ley 1715","applicationCategory":"FinanceApplication","operatingSystem":"Web","url":"https://grupoalmadia.com/incentivos-tributarios/calculadora-ley-1715/","offers":{"@type":"Offer","price":"0","priceCurrency":"COP"},"provider":{"@type":"Organization","name":"Grupo Empresarial Almadía S.A.S.","taxID":"902.090.075-9","telephone":"+573223623930","email":"comercial@grupoalmadia.com"}}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Por qué la deducción no se usa toda en un año?","acceptedAnswer":{"@type":"Answer","text":"Porque la ley la limita: cada año se puede deducir como máximo el 50 % de la renta líquida, calculada antes de restar la inversión, y el período para usarla es de hasta 15 años desde el año siguiente a la entrada en operación (Ley 1715, art. 11)."}},{"@type":"Question","name":"¿Por qué si ya compré los equipos el IVA sale en cero?","acceptedAnswer":{"@type":"Answer","text":"Porque la exclusión de IVA se aplica en la compra: el proveedor factura sin IVA cuando su empresa le presenta el certificado. El IVA ya pagado no se recupera con el certificado."}},{"@type":"Question","name":"¿Por qué la calculadora no suma la depreciación acelerada?","acceptedAnswer":{"@type":"Answer","text":"Porque la depreciación acelerada no aumenta el gasto total, lo adelanta: permite depreciar hasta 33,33 % al año. Mejora la caja de los primeros años, pero el total depreciado es el mismo."}},{"@type":"Question","name":"¿Y el arancel?","acceptedAnswer":{"@type":"Answer","text":"La exención de arancel aplica solo a lo importado que no se produce en Colombia, y se pide a la DIAN al menos 15 días hábiles antes de importar. Depende de cada partida, por eso no va en la calculadora."}},{"@type":"Question","name":"¿El límite del 3 % de la reforma de 2022 recorta este beneficio?","acceptedAnswer":{"@type":"Answer","text":"No. El artículo 259-1 del Estatuto Tributario no incluye la deducción de la Ley 1715 entre los beneficios sujetos a ese límite."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Por qué la deducción no se usa toda en un año?","acceptedAnswer":{"@type":"Answer","text":"Porque la ley la limita: cada año se puede deducir como máximo el 50 % de la renta líquida, calculada antes de restar la inversión, y el período para usarla es de hasta 15 años desde el año siguiente a la entrada en operación (Ley 1715, art. 11)."}},{"@type":"Question","name":"¿Por qué si ya compré los equipos el IVA sale en cero?","acceptedAnswer":{"@type":"Answer","text":"Porque la exclusión de IVA se aplica en la compra: el proveedor factura sin IVA cuando su empresa le presenta el certificado. El IVA ya pagado no se recupera con el certificado. Si su empresa es responsable de IVA, el IVA pagado en activos fijos reales productivos puede descontarse del impuesto de renta (art. 258-1 ET); eso lo evalúa su contador."}},{"@type":"Question","name":"¿Por qué la calculadora no suma la depreciación acelerada?","acceptedAnswer":{"@type":"Answer","text":"Porque la depreciación acelerada no aumenta el gasto total, lo adelanta: permite depreciar hasta 33,33 % al año. Mejora la caja de los primeros años, pero el total depreciado es el mismo."}},{"@type":"Question","name":"¿Y el arancel?","acceptedAnswer":{"@type":"Answer","text":"La exención de arancel aplica solo a lo importado que no se produce en Colombia, y se pide a la DIAN al menos 15 días hábiles antes de importar. Depende de cada partida, por eso no va en la calculadora."}},{"@type":"Question","name":"¿El límite del 3 % de la reforma de 2022 recorta este beneficio?","acceptedAnswer":{"@type":"Answer","text":"No. El artículo 259-1 del Estatuto Tributario no incluye la deducción de la Ley 1715 entre los beneficios sujetos a ese límite. Lo que sí puede recortarlo es la tasa mínima de tributación del 15 % (art. 240, par. 6 ET): la calculadora la estima si usted escribe la renta líquida."}},{"@type":"Question","name":"¿La calculadora sirve para personas naturales?","acceptedAnswer":{"@type":"Answer","text":"En parte. Calcula la deducción y los años para usarla con el tope de 1.340 UVT al año ($70.181.160 con la UVT de 2026) que la DIAN aplica a las personas naturales (art. 336, num. 3 ET; Concepto DIAN 2756 de 2026), pero no el ahorro, que depende de su tarifa marginal (art. 241 ET) y del 40 % que la deducción comparte con sus rentas exentas. Ese cálculo lo hace su contador."}}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://grupoalmadia.com/"},{"@type":"ListItem","position":2,"name":"Incentivos tributarios","item":"https://grupoalmadia.com/incentivos-tributarios/"},{"@type":"ListItem","position":3,"name":"Calculadora de la Ley 1715","item":"https://grupoalmadia.com/incentivos-tributarios/calculadora-ley-1715/"}]}</script>
 <script defer src="/assets/js/main.js?v=1ad86d71"></script>
 </head>
@@ -351,12 +351,20 @@ transition:transform .18s ease,box-shadow .18s ease;
     <div class="rev" style="max-width:640px">
       <label for="ki" style="display:block;font-weight:600;margin:0 0 8px">Valor de los equipos y servicios del proyecto, sin IVA, en pesos</label>
       <input id="ki" inputmode="numeric" autocomplete="off" placeholder="Ej.: 800.000.000" style="width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)">
+      <label for="ke" style="display:block;font-weight:600;margin:16px 0 8px">De ese valor, ¿cuánto son paneles solares, inversores y controladores de carga? En pesos (opcional)</label>
+      <input id="ke" inputmode="numeric" autocomplete="off" placeholder="Ej.: 300.000.000" style="width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)">
+      <p style="font-size:.9rem;margin-top:6px">Esos tres equipos ya están exentos de IVA por el artículo 477 del Estatuto Tributario, con o sin certificado, así que la calculadora no los cuenta en el IVA.</p>
       <label for="ky" style="display:block;font-weight:600;margin:16px 0 8px">¿Ya le facturaron los equipos?</label>
       <select id="ky" style="width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)">
         <option value="no">No: todavía no los compra</option>
         <option value="si">Sí: ya los pagó con IVA</option>
       </select>
-      <label for="kr" style="display:block;font-weight:600;margin:16px 0 8px">Renta líquida anual de su empresa, en pesos (opcional)</label>
+      <label for="kd" style="display:block;font-weight:600;margin:16px 0 8px">¿Su empresa es responsable de IVA y puede descontar en renta el IVA de sus activos fijos (art. 258-1 ET)?</label>
+      <select id="kd" style="width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)">
+        <option value="no">No, o no lo sé</option>
+        <option value="si">Sí</option>
+      </select>
+      <label for="kr" style="display:block;font-weight:600;margin:16px 0 8px">Renta líquida anual antes de restar la inversión, en pesos (opcional)</label>
       <input id="kr" inputmode="numeric" autocomplete="off" placeholder="Ej.: 1.500.000.000" style="width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)">
       <label for="kp" style="display:block;font-weight:600;margin:16px 0 8px">Plan de Almadía</label>
       <select id="kp" style="width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)">
@@ -364,44 +372,49 @@ transition:transform .18s ease,box-shadow .18s ease;
         <option value="1.5|5000000|25000000">Eficiencia energética o biomasa: 1,5 %</option>
         <option value="2|8000000|40000000">Integral, antes de comprar: 2 %</option>
       </select>
-      <label for="kt" style="display:block;font-weight:600;margin:16px 0 8px">Tarifa del impuesto de renta</label>
+      <label for="kt" style="display:block;font-weight:600;margin:16px 0 8px">Quién declara y a qué tarifa</label>
       <select id="kt" style="width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)">
-        <option value="35">35 %: tarifa general de sociedades</option>
-        <option value="33">33 %</option>
-        <option value="30">30 %</option>
-        <option value="20">20 %: zona franca</option>
+        <option value="35">Sociedad: 35 %, tarifa general (art. 240 ET)</option>
+        <option value="20">Usuario industrial de zona franca: 20 %, solo sobre la renta de exportación (art. 240-1 ET)</option>
+        <option value="pn">Persona natural que declara renta</option>
       </select>
     </div>
     <div class="tabla-envoltura rev" style="margin-top:22px;max-width:640px" aria-live="polite">
       <table class="tabla" style="min-width:0">
         <tbody>
-          <tr><th scope="row">IVA que deja de pagar en la compra</th><td id="o1">—</td></tr>
+          <tr><th scope="row">IVA que deja de pagar en la compra (ítems certificados que no son exentos)</th><td id="o1">—</td></tr>
           <tr><th scope="row">Deducción especial en renta (50 % de la inversión)</th><td id="o2">—</td></tr>
-          <tr><th scope="row">Años para usar la deducción</th><td id="o3">—</td></tr>
+          <tr><th scope="row">Años para usar la deducción, desde el año siguiente a la entrada en operación</th><td id="o3">—</td></tr>
           <tr><th scope="row">Impuesto de renta que se ahorra con la deducción</th><td id="o4">—</td></tr>
           <tr><th scope="row">Tarifa que cobra la UPME por estudiar la solicitud</th><td id="o5">—</td></tr>
           <tr><th scope="row">Honorario de Almadía (más IVA)</th><td id="o7">—</td></tr>
-          <tr><th scope="row">Beneficio estimado total</th><td id="o6"><b>—</b></td></tr>
+          <tr><th scope="row">Beneficio máximo estimado (sin descontar el valor del dinero en el tiempo)</th><td id="o6"><b>—</b></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="nota-catalogo rev">Estimación para orientar la decisión, no un concepto tributario. Supone que todos los equipos y servicios están en los anexos de la UPME. Si no escribe la renta líquida, la calculadora supone que su empresa alcanza a usar toda la deducción. La tarifa de la UPME se calcula con la UVT de 2026 ($52.374).</p>
+    <p class="nota-catalogo rev" style="max-width:640px">El certificado lo expide la UPME y el beneficio lo revisa la DIAN. Almadía no garantiza la expedición ni que la DIAN acepte la deducción.</p>
+    <p class="nota-catalogo rev">Estimación para orientar la decisión, no un concepto tributario. Supone que todos los equipos y servicios están en los anexos de la UPME. Si no escribe la renta líquida, la calculadora supone que su empresa alcanza a usar toda la deducción y no estima la tasa mínima del 15 %. No descuenta el valor del dinero en el tiempo. La tarifa de la UPME se calcula con la UVT de 2026 ($52.374).</p>
   </div>
 </section>
 <script>
-(()=>{const $=i=>document.getElementById(i),inv=$('ki'),ya=$('ky'),ren=$('kr'),tar=$('kt');if(!inv)return;
-const U=52374,f=x=>'$'+Math.round(x).toLocaleString('es-CO');
+(()=>{const $=i=>document.getElementById(i),inv=$('ki'),exe=$('ke'),ya=$('ky'),dsc=$('kd'),ren=$('kr'),tar=$('kt');if(!inv)return;
+const U=52374,TPN=1340*U,f=x=>'$'+Math.round(x).toLocaleString('es-CO'),pc=x=>(Math.round(x*1000)/10).toLocaleString('es-CO');
 const kp=$('kp');const num=el=>{const d=el.value.replace(/\D/g,'');el.value=d?Number(d).toLocaleString('es-CO'):'';return Number(d)};
 function tu(v){const u=Math.round(v/U*100)/100;if(u<275)return 1.2;if(u<826)return 3.4;if(u<1652)return 6.7;if(u<3305)return 13.4;return Math.min(13.4+.005*(u-3305)*.405,275)}
-function calc(){const v=num(inv),rl=num(ren),t=Number(tar.value)/100;
+function calc(){const v=num(inv),e=Math.min(num(exe),v),rl=num(ren),pn=tar.value==='pn',t=pn?0:Number(tar.value)/100,des=dsc.value==='si',nueva=ya.value==='no';
 if(!v){['o1','o2','o3','o4','o5','o7'].forEach(i=>$(i).textContent='—');$('o6').innerHTML='<b>—</b>';return;}
-const iva=ya.value==='no'?v*.19:0,ded=v*.5;let anos='Depende de su renta líquida',usable=ded;
-if(rl){const tope=rl*.5;const n=Math.ceil(ded/tope);if(n<=15){anos=n===1?'1 año':n+' años';}else{anos='15 años (no alcanza a usarla toda)';usable=tope*15;}}
-const ahorro=usable*t,tf=tu(v)*U;
-$('o1').textContent=iva?f(iva):'$0 (el IVA ya pagado no se recupera)';$('o2').textContent=f(ded);$('o3').textContent=anos;
-$('o4').textContent=f(ahorro);$('o5').textContent=f(tf);
-const pp=kp.value.split('|').map(Number);$('o7').textContent=f(Math.min(Math.max(v*pp[0]/100,pp[1]),pp[2]));$('o6').innerHTML='<b>'+f(iva+ahorro)+'</b> ('+Math.round((iva+ahorro)/v*100)+' % de la inversión)';}
-[inv,ren].forEach(x=>x.addEventListener('input',calc));[ya,tar,kp].forEach(x=>x.addEventListener('change',calc));})();
+const ded=v*.5,iva=nueva?(v-e)*.19:0;let tope=rl?rl*.5:Infinity;if(pn)tope=Math.min(tope,TPN);
+let anos='Depende de su renta líquida',usable=ded,ia=0;
+if(tope<Infinity){const n=Math.ceil(ded/tope);if(n<=15){anos=n===1?'1 año':n+' años';}else{anos='15 años (no alcanza a usarla toda)';usable=tope*15;}}
+if(!pn&&rl){let r=usable;while(r>0.5){const d=Math.min(r,tope);ia+=Math.max(0,.15*rl-(rl-d)*t);r-=d;}}
+const ahorro=pn?0:usable*t-ia,tf=tu(v)*U,tot=(des?0:iva)+ahorro;
+$('o1').textContent=!nueva?'$0 (el IVA ya pagado no se recupera con el certificado'+(des?'; por el art. 258-1 ET se puede descontar en renta)':')'):(v-e<=0?'$0 (paneles, inversores y controladores ya son exentos por el art. 477 ET)':f(iva)+(des?' (por el art. 258-1 ET lo descontaría en renta: adelanta caja, no se suma al total)':''));
+$('o2').textContent=f(ded)+(pn?' (persona natural: máximo '+f(TPN)+' al año con la UVT de 2026)':'');$('o3').textContent=anos;
+$('o4').textContent=pn?'Depende de su tarifa marginal (art. 241 ET); lo calcula su contador':f(ahorro)+(ia>0?' (ya descuenta '+f(ia)+' por la tasa mínima del 15 %)':(!rl&&t<.3?' (puede bajar por la tasa mínima del 15 %: escriba la renta líquida)':''));
+$('o5').textContent=f(tf);
+const pp=kp.value.split('|').map(Number);$('o7').textContent=f(Math.min(Math.max(v*pp[0]/100,pp[1]),pp[2]));
+$('o6').innerHTML='<b>'+f(tot)+'</b>'+(pn?' + el ahorro en renta según su tarifa marginal':' ('+pc(tot/v)+' % de la inversión)');}
+[inv,exe,ren].forEach(x=>x.addEventListener('input',calc));[ya,dsc,tar,kp].forEach(x=>x.addEventListener('change',calc));})();
 </script>
 
 <section class="seccion seccion-clara">
@@ -410,7 +423,7 @@ const pp=kp.value.split('|').map(Number);$('o7').textContent=f(Math.min(Math.max
       <span class="eyebrow">Cómo calcula</span>
       <h2>Las reglas detrás de cada cifra.</h2>
     </div>
-    <div class="rev"><ul class="lista"><li><b>IVA.</b> 19 % del valor sin IVA, solo si el certificado llega antes de la factura (Ley 1715, art. 12).</li><li><b>Deducción.</b> 50 % del total de la inversión. Cada año, como máximo el 50 % de la renta líquida antes de restar la inversión, durante un período de hasta 15 años desde el año siguiente a la entrada en operación (Ley 1715, art. 11).</li><li><b>Ahorro en renta.</b> La deducción que alcanza a usarse multiplicada por la tarifa del impuesto que usted elija.</li><li><b>Tarifa de la UPME.</b> La tabla y la fórmula del artículo 10 de la Resolución 563 de 2026. <a href="/incentivos-tributarios/certificado-upme/tarifa-2026/">Ver la tabla en pesos</a>.</li><li><b>Referencia oficial.</b> Para calcular su tarifa, la UPME estima el beneficio de cada solicitud en el 40,5 % de la inversión.</li></ul></div>
+    <div class="rev"><ul class="lista"><li><b>IVA.</b> 19 % del valor sin IVA de los ítems certificados que no estén ya exentos, solo si el certificado llega antes de la factura (Ley 1715, art. 12). Los paneles solares, los inversores y los controladores de carga ya están exentos por el artículo 477 del Estatuto Tributario, con o sin certificado, y no se cuentan.</li><li><b>IVA descontable.</b> Si su empresa es responsable de IVA, el IVA de un activo fijo real productivo puede descontarse del impuesto de renta (art. 258-1 ET). En ese caso el certificado adelanta caja más que ahorrar el 19 %, y la calculadora no suma ese IVA al total.</li><li><b>Deducción.</b> 50 % del total de la inversión. Cada año, como máximo el 50 % de la renta líquida antes de restar la inversión, durante un período de hasta 15 años desde el año siguiente a la entrada en operación (Ley 1715, art. 11). En personas naturales, además, la DIAN aplica el límite del 40 % y de 1.340 UVT al año ($70.181.160 con la UVT de 2026) que la deducción comparte con las rentas exentas (art. 336, num. 3 ET; Concepto DIAN 2756 de 2026).</li><li><b>Ahorro en renta.</b> La deducción que alcanza a usarse multiplicada por la tarifa elegida: 35 %, la general de sociedades, o 20 %, la de usuarios industriales de zona franca, que solo cubre la renta de exportación (arts. 240 y 240-1 ET). Las sobretasas de las entidades financieras (40 %, hasta el año gravable 2027) y de las generadoras hidroeléctricas (38 %, hasta 2026) son temporales, y la deducción empieza el año siguiente a la entrada en operación, por eso no se ofrecen. En persona natural, el ahorro depende de su tarifa marginal (art. 241 ET) y la calculadora no lo estima.</li><li><b>Tasa mínima del 15 %.</b> Si su empresa liquida la tasa mínima de tributación (art. 240, par. 6 ET), parte del ahorro vuelve como impuesto a adicionar, porque la deducción baja la renta y no la utilidad contable. Si escribe la renta líquida, la calculadora la estima tomando esa renta como aproximación de la utilidad depurada; la cifra exacta la calcula su contador.</li><li><b>Tarifa de la UPME.</b> La tabla y la fórmula del artículo 10 de la Resolución 563 de 2026. <a href="/incentivos-tributarios/certificado-upme/tarifa-2026/">Ver la tabla en pesos</a>.</li><li><b>El 40,5 % de la UPME no es su beneficio.</b> Para liquidar la tarifa de proyectos de 3.305 UVT o más, la UPME aplica un «beneficio estimado incremental» del 40,5 % sobre la parte de la inversión que pasa de 3.305 UVT (Resolución 563 de 2026, numeral 10.2.1). Es un parámetro de la tarifa, no un cálculo del beneficio de su empresa.</li></ul></div>
   </div>
 </section>
 
@@ -422,10 +435,11 @@ const pp=kp.value.split('|').map(Number);$('o7').textContent=f(Math.min(Math.max
     </div>
     <div class="catalogo rev">
       <section class="cat-grupo"><h3>¿Por qué la deducción no se usa toda en un año?</h3><p style="padding:0 2px">Porque la ley la limita: cada año se puede deducir como máximo el 50 % de la renta líquida, calculada antes de restar la inversión, y el período para usarla es de hasta 15 años desde el año siguiente a la entrada en operación (Ley 1715, art. 11).</p></section>
-      <section class="cat-grupo"><h3>¿Por qué si ya compré los equipos el IVA sale en cero?</h3><p style="padding:0 2px">Porque la exclusión de IVA se aplica en la compra: el proveedor factura sin IVA cuando su empresa le presenta el certificado. El IVA ya pagado no se recupera con el certificado.</p></section>
+      <section class="cat-grupo"><h3>¿Por qué si ya compré los equipos el IVA sale en cero?</h3><p style="padding:0 2px">Porque la exclusión de IVA se aplica en la compra: el proveedor factura sin IVA cuando su empresa le presenta el certificado. El IVA ya pagado no se recupera con el certificado. Si su empresa es responsable de IVA, el IVA pagado en activos fijos reales productivos puede descontarse del impuesto de renta (art. 258-1 ET); eso lo evalúa su contador.</p></section>
       <section class="cat-grupo"><h3>¿Por qué la calculadora no suma la depreciación acelerada?</h3><p style="padding:0 2px">Porque la depreciación acelerada no aumenta el gasto total, lo adelanta: permite depreciar hasta 33,33 % al año. Mejora la caja de los primeros años, pero el total depreciado es el mismo.</p></section>
       <section class="cat-grupo"><h3>¿Y el arancel?</h3><p style="padding:0 2px">La exención de arancel aplica solo a lo importado que no se produce en Colombia, y se pide a la DIAN al menos 15 días hábiles antes de importar. Depende de cada partida, por eso no va en la calculadora.</p></section>
-      <section class="cat-grupo"><h3>¿El límite del 3 % de la reforma de 2022 recorta este beneficio?</h3><p style="padding:0 2px">No. El artículo 259-1 del Estatuto Tributario no incluye la deducción de la Ley 1715 entre los beneficios sujetos a ese límite.</p></section>
+      <section class="cat-grupo"><h3>¿El límite del 3 % de la reforma de 2022 recorta este beneficio?</h3><p style="padding:0 2px">No. El artículo 259-1 del Estatuto Tributario no incluye la deducción de la Ley 1715 entre los beneficios sujetos a ese límite. Lo que sí puede recortarlo es la tasa mínima de tributación del 15 % (art. 240, par. 6 ET): la calculadora la estima si usted escribe la renta líquida.</p></section>
+      <section class="cat-grupo"><h3>¿La calculadora sirve para personas naturales?</h3><p style="padding:0 2px">En parte. Calcula la deducción y los años para usarla con el tope de 1.340 UVT al año ($70.181.160 con la UVT de 2026) que la DIAN aplica a las personas naturales (art. 336, num. 3 ET; Concepto DIAN 2756 de 2026), pero no el ahorro, que depende de su tarifa marginal (art. 241 ET) y del 40 % que la deducción comparte con sus rentas exentas. Ese cálculo lo hace su contador.</p></section>
     </div>
   </div>
 </section>
@@ -440,7 +454,7 @@ const pp=kp.value.split('|').map(Number);$('o7').textContent=f(Math.min(Math.max
         <a class="btn btn-claro" href="mailto:comercial@grupoalmadia.com?subject=Calculadora%20Ley%201715%20%5BINC-CO%5D">comercial@grupoalmadia.com</a>
       </div>
       <p style="margin-top:14px"><a href="/incentivos-tributarios/certificado-upme/#cotizar">Pedir cotización por escrito →</a> · <a href="/incentivos-tributarios/certificado-upme/#precios">Los tres planes →</a> · <a href="/incentivos-tributarios/beneficios-tributarios-ley-1715/">Beneficios de la Ley 1715 →</a></p>
-      <p style="margin-top:10px;font-size:.9rem">Grupo Empresarial Almadía S.A.S. gestiona el trámite ante la UPME. No es una firma de contadores ni de abogados: la memoria de cálculo la elabora y firma un ingeniero con matrícula profesional, con contrato y factura directos con su empresa; la declaración de renta la firma el contador o revisor fiscal de su empresa y cualquier actuación ante la DIAN la hace un abogado. La tarifa de la UPME la paga su empresa directamente a la UPME, por PSE.</p>
+      <p style="margin-top:10px;font-size:.9rem">Grupo Empresarial Almadía S.A.S. gestiona el trámite ante la UPME. No es una firma de contadores ni de abogados: la memoria de cálculo la elabora y firma un ingeniero con matrícula profesional, con contrato y factura directos con su empresa; la declaración de renta la firma el contador o revisor fiscal de su empresa y cualquier actuación ante la DIAN que exija abogado la hace el que su empresa elija y contrate. La tarifa de la UPME la paga su empresa directamente a la UPME, por PSE. El certificado lo expide la UPME y el beneficio lo revisa la DIAN. Almadía no garantiza la expedición ni que la DIAN acepte la deducción.</p>
     </div>
   </div>
 </section>

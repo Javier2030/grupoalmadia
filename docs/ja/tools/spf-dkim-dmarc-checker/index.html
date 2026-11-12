@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPF・DKIM・DMARC 無料チェック｜日本語チェッカー</title>
+<meta name="description" content="御社ドメインのSPF・DKIM・DMARCを無料でチェック。詐欺師が御社になりすましてメールを送れるかどうかを数秒で確認できます。登録不要、日本語で利用できます。">
+<link rel="canonical" href="https://grupoalmadia.com/ja/tools/spf-dkim-dmarc-checker/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#f7f6f3">
+<meta property="og:type" content="website">
+
+<meta property="og:title" content="SPF・DKIM・DMARC 無料チェック｜日本語チェッカー">
+<meta property="og:description" content="御社ドメインのSPF・DKIM・DMARCを無料でチェック。詐欺師が御社になりすましてメールを送れるかどうかを数秒で確認できます。登録不要、日本語で利用できます。">
+<meta property="og:url" content="https://grupoalmadia.com/ja/tools/spf-dkim-dmarc-checker/">
+<meta property="og:image" content="https://grupoalmadia.com/assets/img/og-almadia.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>@font-face{
+font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;
+src:url(/assets/fuentes/fraunces-latin.woff2) format("woff2");
+unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;
+src:url(/assets/fuentes/fraunces-latin-ext.woff2) format("woff2");
+unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+:root{
+--tinta:#0d1117;
+--tinta-2:#3d4854;
+--tinta-3:#6b7684;
+--hueso:#f7f6f3;
+--hueso-2:#efede8;
+--linea:#e2dfd8;
+--verde:#0f5c4e;
+--verde-claro:#147a67;
+--cobre:#b0722a;
+--blanco:#fff;
+--ff-display:"Fraunces","Georgia",serif;
+--ff-texto:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+--radio:14px;
+--sombra:0 1px 2px rgba(13,17,23,.04),0 8px 24px -12px rgba(13,17,23,.14);
+--sombra-alta:0 2px 4px rgba(13,17,23,.05),0 24px 48px -20px rgba(13,17,23,.28);
+--ancho:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+margin:0;background:var(--hueso);color:var(--tinta);
+font-family:var(--ff-texto);font-size:17px;line-height:1.62;
+-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:var(--ancho);margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--ff-display);font-weight:600;letter-spacing:-.02em;line-height:1.08;margin:0}
+h1{font-size:clamp(2.6rem,6.2vw,4.6rem);font-weight:600}
+h2{font-size:clamp(1.9rem,3.7vw,2.9rem)}
+h3{font-size:1.16rem;letter-spacing:-.01em;line-height:1.3}
+p{margin:0 0 1em}
+.lead{font-size:clamp(1.06rem,1.7vw,1.28rem);color:var(--tinta-2);line-height:1.6}
+.eyebrow{
+font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+color:var(--verde);margin:0 0 18px;display:block;
+}
+.hdr{
+position:sticky;top:0;z-index:50;
+background:rgba(247,246,243,.82);backdrop-filter:saturate(180%) blur(14px);
+border-bottom:1px solid transparent;transition:border-color .3s,background .3s;
+}
+.hdr.fija{border-bottom-color:var(--linea)}
+.hdr .wrap{display:flex;align-items:center;gap:28px;height:70px}
+.marca{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:600;letter-spacing:-.02em}
+.marca svg,.marca img{width:34px;height:34px;flex:none;object-fit:contain}
+.marca b{font-family:var(--ff-display);font-size:1.14rem;font-weight:600}
+.marca span{display:block;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta-3);font-weight:500;margin-top:-2px}
+.nav{margin-left:auto;display:flex;align-items:center;gap:28px}
+.nav a{text-decoration:none;font-size:.93rem;color:var(--tinta-2);font-weight:500;transition:color .2s}
+.nav a:hover{color:var(--tinta)}
+.nav a.btn-p,.nav a.btn-p:hover{color:#fff}
+.btn{
+display:inline-flex;align-items:center;justify-content:center;gap:9px;
+padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:600;
+font-size:.95rem;border:1px solid transparent;cursor:pointer;
+transition:transform .18s cubic-bezier(.2,.8,.3,1),box-shadow .18s,background .18s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-p{background:var(--verde);color:#fff;box-shadow:0 8px 20px -10px rgba(15,92,78,.7)}
+.btn-p:hover{background:var(--verde-claro);box-shadow:0 14px 28px -12px rgba(15,92,78,.8)}
+.btn-g{background:transparent;color:var(--tinta);border-color:var(--linea)}
+.btn-g:hover{border-color:var(--tinta-3);background:var(--blanco)}
+.btn-claro{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.28);backdrop-filter:blur(8px)}
+.btn-claro:hover{background:rgba(255,255,255,.2)}
+.btn-sm{padding:10px 18px;font-size:.89rem}
+.burger{display:none;margin-left:auto;background:none;border:0;padding:9px;cursor:pointer}
+.burger span{display:block;width:22px;height:2px;background:var(--tinta);margin:4px 0;transition:.25s}
+.hero{
+position:relative;color:#fff;overflow:hidden;isolation:isolate;background:#0b1014;
+}
+.hero::before{
+content:'';position:absolute;inset:0;z-index:0;opacity:.9;
+background:
+radial-gradient(120% 90% at 82% 8%,rgba(20,122,103,.32) 0%,transparent 58%),
+radial-gradient(80% 70% at 0% 100%,rgba(176,114,42,.2) 0%,transparent 60%);
+}
+.hero::after{
+content:'';position:absolute;inset:0;z-index:0;opacity:.35;
+background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+background-size:64px 64px;
+mask-image:radial-gradient(120% 90% at 50% 0%,#000 20%,transparent 75%);
+}
+.hero .wrap{position:relative;z-index:1;padding-top:96px;padding-bottom:84px}
+.hero-split{display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center}
+.hero h1{color:#fff;max-width:15ch}
+.hero .lead{color:rgba(255,255,255,.78);max-width:52ch;margin-top:26px}
+.hero .eyebrow{color:#8fd8c6}
+.hero-cta{display:flex;gap:13px;flex-wrap:wrap;margin-top:38px}
+.mosaico{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mosaico figure{
+margin:0;position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/2;
+box-shadow:0 20px 40px -24px rgba(0,0,0,.8);border:1px solid rgba(255,255,255,.1);
+}
+.mosaico figure:nth-child(1){transform:translateY(-16px)}
+.mosaico figure:nth-child(4){transform:translateY(16px)}
+.mosaico img{width:100%;height:100%;object-fit:cover}
+.mosaico figcaption{
+position:absolute;left:0;right:0;bottom:0;padding:22px 12px 9px;
+font-size:.73rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#fff;
+background:linear-gradient(180deg,transparent,rgba(6,10,13,.88));
+}
+.datos{
+display:flex;flex-wrap:wrap;gap:0;margin-top:64px;
+border-top:1px solid rgba(255,255,255,.16);
+}
+.datos div{flex:1 1 190px;padding:22px 26px 0 0}
+.datos dt{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px}
+.datos dd{margin:0;font-size:1.02rem;font-weight:600;font-variant-numeric:lining-nums tabular-nums}
+.seccion{padding:96px 0}
+.seccion-clara{background:var(--blanco)}
+.cab{max-width:64ch;margin-bottom:56px}
+.cab p{margin-top:18px}
+.rejilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:26px}
+.linea{
+position:relative;border-radius:var(--radio);overflow:hidden;background:var(--blanco);
+border:1px solid var(--linea);box-shadow:var(--sombra);
+transition:transform .3s cubic-bezier(.2,.8,.3,1),box-shadow .3s,border-color .3s;
+}
+.linea:hover{transform:translateY(-6px);box-shadow:var(--sombra-alta);border-color:transparent}
+.linea .foto{position:relative;aspect-ratio:3/2;overflow:hidden;background:var(--hueso-2)}
+.linea .foto img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.3,1)}
+.linea:hover .foto img{transform:scale(1.06)}
+.linea .foto::after{
+content:'';position:absolute;inset:0;
+background:linear-gradient(180deg,rgba(13,17,23,0) 40%,rgba(13,17,23,.5) 100%);
+}
+.linea .cuerpo{padding:24px 24px 26px}
+.linea h3{margin-bottom:9px}
+.linea p{color:var(--tinta-2);font-size:.96rem;margin:0}
+.etiquetas{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.etiquetas span{
+font-size:.76rem;font-weight:500;color:var(--tinta-2);
+background:var(--hueso-2);border-radius:999px;padding:5px 11px;
+}
+.pasos{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;border-top:1px solid var(--linea)}
+.paso{padding:32px 28px 32px 0;border-right:1px solid var(--linea)}
+.paso:last-child{border-right:0}
+.paso .num{
+font-family:var(--ff-display);font-size:2.1rem;color:var(--cobre);
+font-variant-numeric:lining-nums;line-height:1;margin-bottom:16px;display:block;
+}
+.paso h3{margin-bottom:8px}
+.paso p{color:var(--tinta-2);font-size:.94rem;margin:0}
+.servicios{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:2px;background:var(--linea);border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden}
+.serv{background:var(--blanco);padding:32px 28px;transition:background .25s}
+.serv:hover{background:var(--hueso)}
+.serv h3{margin-bottom:10px}
+.serv p{color:var(--tinta-2);font-size:.95rem;margin:0}
+.duo{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+.duo img{border-radius:var(--radio);box-shadow:var(--sombra-alta)}
+.lista{list-style:none;padding:0;margin:26px 0 0}
+.lista li{position:relative;padding-left:30px;margin-bottom:14px;color:var(--tinta-2)}
+.lista li::before{
+content:'';position:absolute;left:0;top:.55em;width:14px;height:2px;background:var(--cobre);
+}
+.lista b{color:var(--tinta);font-weight:600}
+.cta{background:var(--tinta);color:#fff;border-radius:var(--radio);padding:64px 56px;text-align:center}
+.cta h2{color:#fff;max-width:20ch;margin:0 auto}
+.cta p{color:rgba(255,255,255,.72);max-width:52ch;margin:20px auto 34px}
+.cta .btns{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
+.ftr{background:var(--tinta);color:rgba(255,255,255,.66);padding:72px 0 34px;font-size:.92rem}
+.ftr a{color:rgba(255,255,255,.66);text-decoration:none}
+.ftr a:hover{color:#fff}
+.ftr-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.12)}
+.ftr h4{color:#fff;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 16px;font-family:var(--ff-texto);font-weight:600}
+.ftr ul{list-style:none;padding:0;margin:0}
+.ftr li{margin-bottom:9px}
+.ftr .marca b,.ftr .marca span{color:#fff}
+.ftr-legal{padding-top:26px;font-size:.83rem;color:rgba(255,255,255,.44);display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap}
+.js .rev{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.8,.3,1),transform .7s cubic-bezier(.2,.8,.3,1)}
+.js .rev.visto{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+.js .rev{opacity:1;transform:none;transition:none}
+html{scroll-behavior:auto}
+.linea:hover{transform:none}
+.linea:hover .foto img{transform:none}
+}
+@media (max-width:1000px){
+.hero-split{grid-template-columns:1fr;gap:44px}
+.mosaico figure:nth-child(1),.mosaico figure:nth-child(4){transform:none}
+}
+@media (max-width:900px){
+.duo{grid-template-columns:1fr;gap:36px}
+.ftr-grid{grid-template-columns:1fr 1fr;gap:32px}
+.paso{border-right:0;border-bottom:1px solid var(--linea);padding:26px 0}
+.paso:last-child{border-bottom:0}
+}
+@media (max-width:760px){
+body{font-size:16px}
+.seccion{padding:64px 0}
+.hero .wrap{padding-top:64px;padding-bottom:60px}
+.nav{
+position:fixed;inset:70px 0 auto;background:var(--hueso);flex-direction:column;
+align-items:stretch;gap:0;padding:14px 24px 26px;border-bottom:1px solid var(--linea);
+transform:translateY(-130%);transition:transform .3s cubic-bezier(.2,.8,.3,1);
+}
+.nav.abierto{transform:none}
+.nav a{padding:13px 0;border-bottom:1px solid var(--linea);font-size:1rem}
+.nav .btn{margin-top:16px}
+.burger{display:block}
+.datos{margin-top:44px}
+.datos div{flex-basis:45%;padding:18px 18px 0 0}
+.cta{padding:44px 26px}
+.ftr-grid{grid-template-columns:1fr}
+}
+.catalogo{columns:3 300px;column-gap:34px}
+.cat-grupo{break-inside:avoid;margin:0 0 30px;padding:0}
+.cat-grupo h3{
+font-family:var(--ff-texto);font-size:.76rem;font-weight:600;letter-spacing:.14em;
+text-transform:uppercase;color:var(--verde);margin-bottom:12px;
+padding-bottom:9px;border-bottom:1px solid var(--linea);
+}
+.cat-grupo ul{list-style:none;margin:0;padding:0}
+.cat-grupo li{
+font-size:.93rem;color:var(--tinta-2);padding:3px 0 3px 16px;position:relative;line-height:1.45;
+}
+.cat-grupo li::before{content:'';position:absolute;left:0;top:.72em;width:6px;height:1px;background:var(--cobre)}
+.nota-catalogo{margin-top:34px;padding-top:22px;border-top:1px solid var(--linea);color:var(--tinta-3);font-size:.9rem}
+@media (max-width:760px){ .catalogo{columns:1} }
+.tabla-envoltura{overflow-x:auto;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);box-shadow:var(--sombra)}
+.tabla{width:100%;border-collapse:collapse;font-size:.94rem;min-width:640px}
+.tabla caption{text-align:left;padding:16px 18px 0;color:var(--tinta-3);font-size:.86rem}
+.tabla th,.tabla td{padding:12px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--linea)}
+.tabla thead th{
+font-family:var(--ff-texto);font-size:.72rem;font-weight:600;letter-spacing:.13em;
+text-transform:uppercase;color:var(--verde);background:var(--hueso-2);border-bottom:1px solid var(--linea);
+}
+.tabla tbody tr:last-child td{border-bottom:0}
+.tabla tbody th{font-weight:600;color:var(--tinta)}
+.tabla td{color:var(--tinta-2)}
+.tabla td b{color:var(--tinta)}
+.fichas{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.ficha{
+display:block;text-decoration:none;color:inherit;background:var(--blanco);
+border:1px solid var(--linea);border-radius:var(--radio);padding:20px 22px;box-shadow:var(--sombra);
+transition:transform .18s ease,box-shadow .18s ease;
+}
+.ficha:hover{transform:translateY(-2px);box-shadow:var(--sombra-alta)}
+.ficha h3{margin-bottom:6px}
+.ficha p{margin:0;color:var(--tinta-3);font-size:.9rem;line-height:1.5}
+.ficha span{display:block;margin-top:10px;font-weight:700;color:var(--verde);font-size:.86rem}
+.cb-barra{margin:0 0 18px;max-width:640px}
+.cb-lab{display:block;font-weight:600;margin-bottom:8px}
+.cb-barra input{width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)}
+.cb-chica{font-size:.88rem;color:var(--tinta-3);margin:8px 0 0}
+.cb-texto{max-width:760px}.cb-texto p{color:var(--tinta-2)}
+.cb-indice{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.cb-indice a{font-size:.82rem;text-decoration:none;color:var(--verde);background:var(--blanco);border:1px solid var(--linea);border-radius:999px;padding:6px 12px}
+.cb-indice a:hover{border-color:var(--verde)}
+.cb-cap{border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);margin-bottom:10px;scroll-margin-top:84px}
+.cb-cap>summary{cursor:pointer;padding:15px 18px;display:flex;justify-content:space-between;gap:12px;align-items:center;list-style:none}
+.cb-cap>summary::-webkit-details-marker{display:none}
+.cb-cap>summary::after{content:'+';font-size:1.3rem;color:var(--cobre);margin-left:auto;padding-left:12px}
+.cb-cap[open]>summary::after{content:'−'}
+.cb-cap>summary span{font-size:.82rem;color:var(--tinta-3);white-space:nowrap}
+.cb-sc{border:0;border-top:1px solid var(--linea);border-radius:0 0 var(--radio) var(--radio);box-shadow:none}
+.tabla.cb{min-width:0;table-layout:auto}
+.tabla.cb td{padding:11px 14px;vertical-align:top;border-top:1px solid var(--linea);font-size:.92rem}
+.tabla.cb .cb-n{white-space:nowrap;color:var(--tinta-3);width:1%}
+.tabla.cb .cb-v{white-space:nowrap;font-weight:600;font-variant-numeric:tabular-nums}
+.tabla.cb .cb-r{color:var(--tinta-2)}
+.tabla.cb tr[hidden]{display:none}
+.cb-corr td{background:#fbf4e8}
+.cb-aviso{font-size:.72rem;background:var(--cobre);color:#fff;border-radius:999px;padding:2px 8px;text-decoration:none;margin-left:6px;white-space:nowrap}
+@media (max-width:700px){
+.tabla.cb thead{display:none}
+.tabla.cb,.tabla.cb tbody,.tabla.cb tr,.tabla.cb td{display:block;width:auto}
+.tabla.cb tr{padding:12px 14px;border-top:1px solid var(--linea)}
+.tabla.cb td{padding:2px 0;border:0}
+.tabla.cb .cb-n{font-size:.78rem;width:auto}
+.tabla.cb .cb-e{font-weight:600;color:var(--tinta)}
+.tabla.cb .cb-r::before{content:'Referencia: ';color:var(--tinta-3)}
+.tabla.cb .cb-v::before{content:'En pesos 2026: ';color:var(--tinta-3);font-weight:400}
+}</style>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/img/icono-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/img/icono-180.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"メールなりすましチェッカー：SPF・DKIM・DMARC","url":"https://grupoalmadia.com/ja/tools/spf-dkim-dmarc-checker/","description":"御社ドメインのSPF・DKIM・DMARCを無料でチェック。詐欺師が御社になりすましてメールを送れるかどうかを数秒で確認できます。登録不要、日本語で利用できます。","inLanguage":"ja","applicationCategory":"SecurityApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["SPFの検証とDNS照会回数のカウント","DMARCポリシーとサブドメインの検証","一般的なセレクターによるDKIM鍵の検索","DNSSEC、MTA-STS、TLS-RPT、CAA、BIMI","13言語に対応した印刷用レポート"],"provider":{"@type":"Organization","name":"Grupo Empresarial Almadía S.A.S.","taxID":"902.090.075-9","telephone":"+573223623930","email":"comercial@grupoalmadia.com","url":"https://grupoalmadia.com/","areaServed":"Worldwide","availableLanguage":["ar","de","en","es","fr","hi","it","ja","nl","pt","ru","tr","zh"]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"メールがなりすまされるとは、どういうことですか？","acceptedAnswer":{"@type":"Answer","text":"第三者が、御社のメールボックスに入ることなく、「差出人」欄に御社とまったく同じアドレス（例：billing@yourcompany.com）を表示してメッセージを送ることです。パスワードは必要ありません。御社のドメインが、自社から送られていないメッセージを拒否するようメールサーバーに伝えていなければ、それだけで可能になります。この偽メールで、支払いを要求したり、請求書の口座番号を差し替えたり、パスワードを盗んだりします。"}},{"@type":"Question","name":"自分のドメインが守られているかどうか、どうすればわかりますか？","acceptedAnswer":{"@type":"Answer","text":"このページのチェッカーにドメインを入力してください。数秒で、御社のドメインにSPF、DKIM、DMARCが公開されているか、そして特にDMARCのポリシーが偽のメールを実際にブロックしているのか、監視しているだけなのかがわかります。結果が「リスク高」の場合、現時点で御社の名義のメールを送られる可能性があります。"}},{"@type":"Question","name":"SPF、DKIM、DMARCの違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"SPFは、御社のドメインでメールを送信できるサーバーの一覧です。DKIMは、メッセージが御社のサービスから送られ、途中で改ざんされていないことを証明する電子署名です。DMARCはこの2つを結び付けて指示を出します。御社のドメインを名乗り、そのドメインとしてどちらの検証にも合格しないメールを、通過させるか、迷惑メールに振り分けるか、拒否するかを決めます。DMARCがなければ、他の2つだけではなりすましを防げません。"}},{"@type":"Question","name":"DMARCが「p=none」です。守られていますか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。「p=none」は監視モードです。御社のドメインは偽のメッセージに対して何の措置も求めていないため、偽のメッセージはそのまま届く可能性があります。レコードでレポートを要求していれば、誰が御社の名義でメールを送っているかの詳細を受け取れます。最初の一歩としては正しい設定です。そのうえで、正規の送信がすべて合格していることをレポートで確認しながら、段階的に隔離、さらに拒否へと引き上げる必要があります。"}},{"@type":"Question","name":"最初から「p=reject」にしないのはなぜですか？","acceptedAnswer":{"@type":"Answer","text":"正規のサービス（電子請求書、ニュースレター、CRM、ウェブサイトのフォームなど）が、設定が不十分なまま御社の名義でメールを送っていると、自社のメッセージまで拒否されてしまうからです。そのため、変更のたびにレポートを確認しながら、段階的に進めます。"}},{"@type":"Question","name":"このツールは、ドメインやデータを保存しますか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。チェックはお使いのブラウザ上で行われます。照会はGoogleとCloudflareの公開DNSリゾルバーに直接送られ、ドメイン名は通常のDNS照会と同じように相手側に渡ります。Almadíaが入力されたドメインを受け取ることはなく、メールアドレスや登録も求めません。このページにはアクセス解析もありません。当社が知るのは、お客様ご自身がWhatsAppでご連絡くださった場合だけです。"}},{"@type":"Question","name":"これは侵入テストですか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。このツールが読み取るのは、仕組み上すべて公開されているDNSレコードだけです。メールサーバーがメッセージを受け取る前に確認するのと同じ情報です。御社のシステムには触れず、パスワードも試さず、メールも一切送信しません。そのため、仕入先や取引先のドメインをチェックすることもできます。"}},{"@type":"Question","name":"私のメールは @gmail.com や @hotmail.com です。使えますか？","acceptedAnswer":{"@type":"Answer","text":"このチェックは、独自ドメイン（yourname.com、yourcompany.comなど）向けです。無料のアカウントをお使いの場合、なりすまし対策はプロバイダーが管理しており、お客様側では変更できません。企業の場合は、独自ドメインでメールを運用し、正しく設定することが最初の一歩です。"}},{"@type":"Question","name":"DKIMを設定しているのに、見つからないと表示されるのはなぜですか？","acceptedAnswer":{"@type":"Answer","text":"DKIMの鍵は、外部から一覧を取得することができません。各プロバイダーが決める名前（「セレクター」）で公開されています。このツールはよく使われる名前を試すため、御社の名前が別のものだと検出されません。セレクターがわかる場合は、任意のセレクター欄に入力してください。御社のドメインから実際に送ったメールのヘッダーを確認する方法でも、確かめられます。"}},{"@type":"Question","name":"GoogleやMicrosoftはこれを求めていますか？","acceptedAnswer":{"@type":"Answer","text":"はい。ただし、大量に送信する送信者が対象です。2024年2月から、Googleは、Gmail宛てに1日5,000通を超えるメールを送る送信者にSPF、DKIM、DMARCを求めています。Yahooも大量送信者に同等のルールを適用しています。2025年5月からは、MicrosoftがOutlook、Hotmail、Live宛てに1日5,000通を超えて送る送信者に同じ要件を課しています。送信量の少ない送信者に対しても、Googleは少なくともSPFまたはDKIMを求めています。実際には、これらのレコードがないドメインは、迷惑メールフォルダーに入るケースがますます増えています。"}},{"@type":"Question","name":"改善にはいくらかかりますか？","acceptedAnswer":{"@type":"Answer","text":"チェックは無料です。メールの是正（SPF、DKIM、DMARCの設定、テスト、拒否までの段階的な引き上げ）は、価格を公開している「Protected SMB」パッケージに含まれています。メールだけが必要な場合は、ドメインをお知らせください。作業を始める前に、固定価格を書面でお出しします。"}},{"@type":"Question","name":"どの国で対応していますか？","acceptedAnswer":{"@type":"Answer","text":"どの国でも対応しています。リモートで対応します。御社のドメインのDNS管理画面へのアクセスをお預けいただくか、こちらがお伝えする変更をご自身で適用していただきます。連絡はWhatsApp、メール、ビデオ通話で行います。ツールも対応も、13言語でご利用いただけます。"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://grupoalmadia.com/"},{"@type":"ListItem","position":2,"name":"企業向けパッケージ","item":"https://grupoalmadia.com/ja/packages/"},{"@type":"ListItem","position":3,"name":"SPF・DKIM・DMARCのチェック","item":"https://grupoalmadia.com/ja/tools/spf-dkim-dmarc-checker/"}]}</script>
+<script defer src="/assets/js/main.js?v=1ad86d71"></script>
+<link rel="alternate" hreflang="ar" href="https://grupoalmadia.com/ar/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="de" href="https://grupoalmadia.com/de/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="en" href="https://grupoalmadia.com/en/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="es" href="https://grupoalmadia.com/herramientas/verificar-spf-dkim-dmarc/">
+<link rel="alternate" hreflang="fr" href="https://grupoalmadia.com/fr/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="hi" href="https://grupoalmadia.com/hi/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="it" href="https://grupoalmadia.com/it/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="ja" href="https://grupoalmadia.com/ja/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="nl" href="https://grupoalmadia.com/nl/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="pt" href="https://grupoalmadia.com/pt/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="ru" href="https://grupoalmadia.com/ru/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="tr" href="https://grupoalmadia.com/tr/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="zh" href="https://grupoalmadia.com/zh/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="x-default" href="https://grupoalmadia.com/en/tools/spf-dkim-dmarc-checker/">
+<style>
+.rv-form{margin-top:34px;max-width:640px}
+.rv-form label{display:block;color:rgba(255,255,255,.82);font-size:.92rem;font-weight:600;margin-bottom:10px}
+.rv-fila{display:flex;gap:10px;flex-wrap:wrap}
+.rv-fila input{flex:1 1 260px;min-width:0;font:inherit;font-size:1.08rem;padding:15px 18px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:#fff;color:var(--tinta)}
+.rv-fila input:focus-visible{outline:3px solid #8fd8c6;outline-offset:2px}
+.rv-fila .btn{flex:0 0 auto}
+.rv-fila .btn[disabled]{opacity:.7;cursor:progress;transform:none}
+.rv-sel{margin-top:12px;font-size:.88rem;color:rgba(255,255,255,.7)}
+.rv-sel summary{cursor:pointer;display:inline-block}
+.rv-sel input{display:block;margin-top:8px;font:inherit;padding:10px 16px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:#fff;color:var(--tinta);width:min(100%,280px)}
+.rv-aviso{min-height:1.5em;margin-top:12px;font-size:.95rem;color:rgba(255,255,255,.72)}
+.rv-aviso.rv-error{color:#ffc9bd;font-weight:600}
+.rv-priv{margin-top:6px;font-size:.86rem;color:rgba(255,255,255,.6);max-width:60ch}
+.rv-progreso{margin-top:16px;max-width:640px}
+.rv-via{height:6px;border-radius:99px;background:rgba(255,255,255,.16);overflow:hidden}
+.rv-barra{height:100%;width:0;background:#8fd8c6;border-radius:99px;transition:width .35s ease}
+.rv-etapa{margin-top:8px;font-size:.9rem;color:rgba(255,255,255,.75)}
+#rv-resultado{scroll-margin-top:90px}
+.rv-zona{padding:56px 0 8px}
+.rv-zona:has(#rv-resultado[hidden]){display:none}
+.rv-veredicto{display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;background:var(--blanco);border:1px solid var(--linea);border-inline-start:8px solid var(--tinta-3);border-radius:var(--radio);padding:36px 40px;box-shadow:var(--sombra)}
+.rv-veredicto.rv-alto{border-inline-start-color:#b3261e}.rv-veredicto.rv-medio{border-inline-start-color:var(--cobre)}.rv-veredicto.rv-bajo{border-inline-start-color:var(--verde)}
+.rv-veredicto h2{font-size:clamp(1.6rem,3.2vw,2.3rem);margin:12px 0 6px;outline:none}
+.rv-veredicto p{color:var(--tinta-2);max-width:62ch}
+.rv-dom{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:1rem;color:var(--tinta)!important;font-weight:600;margin-bottom:10px;overflow-wrap:anywhere}
+.rv-chapa{display:inline-block;font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:99px;background:var(--hueso-2);color:var(--tinta)}
+.rv-alto .rv-chapa{background:#fbe6e3;color:#8a1c16}.rv-medio .rv-chapa{background:#f6ead8;color:#7a4c14}.rv-bajo .rv-chapa{background:#dff1ec;color:#0b4439}
+.rv-ver-nota{text-align:center}
+.rv-anillo{width:136px;height:136px;display:block;margin:0 auto}
+.rv-pista{fill:none;stroke:var(--hueso-2);stroke-width:10}
+.rv-arco{fill:none;stroke-width:10;stroke-linecap:round;stroke:var(--tinta-3);transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.3,1)}
+.rv-alto .rv-arco{stroke:#b3261e}.rv-medio .rv-arco{stroke:var(--cobre)}.rv-bajo .rv-arco{stroke:var(--verde)}
+.rv-num{font-family:var(--ff-display);font-size:34px;font-weight:600;text-anchor:middle;dominant-baseline:middle;fill:var(--tinta)}
+.rv-de{font-size:11px;text-anchor:middle;fill:var(--tinta-3);letter-spacing:.08em;text-transform:uppercase}
+.rv-letra{margin-top:8px;font-weight:700;color:var(--tinta)!important;font-size:.95rem}
+.rv-acciones{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 30px}
+.rv-lista{display:grid;gap:12px}
+.rv-item{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden}
+.rv-item summary{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:18px 22px;cursor:pointer;list-style:none}
+.rv-item summary::-webkit-details-marker{display:none}
+.rv-item summary:focus-visible{outline:3px solid var(--verde-claro);outline-offset:-3px}
+.rv-ic{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.95rem;background:var(--hueso-2);color:var(--tinta-2)}
+.rv-e-ok .rv-ic{background:#dff1ec;color:#0b4439}.rv-e-aviso .rv-ic{background:#f6ead8;color:#7a4c14}.rv-e-falla .rv-ic{background:#fbe6e3;color:#8a1c16}
+.rv-nom{display:block;font-size:.8rem;font-weight:600;letter-spacing:.04em;color:var(--tinta-3);margin-bottom:3px}
+.rv-res{display:block;font-weight:600;color:var(--tinta);line-height:1.4}
+.rv-rot{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-3);white-space:nowrap}
+.rv-e-falla .rv-rot{color:#8a1c16}.rv-e-aviso .rv-rot{color:#7a4c14}.rv-e-ok .rv-rot{color:#0b4439}
+.rv-cuerpo{padding:4px 22px 22px;padding-inline-start:70px;color:var(--tinta-2)}
+.rv-cuerpo h3{font-family:var(--ff-texto);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta-3);margin:16px 0 6px;font-weight:700}
+.rv-avisos{margin:10px 0 0;padding-inline-start:20px}
+.rv-avisos li{margin:4px 0}
+.rv-reg{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.84rem;background:var(--hueso);border:1px solid var(--linea);border-radius:8px;padding:10px 12px;margin:6px 0;overflow-wrap:anywhere;color:var(--tinta)}
+.rv-pie{margin-top:18px;font-size:.84rem;color:var(--tinta-3)}
+.rv-indice{display:flex;gap:10px 22px;flex-wrap:wrap;margin-top:8px;font-size:.95rem}
+@media (max-width:720px){
+  .rv-veredicto{grid-template-columns:1fr;padding:26px 22px;gap:20px}
+  .rv-item summary{grid-template-columns:auto 1fr;padding:16px}
+  .rv-rot{display:none}
+  .rv-cuerpo{padding:0 16px 18px;padding-inline-start:16px}
+  .rv-fila .btn{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){.rv-arco,.rv-barra{transition:none}}
+@media print{
+  .hdr,.ftr,.hero,main>section:not(.rv-zona),.rv-acciones{display:none!important}
+  .rv-zona{padding:0}
+  .rv-item{break-inside:avoid}
+  .rv-veredicto{box-shadow:none}
+}</style>
+<script>window.RevisorTextos={"n":{"spf":"SPF：御社のドメインでメールを送れるのは誰か","dmarc":"DMARC：御社を名乗る偽のメールはどう扱われるか","dkim":"DKIM：メールが御社のものである証明となる署名","mx":"御社のメールの受信先","dnssec":"DNSSEC：御社ドメインの応答を偽造させない仕組み","transporte":"送信中のメールの暗号化（MTA-STSとTLS-RPT）","caa":"御社のドメインの証明書を発行できる機関（CAA）","bimi":"メールに表示される御社のロゴ（BIMI）"},"h":{"spf.ausente":{"r":"御社のドメインには、メール送信を許可するサーバーの一覧が公開されていません。","s":"メールを受け取るサーバーは、御社が送ったメッセージと、詐欺師が別のサーバーから送ったメッセージを見分ける方法がありません。","h":"実際にメールを送信しているサービスだけを記載したSPFレコードを公開してください。"},"spf.multiple":{"r":"御社のドメインにはSPFレコードが{n}件あります。登録できるのは1件だけです。","s":"複数ある場合、規格によりサーバーはSPFをエラーとして扱います。実質的には、SPFがないのと同じです。","h":"レコードを1つにまとめてください。"},"spf.exceso":{"r":"御社のSPFは{n}回のDNS照会を必要とします。規格で認められているのは最大10回です。","s":"10回を超えると、サーバーはSPFを無効と判断します。古い送信サービスを外さないまま新しいサービスを追加し続けると、よく起こります。","h":"現在メールを送信しているサービスだけに、レコードを減らしてください。"},"spf.abierto":{"r":"御社のSPFは「+all」で終わっています。世界中のあらゆるサーバーに、御社のドメインでのメール送信を許可している状態です。","s":"考えられる中で最も危険な設定です。どの送信者も正規のものだと、すべてのサーバーに伝えていることになります。","h":"許可されていないサーバーを拒否するよう、レコードの末尾を変更してください。"},"spf.sin_cierre":{"r":"御社のSPFは存在しますが、一覧にないサーバーをどう扱うかが指定されていません。","s":"末尾の指定がないと、詐欺師に対する判定は「ニュートラル」、つまり合格でも拒否でもない状態になります。","h":"許可されていないサーバーを拒否する末尾の指定を追加してください。"},"spf.neutro":{"r":"御社のSPFは「?all」で終わっています。誰も拒否しません。","s":"ニュートラルな指定です。一覧はありますが、一覧にないサーバーには何の影響もありません。","h":"許可されていないサーバーを拒否する指定に変更してください。"},"spf.ok_duro":{"r":"御社のSPFは有効で、許可されていないサーバーを拒否します（「-all」）。","s":"SPFだけでは、受信者に表示される「差出人」欄に御社のアドレスを入れられることを防げません。それにはDMARCが必要です。","h":"対応は不要です。メールやニュースレターのプロバイダーを変更するたびに見直してください。","h2":"上記の警告を修正してください。"},"spf.ok_suave":{"r":"御社のSPFは有効で、許可されていないサーバーを不審なものとして扱います（「~all」）。","s":"SPFだけでは、受信者に表示される「差出人」欄に御社のアドレスを入れられることを防げません。それにはDMARCが必要です。","h":"対応は不要です。メールやニュースレターのプロバイダーを変更するたびに見直してください。","h2":"上記の警告を修正してください。"},"spf.ok_redirect":{"r":"御社のSPFは有効で、一覧を別のドメインに委ねています（「redirect」）。","s":"SPFだけでは、受信者に表示される「差出人」欄に御社のアドレスを入れられることを防げません。それにはDMARCが必要です。","h":"対応は不要です。メールやニュースレターのプロバイダーを変更するたびに見直してください。","h2":"上記の警告を修正してください。"},"dmarc.ausente":{"r":"御社のドメインにはDMARCがありません。現在、{d} から送られたように見えるメールを、誰でも送信できる状態です。","s":"DMARCは、許可なく御社のドメインを使ったメールをどう扱うかを、Gmail、Outlookなどに伝える指示です。これがなければ、偽のメッセージが御社の名前とアドレスのまま、お客様の受信トレイに届く可能性があります。","h":"まず監視モードでDMARCを公開し、数週間レポートを確認したうえで、段階的に拒否まで引き上げてください。"},"dmarc.multiple":{"r":"御社のドメインにはDMARCレコードが{n}件あります。複数ある場合、サーバーはすべてを無視します。","s":"実質的には、DMARCがないのと同じです。","h":"レコードを1件だけにしてください。"},"dmarc.invalida":{"r":"御社のDMARCレコードには、有効なポリシーが示されていません。","s":"認識できるポリシーがないため、サーバーは何も適用しません。","h":"レコードを修正してください。"},"dmarc.none":{"r":"御社のDMARCは監視モード（「p=none」）です。通知はしますが、何もブロックしません。","s":"最初の一歩としては正しい設定です。しかし、このままでは、御社のドメインは {d} を名乗る偽のメールに対して何の措置も求めておらず、偽のメールがそのまま届く可能性があります。多くのドメインが、何年もこの状態のままです。","h":"レコードがすでに要求しているレポートを確認し、失敗している正規の送信を修正して、ポリシーを段階的に引き上げてください。","h2":"レポートを要求し、失敗している正規の送信を修正して、ポリシーを段階的に引き上げてください。"},"dmarc.quarantine":{"r":"御社のDMARCは、偽のメールを迷惑メールフォルダーに振り分けます（「p=quarantine」）。","s":"実効性のある保護です。ただし偽のメールは迷惑メールフォルダーに配信され、そこで開いてしまう受信者もいます。","h":"レポートに問題がなくなったら、拒否に切り替えてください。"},"dmarc.reject":{"r":"御社のDMARCは、偽のメールを拒否するよう指示しています（「p=reject」）。最も高いレベルです。","s":"許可なく御社のドメインを使ったメールは、DMARCを適用しているプロバイダー（主要なプロバイダーはすべて該当します）では受信者に届きません。","h":"対応は不要です。不正な試みを見つけるため、引き続きレポートを確認してください。","h2":"上記の警告を修正してください。"},"dkim.anuladas":{"r":"DKIM鍵が見つかりましたが、無効化されています（空の状態です）。","s":"鍵が空であることは、そのセレクターが廃止されたことを意味します。ほかに有効な鍵がなければ、御社のメールは署名なしで送信されます。","h":"DKIM署名が有効になっているかどうか、メールのプロバイダーに確認してください。"},"dkim.ok1":{"r":"御社のドメインはメールに署名しています。有効なDKIM鍵が見つかりました（{sel}）。","s":"署名により、メッセージが御社のサービスから送られ、途中で改ざんされていないことを確認できます。転送されたメールでもDMARCが正しく機能するために必要なものです。","h":"対応は不要です。御社の名義で送信するすべてのサービス（請求、ニュースレター、CRMなど）も署名しているか確認してください。","h2":"短い鍵を2048ビットの鍵に更新してください。"},"dkim.ok":{"r":"御社のドメインはメールに署名しています。有効なDKIM鍵が{n}件見つかりました（{sel}）。","s":"署名により、メッセージが御社のサービスから送られ、途中で改ざんされていないことを確認できます。転送されたメールでもDMARCが正しく機能するために必要なものです。","h":"対応は不要です。御社の名義で送信するすべてのサービス（請求、ニュースレター、CRMなど）も署名しているか確認してください。","h2":"短い鍵を2048ビットの鍵に更新してください。"},"dkim.oculto":{"r":"御社のドメインにはDKIM鍵が公開されていますが、一般的ではない名前が使われています。","s":"DKIM鍵は外部から一覧を取得できず、名前（「セレクター」）がわかる場合にしか見つかりません。一般的な名前を{n}件試しましたがどれも一致しませんでした。ただし、このドメインにはDKIMの領域があります。","h":"確認するには、御社のドメインから実際に送ったメールのヘッダーを調べます。"},"dkim.ninguna":{"r":"御社のドメインに公開されているDKIM鍵は見つかりませんでした。","s":"DKIM署名がないと、御社のメールはSPFだけに頼ることになり、メッセージが転送されると検証が失敗します。このチェックは確定的ではありません。一般的でない名前の鍵は、外部からは見つかりません。","h":"御社のドメインでメールを送信するすべてのサービスで、DKIM署名を有効にしてください。"},"dkim.no_hallada":{"r":"一般的な名前のDKIM鍵は見つかりませんでした。","s":"DKIM署名がないと、御社のメールはSPFだけに頼ることになり、メッセージが転送されると検証が失敗します。このチェックは確定的ではありません。一般的でない名前の鍵は、外部からは見つかりません。","h":"御社のドメインでメールを送信するすべてのサービスで、DKIM署名を有効にしてください。"},"mx.nulo":{"r":"このドメインは、メールを受信しないと宣言しています。","s":"メールを使わないドメインでも、なりすましの対象になります。むしろ守りやすいドメインです。送信を許可する者は誰もいないと宣言するだけで済みます。"},"mx.sin":{"r":"このドメインには、メールサーバーが設定されていません。","s":"メールを使わないドメインでも、なりすましの対象になります。むしろ守りやすいドメインです。送信を許可する者は誰もいないと宣言するだけで済みます。"},"mx.prov":{"r":"御社のメールは{p}で受信されています。","s":"参考情報です。どのプロバイダーで設定を調整すればよいかがわかります。"},"mx.uno":{"r":"御社のメールは1台のサーバー（{d}）で受信されています。","s":"参考情報です。どのプロバイダーで設定を調整すればよいかがわかります。"},"mx.varios":{"r":"御社のメールは{n}台のサーバー（{d}）で受信されています。","s":"参考情報です。どのプロバイダーで設定を調整すればよいかがわかります。"},"dnssec.si":{"r":"御社のドメインはDNSSECで署名されています。","s":"DNSSECは、攻撃者が御社のドメインになりすまして偽のデータを返すことを防ぎます。追加の保護であり、小規模な企業の多くは導入しておらず、最初に対応すべき項目でもありません。","h":"対応は不要です。"},"dnssec.no":{"r":"御社のドメインはDNSSECを使っていません。","s":"DNSSECは、攻撃者が御社のドメインになりすまして偽のデータを返すことを防ぎます。追加の保護であり、小規模な企業の多くは導入しておらず、最初に対応すべき項目でもありません。","h":"前述の項目の対応が終わってから、レジストラーの管理画面で有効にしてください。"},"transporte.si_rpt":{"r":"御社のドメインは、受信するメールを暗号化して送信するよう求めており、障害のレポートも要求しています。","s":"このポリシーがないと、ネットワーク上の攻撃者が、御社宛てのメールを暗号化せずに送信させることができます。高度な設定です。","h":"対応は不要です。"},"transporte.si":{"r":"御社のドメインは、受信するメールを暗号化して送信するよう求めています。","s":"このポリシーがないと、ネットワーク上の攻撃者が、御社宛てのメールを暗号化せずに送信させることができます。高度な設定です。","h":"対応は不要です。"},"transporte.no":{"r":"御社のドメインは、受信するメールを暗号化して送信するよう求めていません。","s":"このポリシーがないと、ネットワーク上の攻撃者が、御社宛てのメールを暗号化せずに送信させることができます。高度な設定です。","h":"メールで機密情報を扱う場合は、導入をご検討ください。"},"caa.si":{"r":"御社のドメインは、証明書を発行できる機関を制限しています。","s":"CAAレコードは、第三者が御社のドメイン名義の有効な証明書を取得するリスクを下げます。","h":"対応は不要です。"},"caa.no":{"r":"どの認証局でも、御社のドメインの証明書を発行できる状態です。","s":"CAAレコードは、第三者が御社のドメイン名義の有効な証明書を取得するリスクを下げます。","h":"5分で済む設定です。済ませておくことをおすすめします。"},"bimi.si":{"r":"御社のドメインは、対応するメールサービス向けにロゴを公開しています。","s":"BIMIは、対応するメールサービスで、メッセージの横に企業のロゴを表示します。DMARCが隔離または拒否の場合にのみ機能します。","h":"対応は不要です。"},"bimi.no":{"r":"御社のドメインは、メール用のロゴを公開していません。","s":"BIMIは、対応するメールサービスで、メッセージの横に企業のロゴを表示します。DMARCが隔離または拒否の場合にのみ機能します。","h":"任意の設定で、最後に対応する項目です。"},"spf.roto":{"r":"御社のSPFに含まれるサービス（{d}）には、有効なSPFがありません。","s":"含まれているサービスが有効なレコードを返さない場合、規格によりSPF全体がエラーとして扱われます。実質的には、SPFがないのと同じです。プロバイダーとの契約を終了したのに、レコードに残したままにしている場合によく起こります。","h":"存在しなくなったサービスをレコードから削除するか、名前を修正してください。"}},"a":{"spf.a_ptr":"「ptr」を使用しています。処理が遅く信頼性も低いため、規格では推奨されていません。","spf.a_desconocido":"認識できない項目があります。レコード全体が無効になる可能性があります。","spf.a_limite":"許可されている10回のDNS照会のうち{n}回を使用しています。サービスをもう1つ追加すると、機能しなくなります。","dmarc.a_heredado":"このサブドメインには独自のレコードがなく、{d} のポリシーを引き継いでいます。","dmarc.a_sin_rua":"レポート（「rua」）を要求していません。誰が御社のドメインでメールを送っているのか、把握できません。","dmarc.a_sp":"サブドメインが無防備な状態です（「sp=none」）。{d} のどのサブドメインでも、なりすましが可能です。","dmarc.a_pct":"ポリシーが適用されるのは、偽のメールの{n}%のみです（「pct={n}」）。","dkim.a_corta1":"1件の鍵が1024ビットです。現在は2048ビットが推奨されています。","dkim.a_cortas":"{n}件の鍵が1024ビットです。現在は2048ビットが推奨されています。","dmarc.a_prueba":"ポリシーがテストモード（「t=y」）です。サーバーは、指定されたレベルより緩い基準で適用します。"},"v":{"alto_sin":{"t":"現在、御社のメールはなりすまされる可能性があります","x":"御社のドメインは、偽のメッセージを拒否するよう、どのメールプロバイダーにも伝えていません。詐欺師が、御社とまったく同じアドレスで、取引先、銀行、会計担当者にメールを送ることができ、そのメッセージは受信トレイに届く可能性があります。"},"alto_none":{"t":"現在、御社のメールはなりすまされる可能性があります","x":"御社のドメインは監視しているだけで、ブロックはしていません。ポリシーが監視モードのためです。このままでは、御社とまったく同じアドレスを使った偽のメールが、そのまま届く可能性があります。"},"medio":{"t":"御社のメールの保護は、まだ十分ではありません","x":"偽のメールに対処するポリシーはすでにありますが、詐欺師に突かれかねない抜けが残っています。詳細は以下に、優先度の高い順に記載しています。"},"bajo":{"t":"御社のメールは、なりすましに対して十分に保護されています","x":"御社のドメインは、許可なく御社のアドレスを使ったメールを拒否するよう指示しています。大手のメールプロバイダーが求めている水準です。"}},"ui":{"riesgo":{"alto":"なりすましのリスク：高","medio":"なりすましのリスク：中","bajo":"なりすましのリスク：低"},"rotulo":{"ok":"良好","aviso":"要改善","falla":"不備","info":"情報"},"significa":"意味","hacer":"対応方法","publica":"現在、御社のドメインが公開している内容","calif":"スコア {n}","de100":"/ 100","btn_wa":"WhatsAppで修正を依頼する","btn_wa_bajo":"WhatsAppで再チェックを依頼する","btn_imp":"レポートを保存・印刷する","btn_cop":"結果のリンクをコピーする","copiado":"リンクをコピーしました","copie":"リンクをコピーしてください：","pie":"{f} のチェック · 公開DNSレコードへの照会 {n} 回 · grupoalmadia.com · スコアは公開されている設定をまとめたものです。メールボックス、パスワード、端末はチェックしていません。","revisar":"無料でチェック","revisando":"チェック中…","buscando":"ドメインを検索中…","listo":"完了","pasos":["メールサーバー","送信者の一覧（SPF）","偽メール対策のポリシー（DMARC）","メールの署名（DKIM）","追加の保護"]},"err":{"invalido":"mycompany.com のようなドメイン、または sales@mycompany.com のようなメールアドレスを入力してください。","inexistente":"このドメインは存在しないか、DNSがありません。入力内容をご確認ください。","fetch":"お使いのブラウザは古いため、このツールを利用できません。最新のブラウザでお試しください。","red":"現在、DNSを照会できませんでした。接続をご確認のうえ、もう一度お試しください。","gratuito":"これは無料メールのドメインです。プロバイダーが管理しているため、お客様側では変更できません。御社独自のドメインを入力してください。"},"wa":{"msg":"こんにちは。Almadíaのツールでドメインをチェックしました。保護をお願いしたいです。","msg_bajo":"こんにちは。Almadíaのツールでドメインをチェックしました。再チェックをお願いしたいです。","dominio":"ドメイン","resultado":"結果","corregir":"要修正"}}</script>
+<script defer src="/assets/js/revisor-correo.js?v=a3263afd93"></script>
+<script defer src="/assets/js/revisor-ui.js?v=8a805825de"></script>
+</head>
+<body>
+<script>document.documentElement.className+=" js"</script>
+
+<header class="hdr">
+  <div class="wrap">
+    <a class="marca" href="/">
+      <img src="/assets/img/icono-192.png" alt="" width="34" height="34" loading="eager" decoding="async">
+      <span><b>Almadía</b><span>Grupo Empresarial</span></span>
+    </a>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="/#lineas">Líneas</a>
+      <a href="/invertir-en-colombia/">Invertir</a>
+      <a href="/licitaciones/">Licitaciones</a>
+      <a href="/empresas/">Crear empresa</a>
+      <a href="/servicios-digitales/">Digital e IA</a>
+      <a href="/proteccion-digital/">Paquetes pyme</a>
+      <a class="btn btn-p btn-sm" href="https://wa.me/573223623930?text=%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF%E3%80%82Almad%C3%ADa%E3%81%AB%E3%80%81%E5%BC%8A%E7%A4%BE%E3%81%AE%E3%83%A1%E3%83%BC%E3%83%AB%E3%81%AE%E3%81%AA%E3%82%8A%E3%81%99%E3%81%BE%E3%81%97%E5%AF%BE%E7%AD%96%E3%81%AE%E7%A2%BA%E8%AA%8D%E3%81%A8%E4%BF%9D%E8%AD%B7%E3%82%92%E3%81%8A%E9%A1%98%E3%81%84%E3%81%97%E3%81%9F%E3%81%84%E3%81%A7%E3%81%99%E3%80%82%20%5Bja%5D" rel="noopener">Cotizar</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap" id="rv" data-wa="573223623930" data-url="https://grupoalmadia.com/ja/tools/spf-dkim-dmarc-checker/">
+    <nav class="idiomas" aria-label="Language"><ul style="list-style:none;display:flex;flex-wrap:wrap;gap:6px 14px;padding:0;margin:0 0 26px;font-size:13.5px"><li><a href="/ar/tools/spf-dkim-dmarc-checker/" hreflang="ar" lang="ar" style="color:#8fd8c6">العربية</a></li><li><a href="/de/tools/spf-dkim-dmarc-checker/" hreflang="de" lang="de" style="color:#8fd8c6">Deutsch</a></li><li><a href="/en/tools/spf-dkim-dmarc-checker/" hreflang="en" lang="en" style="color:#8fd8c6">English</a></li><li><a href="/herramientas/verificar-spf-dkim-dmarc/" hreflang="es" lang="es" style="color:#8fd8c6">Español</a></li><li><a href="/fr/tools/spf-dkim-dmarc-checker/" hreflang="fr" lang="fr" style="color:#8fd8c6">Français</a></li><li><a href="/hi/tools/spf-dkim-dmarc-checker/" hreflang="hi" lang="hi" style="color:#8fd8c6">हिन्दी</a></li><li><a href="/it/tools/spf-dkim-dmarc-checker/" hreflang="it" lang="it" style="color:#8fd8c6">Italiano</a></li><li><b style="color:#fff">日本語</b></li><li><a href="/nl/tools/spf-dkim-dmarc-checker/" hreflang="nl" lang="nl" style="color:#8fd8c6">Nederlands</a></li><li><a href="/pt/tools/spf-dkim-dmarc-checker/" hreflang="pt" lang="pt" style="color:#8fd8c6">Português</a></li><li><a href="/ru/tools/spf-dkim-dmarc-checker/" hreflang="ru" lang="ru" style="color:#8fd8c6">Русский</a></li><li><a href="/tr/tools/spf-dkim-dmarc-checker/" hreflang="tr" lang="tr" style="color:#8fd8c6">Türkçe</a></li><li><a href="/zh/tools/spf-dkim-dmarc-checker/" hreflang="zh" lang="zh" style="color:#8fd8c6">中文</a></li></ul></nav>
+    <span class="eyebrow">無料ツール · 登録不要 · 日本語対応</span>
+    <h1 style="max-width:24ch;font-size:clamp(2.1rem,5vw,3.7rem)">SPF・DKIM・DMARCをチェック：御社の名義でメールを送られる恐れはありませんか？</h1>
+    <p class="lead">ドメインを入力するだけで、詐欺師が御社とまったく同じアドレスでお客様にメールを送れるかどうかが数秒でわかります。SPF、DKIM、DMARCを確認し、結果を専門用語を使わずにご説明します。</p>
+    <form class="rv-form" id="rv-form" novalidate>
+      <label for="rv-dominio">御社のドメイン、または御社のメールアドレス</label>
+      <div class="rv-fila">
+        <input id="rv-dominio" name="d" type="text" dir="ltr" inputmode="url" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="mycompany.com" maxlength="260" required aria-describedby="rv-aviso rv-priv">
+        <button class="btn btn-p" id="rv-boton" type="submit">無料でチェック</button>
+      </div>
+      <details class="rv-sel"><summary>DKIMのセレクターをご存じですか？（任意）</summary><input id="rv-selector" name="s" type="text" dir="ltr" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="63" placeholder="例：selector1" aria-label="DKIMのセレクターをご存じですか？（任意）"></details>
+      <p class="rv-aviso" id="rv-aviso" role="status" aria-live="polite"></p>
+      <div class="rv-progreso" id="rv-progreso" hidden>
+        <div class="rv-via"><div class="rv-barra" id="rv-barra"></div></div>
+        <p class="rv-etapa" id="rv-etapa"></p>
+      </div>
+      <p class="rv-priv" id="rv-priv">チェックはお使いのブラウザ上で行われ、GoogleとCloudflareのリゾルバー経由で公開DNSレコードを読み取るだけです。Almadíaが入力されたドメインを受け取ったり保存したりすることはありません。</p>
+    </form>
+    <noscript><p class="lead" style="margin-top:20px">このツールにはJavaScriptが必要です。ご希望の場合は、WhatsAppでドメインをお知らせください。チェック結果をお送りします。 <a href="https://wa.me/573223623930?text=%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF%E3%80%82Almad%C3%ADa%E3%81%AB%E3%80%81%E5%BC%8A%E7%A4%BE%E3%81%AE%E3%83%A1%E3%83%BC%E3%83%AB%E3%81%AE%E3%81%AA%E3%82%8A%E3%81%99%E3%81%BE%E3%81%97%E5%AF%BE%E7%AD%96%E3%81%AE%E7%A2%BA%E8%AA%8D%E3%81%A8%E4%BF%9D%E8%AD%B7%E3%82%92%E3%81%8A%E9%A1%98%E3%81%84%E3%81%97%E3%81%9F%E3%81%84%E3%81%A7%E3%81%99%E3%80%82%20%5Bja%5D" style="color:#8fd8c6">WhatsApp 322 362 3930</a></p></noscript>
+    <dl class="datos">
+      <div><dt>料金</dt><dd>無料・登録不要</dd></div>
+      <div><dt>チェック内容</dt><dd>SPF、DKIM、DMARC、ほか5項目</dd></div>
+      <div><dt>所要時間</dt><dd>約10秒</dd></div>
+      <div><dt>お客様のデータ</dt><dd>Almadíaには届きません</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="rv-zona" aria-label="チェック結果">
+  <div class="wrap">
+    <div id="rv-resultado" hidden></div>
+  </div>
+</section>
+
+<section class="seccion" id="how">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">請求書詐欺の手口</span>
+      <h2>なりすましメールに、パスワードは必要ありません。</h2>
+      <p class="lead">電子メールは、送信者を確認しない仕組みで設計されました。どのサーバーでも「このメッセージは manager@yourcompany.com から届きました」と名乗ることができます。これを防げるのは、御社がドメインに登録する3種類のレコードだけです。レコードがない、または設定が不十分な場合、偽のメッセージが届いてしまう可能性があります。</p>
+    </div>
+    <div class="pasos rev">
+      <div class="paso"><span class="num">01</span><h3>詐欺師が送信先を選ぶ</h3><p>取引先、会計担当者、銀行、あるいは社内の経理チームなどです。名前は、御社のウェブサイトやSNSで見つかることがよくあります。</p></div>
+      <div class="paso"><span class="num">02</span><h3>御社とまったく同じアドレスでメールを送る</h3><p>似たドメインではなく、御社そのもののドメインです。口座が差し替えられた請求書、「支払い情報の変更」の連絡、役員を装った緊急の指示などが届きます。</p></div>
+      <div class="paso"><span class="num">03</span><h3>受信側のサーバーが御社のドメインを確認する</h3><p>その送信元が許可されているか、許可されていない場合はどう扱うかを問い合わせます。御社のドメインから何も返答がなければ、メッセージは配信されてしまうことがあります。</p></div>
+      <div class="paso"><span class="num">04</span><h3>取引先は支払いを済ませ、御社に請求する</h3><p>お金は別の口座に渡り、メールは誰の目にも御社から届いたものに見えます。ここから、取引上の問題と法的な問題が始まります。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion seccion-clara" id="checks">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">このツールのチェック内容</span>
+      <h2>3つのレコードが、御社のメールを偽装できるかどうかを左右します。</h2>
+      <p class="lead">3つとも御社ドメインのDNSに登録される公開情報で、メールサーバーはメッセージを受け取る前にこれらを読み取ります。このツールは同じ読み取りを行い、結果をわかりやすくお伝えします。</p>
+    </div>
+    <div class="tabla-envoltura rev">
+      <table class="tabla">
+        <thead><tr><th scope="col">レコード</th><th scope="col">概要</th><th scope="col">ない場合、または誤っている場合</th><th scope="col">チェックする内容</th></tr></thead>
+        <tbody><tr><th scope="row">SPF</th><td>御社のドメインでメールを送信できるサーバーの一覧です。</td><td>御社のメールがどのサーバーから送られるべきか、誰にもわかりません。レコードが複数ある場合、DNS照会が10回を超える場合、または存在しないサービスが含まれている場合は、無効と判定されます。</td><td>レコードが1つだけ存在するか、末尾の指定（拒否、警告、通過）、必要なDNS照会の回数、含まれているサービスが有効かどうかを確認します。</td></tr>
+          <tr><th scope="row">DKIM</th><td>各メッセージに付く電子署名です。御社ドメインに登録された公開鍵で検証します。</td><td>御社のメールはSPFだけに頼ることになり、メッセージが転送されると検証が失敗します。</td><td>プロバイダーがよく使う名前で公開鍵が登録されているか、その鍵が有効か、鍵の長さがどれくらいかを確認します。</td></tr>
+          <tr><th scope="row">DMARC</th><td>指示を出すレコードです。御社のドメインを名乗り、そのドメインとしてSPFにもDKIMにも合格しないメールをどう扱うかを定めます。</td><td><b>DMARCがない、または「p=none」の場合、偽のメールが受信トレイに届く可能性があります。</b>最終的な判断を下すレコードです。</td><td>レコードが1つだけ存在するか、ポリシー（監視、隔離、拒否）、テストモードか一部にしか適用されていないか、サブドメインの扱い、レポートを要求しているかを確認します。</td></tr>
+          <tr><th scope="row">追加の保護</th><td>DNSSEC、MTA-STS、TLS-RPT、CAA、BIMIです。</td><td>なりすましに直接つながるものではありませんが、最低限の設定にとどまるドメインと、きちんと管理されたドメインとの違いになります。</td><td>公開されているかどうかを確認します。スコアへの影響は小さく、上記3つの後に対応する項目です。</td></tr></tbody>
+      </table>
+    </div>
+    <p class="nota-catalogo rev">0〜100点のスコアは、DMARCが45、SPFが25、DKIMが15、追加の保護が15の配点で算出します。リスクの判定は主にDMARCで決まります。3つのうち、メールをブロックするよう指示できるのはDMARCだけだからです。</p>
+  </div>
+</section>
+
+<section class="seccion" id="levels">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">結果の見方</span>
+      <h2>各リスクレベルの意味。</h2>
+    </div>
+    <div class="duo">
+      <div class="rev">
+        <h3 style="font-family:var(--ff-display);font-size:1.5rem;margin-bottom:14px">リスク高</h3>
+        <ul class="lista"><li>御社のドメインにDMARCがないか、監視モード（「p=none」）になっています。</li><li>現在、御社のアドレスを使った偽のメールが受信トレイに届く可能性があります。</li><li>小規模な企業で最もよく見られる状態です。メールのプロバイダーを変えなくても改善できます。</li></ul>
+      </div>
+      <div class="rev">
+        <h3 style="font-family:var(--ff-display);font-size:1.5rem;margin-bottom:14px">リスク中または低</h3>
+        <ul class="lista"><li><b>中：</b>すでに対処するポリシー（隔離）はありますが、抜けが残っています。一部にしか適用されていない、テストモードになっている、サブドメインが対象外、SPFが誰にでも送信を許可している、といったケースです。</li><li><b>低：</b>御社のドメインは偽のメールを拒否するよう指示しています。あとは、すべての送信サービスが署名していることの確認と、レポートの確認が残ります。</li><li>どちらの場合も、詳細に改善点が優先度の高い順に表示されます。</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion seccion-clara" id="why">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">今、重要な理由</span>
+      <h2>もはや任意ではありません。大手メールサービスが求めています。</h2>
+    </div>
+    <div class="rev"><ul class="lista"><li><b>Google（2024年2月から）：</b>Gmailアカウント宛てに1日5,000通を超えるメールを送る送信者にSPF、DKIM、DMARCを求めています。それ以外のすべての送信者にも、少なくともSPFまたはDKIMを求めています。Yahooも大量送信者に同等のルールを適用しています。</li><li><b>Microsoft（2025年5月から）：</b>Outlook、Hotmail、Live宛てに1日5,000通を超えるメールを送るドメインにSPF、DKIM、DMARCを求めています。</li><li><b>到達率：</b>これらのレコードがないドメインは、なりすまされやすいだけではありません。請求書や見積書といった正規のメールも、迷惑メールフォルダーに入りやすくなります。</li><li><b>個人情報の保護：</b>DMARCを名指しする法律はありません。しかし、欧州のGDPR（第32条）やコロンビアの2012年法律第1581号のような規範は、個人データを扱う者に、不正または詐欺的な利用に対する適切な技術的措置を求めています。なりすましが可能な社用メールは、明らかな弱点です。</li><li><b>詐欺師を追及することは可能ですが、時間がかかります。</b>たとえばコロンビアでは、2009年法律第1273号が、データを盗むためのサイトのなりすましや、同意のない資産の移転を処罰の対象としています。入口を閉じるのに必要な期間は数週間です。</li></ul></div>
+  </div>
+</section>
+
+<section class="seccion" id="limits">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">正直にお伝えします</span>
+      <h2>このチェックではわからないこと。</h2>
+    </div>
+    <div class="rev"><ul class="lista"><li><b>メールボックスやパスワードは確認しません。</b>社員のパスワードが盗まれた場合、メールは実際に御社のアカウントから送信されるため、DNSレコードでは止められません。この対策には二要素認証が有効です。</li><li><b>似たドメインは検出できません。</b>詐欺師は yourcompany-payments.com のようなドメインを登録できます。DMARCが守るのは御社のドメインであり、似せたドメインではありません。</li><li><b>DKIMの結果は確定的ではありません。</b>外部から鍵の一覧を取得することはできないため、鍵の名前が一般的でない場合は検出されません。</li><li><b>侵入テストでも、認証を受けた監査でもありません。</b>御社ドメインの公開設定を読み取るものです。メールを使った詐欺の多くは、ここから始まります。</li><li><b>スコアが高くても、メールが確実に届くとは限りません。</b>プロバイダーは、送信者の評価やメッセージの内容も見ています。</li></ul></div>
+  </div>
+</section>
+
+<section class="seccion seccion-clara" id="faq">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">よくあるご質問</span>
+      <h2>メールのなりすましについて、よくいただくご質問です。</h2>
+    </div>
+    <div class="catalogo rev">
+      <section class="cat-grupo"><h3>メールがなりすまされるとは、どういうことですか？</h3><p style="padding:0 2px">第三者が、御社のメールボックスに入ることなく、「差出人」欄に御社とまったく同じアドレス（例：billing@yourcompany.com）を表示してメッセージを送ることです。パスワードは必要ありません。御社のドメインが、自社から送られていないメッセージを拒否するようメールサーバーに伝えていなければ、それだけで可能になります。この偽メールで、支払いを要求したり、請求書の口座番号を差し替えたり、パスワードを盗んだりします。</p></section>
+      <section class="cat-grupo"><h3>自分のドメインが守られているかどうか、どうすればわかりますか？</h3><p style="padding:0 2px">このページのチェッカーにドメインを入力してください。数秒で、御社のドメインにSPF、DKIM、DMARCが公開されているか、そして特にDMARCのポリシーが偽のメールを実際にブロックしているのか、監視しているだけなのかがわかります。結果が「リスク高」の場合、現時点で御社の名義のメールを送られる可能性があります。</p></section>
+      <section class="cat-grupo"><h3>SPF、DKIM、DMARCの違いは何ですか？</h3><p style="padding:0 2px">SPFは、御社のドメインでメールを送信できるサーバーの一覧です。DKIMは、メッセージが御社のサービスから送られ、途中で改ざんされていないことを証明する電子署名です。DMARCはこの2つを結び付けて指示を出します。御社のドメインを名乗り、そのドメインとしてどちらの検証にも合格しないメールを、通過させるか、迷惑メールに振り分けるか、拒否するかを決めます。DMARCがなければ、他の2つだけではなりすましを防げません。</p></section>
+      <section class="cat-grupo"><h3>DMARCが「p=none」です。守られていますか？</h3><p style="padding:0 2px">いいえ。「p=none」は監視モードです。御社のドメインは偽のメッセージに対して何の措置も求めていないため、偽のメッセージはそのまま届く可能性があります。レコードでレポートを要求していれば、誰が御社の名義でメールを送っているかの詳細を受け取れます。最初の一歩としては正しい設定です。そのうえで、正規の送信がすべて合格していることをレポートで確認しながら、段階的に隔離、さらに拒否へと引き上げる必要があります。</p></section>
+      <section class="cat-grupo"><h3>最初から「p=reject」にしないのはなぜですか？</h3><p style="padding:0 2px">正規のサービス（電子請求書、ニュースレター、CRM、ウェブサイトのフォームなど）が、設定が不十分なまま御社の名義でメールを送っていると、自社のメッセージまで拒否されてしまうからです。そのため、変更のたびにレポートを確認しながら、段階的に進めます。</p></section>
+      <section class="cat-grupo"><h3>このツールは、ドメインやデータを保存しますか？</h3><p style="padding:0 2px">いいえ。チェックはお使いのブラウザ上で行われます。照会はGoogleとCloudflareの公開DNSリゾルバーに直接送られ、ドメイン名は通常のDNS照会と同じように相手側に渡ります。Almadíaが入力されたドメインを受け取ることはなく、メールアドレスや登録も求めません。このページにはアクセス解析もありません。当社が知るのは、お客様ご自身がWhatsAppでご連絡くださった場合だけです。</p></section>
+      <section class="cat-grupo"><h3>これは侵入テストですか？</h3><p style="padding:0 2px">いいえ。このツールが読み取るのは、仕組み上すべて公開されているDNSレコードだけです。メールサーバーがメッセージを受け取る前に確認するのと同じ情報です。御社のシステムには触れず、パスワードも試さず、メールも一切送信しません。そのため、仕入先や取引先のドメインをチェックすることもできます。</p></section>
+      <section class="cat-grupo"><h3>私のメールは @gmail.com や @hotmail.com です。使えますか？</h3><p style="padding:0 2px">このチェックは、独自ドメイン（yourname.com、yourcompany.comなど）向けです。無料のアカウントをお使いの場合、なりすまし対策はプロバイダーが管理しており、お客様側では変更できません。企業の場合は、独自ドメインでメールを運用し、正しく設定することが最初の一歩です。</p></section>
+      <section class="cat-grupo"><h3>DKIMを設定しているのに、見つからないと表示されるのはなぜですか？</h3><p style="padding:0 2px">DKIMの鍵は、外部から一覧を取得することができません。各プロバイダーが決める名前（「セレクター」）で公開されています。このツールはよく使われる名前を試すため、御社の名前が別のものだと検出されません。セレクターがわかる場合は、任意のセレクター欄に入力してください。御社のドメインから実際に送ったメールのヘッダーを確認する方法でも、確かめられます。</p></section>
+      <section class="cat-grupo"><h3>GoogleやMicrosoftはこれを求めていますか？</h3><p style="padding:0 2px">はい。ただし、大量に送信する送信者が対象です。2024年2月から、Googleは、Gmail宛てに1日5,000通を超えるメールを送る送信者にSPF、DKIM、DMARCを求めています。Yahooも大量送信者に同等のルールを適用しています。2025年5月からは、MicrosoftがOutlook、Hotmail、Live宛てに1日5,000通を超えて送る送信者に同じ要件を課しています。送信量の少ない送信者に対しても、Googleは少なくともSPFまたはDKIMを求めています。実際には、これらのレコードがないドメインは、迷惑メールフォルダーに入るケースがますます増えています。</p></section>
+      <section class="cat-grupo"><h3>改善にはいくらかかりますか？</h3><p style="padding:0 2px">チェックは無料です。メールの是正（SPF、DKIM、DMARCの設定、テスト、拒否までの段階的な引き上げ）は、価格を公開している「Protected SMB」パッケージに含まれています。メールだけが必要な場合は、ドメインをお知らせください。作業を始める前に、固定価格を書面でお出しします。</p></section>
+      <section class="cat-grupo"><h3>どの国で対応していますか？</h3><p style="padding:0 2px">どの国でも対応しています。リモートで対応します。御社のドメインのDNS管理画面へのアクセスをお預けいただくか、こちらがお伝えする変更をご自身で適用していただきます。連絡はWhatsApp、メール、ビデオ通話で行います。ツールも対応も、13言語でご利用いただけます。</p></section>
+    </div>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="wrap">
+    <div class="cta rev">
+      <h2>リスクが高と出ましたか？メールを止めることなく、段階的に「拒否」まで設定します。</h2>
+      <p>御社の名義で送信するすべてのサービスについてSPF、DKIM、DMARCを設定し、レポートを確認しながら、偽のメールが拒否されるまでポリシーを一段ずつ引き上げます。「Protected SMB」パッケージに含まれています。メールだけが必要な場合は、作業を始める前に固定価格を書面でお出しします。どの国の企業様にもリモートで対応しています。</p>
+      <div class="btns">
+        <a class="btn btn-p" href="https://wa.me/573223623930?text=%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF%E3%80%82Almad%C3%ADa%E3%81%AB%E3%80%81%E5%BC%8A%E7%A4%BE%E3%81%AE%E3%83%A1%E3%83%BC%E3%83%AB%E3%81%AE%E3%81%AA%E3%82%8A%E3%81%99%E3%81%BE%E3%81%97%E5%AF%BE%E7%AD%96%E3%81%AE%E7%A2%BA%E8%AA%8D%E3%81%A8%E4%BF%9D%E8%AD%B7%E3%82%92%E3%81%8A%E9%A1%98%E3%81%84%E3%81%97%E3%81%9F%E3%81%84%E3%81%A7%E3%81%99%E3%80%82%20%5Bja%5D" rel="noopener">WhatsApp 322 362 3930</a>
+        <a class="btn btn-claro" href="/ja/packages/#proteccion">「Protected SMB」パッケージを見る</a>
+      </div>
+      <p style="margin-top:14px"><a href="#rv-dominio">別のドメインをチェックする ↑</a> · <a href="/ja/packages/#proteccion">改善の内容と料金について →</a></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div style="text-align:center;padding:6px 0 16px"><img src="/assets/img/logo-pie.jpg" alt="Grupo Empresarial Almadía" width="260" height="185" loading="lazy" decoding="async" style="width:230px;height:auto;border-radius:14px"></div>
+    <div class="ftr-legal">
+      <span>Grupo Empresarial Almadía S.A.S. · NIT 902.090.075-9 · Matrícula 04133931 Cámara de Comercio de Bogotá</span>
+      <span>© 2026 Almadía · <a href="/invertir-en-colombia/">Invertir en Colombia</a> · <a href="/licitaciones/">Licitaciones</a> · <a href="/empresas/">Crear empresa</a> · <a href="/crear-empresa/bogota/">Crear empresa en Bogotá</a> · <a href="/empresa-llave-en-mano/">Llave en mano</a> · <a href="/contador-publico/">Contador público</a> · <a href="/cobranza/cobro-de-cartera-empresas/">Cobranza de cartera</a> · <a href="/incentivos-tributarios/">Incentivos tributarios</a> · <a href="/tramites-desde-el-exterior/">Trámites desde el exterior</a> · <a href="/tarifas-abogados-colombia-2026/">Tarifas de abogados 2026</a> · <a href="/servicios-digitales/">Digital e IA</a> · <a href="/proteccion-digital/">Paquetes pyme</a></span>
+      <span style="display:block;margin-top:6px;font-size:.82rem">Todos los derechos reservados. Prohibida la reproducción total o parcial de textos, imágenes, datos y diseño sin autorización escrita (Ley 23 de 1982). · <a href="/politica-de-datos/">Política de tratamiento de datos personales</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

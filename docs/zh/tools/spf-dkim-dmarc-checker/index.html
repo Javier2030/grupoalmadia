@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>免费 SPF、DKIM、DMARC 检测工具：邮件域名安全检查（中文）</title>
+<meta name="description" content="免费检测您域名的 SPF、DKIM 和 DMARC，几秒钟内了解骗子能否冒用您的名义发送邮件。无需注册，提供中文界面。">
+<link rel="canonical" href="https://grupoalmadia.com/zh/tools/spf-dkim-dmarc-checker/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#f7f6f3">
+<meta property="og:type" content="website">
+
+<meta property="og:title" content="免费 SPF、DKIM、DMARC 检测工具：邮件域名安全检查（中文）">
+<meta property="og:description" content="免费检测您域名的 SPF、DKIM 和 DMARC，几秒钟内了解骗子能否冒用您的名义发送邮件。无需注册，提供中文界面。">
+<meta property="og:url" content="https://grupoalmadia.com/zh/tools/spf-dkim-dmarc-checker/">
+<meta property="og:image" content="https://grupoalmadia.com/assets/img/og-almadia.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>@font-face{
+font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;
+src:url(/assets/fuentes/fraunces-latin.woff2) format("woff2");
+unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;
+src:url(/assets/fuentes/fraunces-latin-ext.woff2) format("woff2");
+unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+:root{
+--tinta:#0d1117;
+--tinta-2:#3d4854;
+--tinta-3:#6b7684;
+--hueso:#f7f6f3;
+--hueso-2:#efede8;
+--linea:#e2dfd8;
+--verde:#0f5c4e;
+--verde-claro:#147a67;
+--cobre:#b0722a;
+--blanco:#fff;
+--ff-display:"Fraunces","Georgia",serif;
+--ff-texto:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+--radio:14px;
+--sombra:0 1px 2px rgba(13,17,23,.04),0 8px 24px -12px rgba(13,17,23,.14);
+--sombra-alta:0 2px 4px rgba(13,17,23,.05),0 24px 48px -20px rgba(13,17,23,.28);
+--ancho:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+margin:0;background:var(--hueso);color:var(--tinta);
+font-family:var(--ff-texto);font-size:17px;line-height:1.62;
+-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:var(--ancho);margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--ff-display);font-weight:600;letter-spacing:-.02em;line-height:1.08;margin:0}
+h1{font-size:clamp(2.6rem,6.2vw,4.6rem);font-weight:600}
+h2{font-size:clamp(1.9rem,3.7vw,2.9rem)}
+h3{font-size:1.16rem;letter-spacing:-.01em;line-height:1.3}
+p{margin:0 0 1em}
+.lead{font-size:clamp(1.06rem,1.7vw,1.28rem);color:var(--tinta-2);line-height:1.6}
+.eyebrow{
+font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+color:var(--verde);margin:0 0 18px;display:block;
+}
+.hdr{
+position:sticky;top:0;z-index:50;
+background:rgba(247,246,243,.82);backdrop-filter:saturate(180%) blur(14px);
+border-bottom:1px solid transparent;transition:border-color .3s,background .3s;
+}
+.hdr.fija{border-bottom-color:var(--linea)}
+.hdr .wrap{display:flex;align-items:center;gap:28px;height:70px}
+.marca{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:600;letter-spacing:-.02em}
+.marca svg,.marca img{width:34px;height:34px;flex:none;object-fit:contain}
+.marca b{font-family:var(--ff-display);font-size:1.14rem;font-weight:600}
+.marca span{display:block;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta-3);font-weight:500;margin-top:-2px}
+.nav{margin-left:auto;display:flex;align-items:center;gap:28px}
+.nav a{text-decoration:none;font-size:.93rem;color:var(--tinta-2);font-weight:500;transition:color .2s}
+.nav a:hover{color:var(--tinta)}
+.nav a.btn-p,.nav a.btn-p:hover{color:#fff}
+.btn{
+display:inline-flex;align-items:center;justify-content:center;gap:9px;
+padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:600;
+font-size:.95rem;border:1px solid transparent;cursor:pointer;
+transition:transform .18s cubic-bezier(.2,.8,.3,1),box-shadow .18s,background .18s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-p{background:var(--verde);color:#fff;box-shadow:0 8px 20px -10px rgba(15,92,78,.7)}
+.btn-p:hover{background:var(--verde-claro);box-shadow:0 14px 28px -12px rgba(15,92,78,.8)}
+.btn-g{background:transparent;color:var(--tinta);border-color:var(--linea)}
+.btn-g:hover{border-color:var(--tinta-3);background:var(--blanco)}
+.btn-claro{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.28);backdrop-filter:blur(8px)}
+.btn-claro:hover{background:rgba(255,255,255,.2)}
+.btn-sm{padding:10px 18px;font-size:.89rem}
+.burger{display:none;margin-left:auto;background:none;border:0;padding:9px;cursor:pointer}
+.burger span{display:block;width:22px;height:2px;background:var(--tinta);margin:4px 0;transition:.25s}
+.hero{
+position:relative;color:#fff;overflow:hidden;isolation:isolate;background:#0b1014;
+}
+.hero::before{
+content:'';position:absolute;inset:0;z-index:0;opacity:.9;
+background:
+radial-gradient(120% 90% at 82% 8%,rgba(20,122,103,.32) 0%,transparent 58%),
+radial-gradient(80% 70% at 0% 100%,rgba(176,114,42,.2) 0%,transparent 60%);
+}
+.hero::after{
+content:'';position:absolute;inset:0;z-index:0;opacity:.35;
+background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+background-size:64px 64px;
+mask-image:radial-gradient(120% 90% at 50% 0%,#000 20%,transparent 75%);
+}
+.hero .wrap{position:relative;z-index:1;padding-top:96px;padding-bottom:84px}
+.hero-split{display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center}
+.hero h1{color:#fff;max-width:15ch}
+.hero .lead{color:rgba(255,255,255,.78);max-width:52ch;margin-top:26px}
+.hero .eyebrow{color:#8fd8c6}
+.hero-cta{display:flex;gap:13px;flex-wrap:wrap;margin-top:38px}
+.mosaico{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mosaico figure{
+margin:0;position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/2;
+box-shadow:0 20px 40px -24px rgba(0,0,0,.8);border:1px solid rgba(255,255,255,.1);
+}
+.mosaico figure:nth-child(1){transform:translateY(-16px)}
+.mosaico figure:nth-child(4){transform:translateY(16px)}
+.mosaico img{width:100%;height:100%;object-fit:cover}
+.mosaico figcaption{
+position:absolute;left:0;right:0;bottom:0;padding:22px 12px 9px;
+font-size:.73rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#fff;
+background:linear-gradient(180deg,transparent,rgba(6,10,13,.88));
+}
+.datos{
+display:flex;flex-wrap:wrap;gap:0;margin-top:64px;
+border-top:1px solid rgba(255,255,255,.16);
+}
+.datos div{flex:1 1 190px;padding:22px 26px 0 0}
+.datos dt{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px}
+.datos dd{margin:0;font-size:1.02rem;font-weight:600;font-variant-numeric:lining-nums tabular-nums}
+.seccion{padding:96px 0}
+.seccion-clara{background:var(--blanco)}
+.cab{max-width:64ch;margin-bottom:56px}
+.cab p{margin-top:18px}
+.rejilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:26px}
+.linea{
+position:relative;border-radius:var(--radio);overflow:hidden;background:var(--blanco);
+border:1px solid var(--linea);box-shadow:var(--sombra);
+transition:transform .3s cubic-bezier(.2,.8,.3,1),box-shadow .3s,border-color .3s;
+}
+.linea:hover{transform:translateY(-6px);box-shadow:var(--sombra-alta);border-color:transparent}
+.linea .foto{position:relative;aspect-ratio:3/2;overflow:hidden;background:var(--hueso-2)}
+.linea .foto img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.3,1)}
+.linea:hover .foto img{transform:scale(1.06)}
+.linea .foto::after{
+content:'';position:absolute;inset:0;
+background:linear-gradient(180deg,rgba(13,17,23,0) 40%,rgba(13,17,23,.5) 100%);
+}
+.linea .cuerpo{padding:24px 24px 26px}
+.linea h3{margin-bottom:9px}
+.linea p{color:var(--tinta-2);font-size:.96rem;margin:0}
+.etiquetas{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.etiquetas span{
+font-size:.76rem;font-weight:500;color:var(--tinta-2);
+background:var(--hueso-2);border-radius:999px;padding:5px 11px;
+}
+.pasos{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;border-top:1px solid var(--linea)}
+.paso{padding:32px 28px 32px 0;border-right:1px solid var(--linea)}
+.paso:last-child{border-right:0}
+.paso .num{
+font-family:var(--ff-display);font-size:2.1rem;color:var(--cobre);
+font-variant-numeric:lining-nums;line-height:1;margin-bottom:16px;display:block;
+}
+.paso h3{margin-bottom:8px}
+.paso p{color:var(--tinta-2);font-size:.94rem;margin:0}
+.servicios{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:2px;background:var(--linea);border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden}
+.serv{background:var(--blanco);padding:32px 28px;transition:background .25s}
+.serv:hover{background:var(--hueso)}
+.serv h3{margin-bottom:10px}
+.serv p{color:var(--tinta-2);font-size:.95rem;margin:0}
+.duo{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+.duo img{border-radius:var(--radio);box-shadow:var(--sombra-alta)}
+.lista{list-style:none;padding:0;margin:26px 0 0}
+.lista li{position:relative;padding-left:30px;margin-bottom:14px;color:var(--tinta-2)}
+.lista li::before{
+content:'';position:absolute;left:0;top:.55em;width:14px;height:2px;background:var(--cobre);
+}
+.lista b{color:var(--tinta);font-weight:600}
+.cta{background:var(--tinta);color:#fff;border-radius:var(--radio);padding:64px 56px;text-align:center}
+.cta h2{color:#fff;max-width:20ch;margin:0 auto}
+.cta p{color:rgba(255,255,255,.72);max-width:52ch;margin:20px auto 34px}
+.cta .btns{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
+.ftr{background:var(--tinta);color:rgba(255,255,255,.66);padding:72px 0 34px;font-size:.92rem}
+.ftr a{color:rgba(255,255,255,.66);text-decoration:none}
+.ftr a:hover{color:#fff}
+.ftr-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.12)}
+.ftr h4{color:#fff;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 16px;font-family:var(--ff-texto);font-weight:600}
+.ftr ul{list-style:none;padding:0;margin:0}
+.ftr li{margin-bottom:9px}
+.ftr .marca b,.ftr .marca span{color:#fff}
+.ftr-legal{padding-top:26px;font-size:.83rem;color:rgba(255,255,255,.44);display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap}
+.js .rev{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.8,.3,1),transform .7s cubic-bezier(.2,.8,.3,1)}
+.js .rev.visto{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+.js .rev{opacity:1;transform:none;transition:none}
+html{scroll-behavior:auto}
+.linea:hover{transform:none}
+.linea:hover .foto img{transform:none}
+}
+@media (max-width:1000px){
+.hero-split{grid-template-columns:1fr;gap:44px}
+.mosaico figure:nth-child(1),.mosaico figure:nth-child(4){transform:none}
+}
+@media (max-width:900px){
+.duo{grid-template-columns:1fr;gap:36px}
+.ftr-grid{grid-template-columns:1fr 1fr;gap:32px}
+.paso{border-right:0;border-bottom:1px solid var(--linea);padding:26px 0}
+.paso:last-child{border-bottom:0}
+}
+@media (max-width:760px){
+body{font-size:16px}
+.seccion{padding:64px 0}
+.hero .wrap{padding-top:64px;padding-bottom:60px}
+.nav{
+position:fixed;inset:70px 0 auto;background:var(--hueso);flex-direction:column;
+align-items:stretch;gap:0;padding:14px 24px 26px;border-bottom:1px solid var(--linea);
+transform:translateY(-130%);transition:transform .3s cubic-bezier(.2,.8,.3,1);
+}
+.nav.abierto{transform:none}
+.nav a{padding:13px 0;border-bottom:1px solid var(--linea);font-size:1rem}
+.nav .btn{margin-top:16px}
+.burger{display:block}
+.datos{margin-top:44px}
+.datos div{flex-basis:45%;padding:18px 18px 0 0}
+.cta{padding:44px 26px}
+.ftr-grid{grid-template-columns:1fr}
+}
+.catalogo{columns:3 300px;column-gap:34px}
+.cat-grupo{break-inside:avoid;margin:0 0 30px;padding:0}
+.cat-grupo h3{
+font-family:var(--ff-texto);font-size:.76rem;font-weight:600;letter-spacing:.14em;
+text-transform:uppercase;color:var(--verde);margin-bottom:12px;
+padding-bottom:9px;border-bottom:1px solid var(--linea);
+}
+.cat-grupo ul{list-style:none;margin:0;padding:0}
+.cat-grupo li{
+font-size:.93rem;color:var(--tinta-2);padding:3px 0 3px 16px;position:relative;line-height:1.45;
+}
+.cat-grupo li::before{content:'';position:absolute;left:0;top:.72em;width:6px;height:1px;background:var(--cobre)}
+.nota-catalogo{margin-top:34px;padding-top:22px;border-top:1px solid var(--linea);color:var(--tinta-3);font-size:.9rem}
+@media (max-width:760px){ .catalogo{columns:1} }
+.tabla-envoltura{overflow-x:auto;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);box-shadow:var(--sombra)}
+.tabla{width:100%;border-collapse:collapse;font-size:.94rem;min-width:640px}
+.tabla caption{text-align:left;padding:16px 18px 0;color:var(--tinta-3);font-size:.86rem}
+.tabla th,.tabla td{padding:12px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--linea)}
+.tabla thead th{
+font-family:var(--ff-texto);font-size:.72rem;font-weight:600;letter-spacing:.13em;
+text-transform:uppercase;color:var(--verde);background:var(--hueso-2);border-bottom:1px solid var(--linea);
+}
+.tabla tbody tr:last-child td{border-bottom:0}
+.tabla tbody th{font-weight:600;color:var(--tinta)}
+.tabla td{color:var(--tinta-2)}
+.tabla td b{color:var(--tinta)}
+.fichas{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.ficha{
+display:block;text-decoration:none;color:inherit;background:var(--blanco);
+border:1px solid var(--linea);border-radius:var(--radio);padding:20px 22px;box-shadow:var(--sombra);
+transition:transform .18s ease,box-shadow .18s ease;
+}
+.ficha:hover{transform:translateY(-2px);box-shadow:var(--sombra-alta)}
+.ficha h3{margin-bottom:6px}
+.ficha p{margin:0;color:var(--tinta-3);font-size:.9rem;line-height:1.5}
+.ficha span{display:block;margin-top:10px;font-weight:700;color:var(--verde);font-size:.86rem}
+.cb-barra{margin:0 0 18px;max-width:640px}
+.cb-lab{display:block;font-weight:600;margin-bottom:8px}
+.cb-barra input{width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)}
+.cb-chica{font-size:.88rem;color:var(--tinta-3);margin:8px 0 0}
+.cb-texto{max-width:760px}.cb-texto p{color:var(--tinta-2)}
+.cb-indice{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.cb-indice a{font-size:.82rem;text-decoration:none;color:var(--verde);background:var(--blanco);border:1px solid var(--linea);border-radius:999px;padding:6px 12px}
+.cb-indice a:hover{border-color:var(--verde)}
+.cb-cap{border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);margin-bottom:10px;scroll-margin-top:84px}
+.cb-cap>summary{cursor:pointer;padding:15px 18px;display:flex;justify-content:space-between;gap:12px;align-items:center;list-style:none}
+.cb-cap>summary::-webkit-details-marker{display:none}
+.cb-cap>summary::after{content:'+';font-size:1.3rem;color:var(--cobre);margin-left:auto;padding-left:12px}
+.cb-cap[open]>summary::after{content:'−'}
+.cb-cap>summary span{font-size:.82rem;color:var(--tinta-3);white-space:nowrap}
+.cb-sc{border:0;border-top:1px solid var(--linea);border-radius:0 0 var(--radio) var(--radio);box-shadow:none}
+.tabla.cb{min-width:0;table-layout:auto}
+.tabla.cb td{padding:11px 14px;vertical-align:top;border-top:1px solid var(--linea);font-size:.92rem}
+.tabla.cb .cb-n{white-space:nowrap;color:var(--tinta-3);width:1%}
+.tabla.cb .cb-v{white-space:nowrap;font-weight:600;font-variant-numeric:tabular-nums}
+.tabla.cb .cb-r{color:var(--tinta-2)}
+.tabla.cb tr[hidden]{display:none}
+.cb-corr td{background:#fbf4e8}
+.cb-aviso{font-size:.72rem;background:var(--cobre);color:#fff;border-radius:999px;padding:2px 8px;text-decoration:none;margin-left:6px;white-space:nowrap}
+@media (max-width:700px){
+.tabla.cb thead{display:none}
+.tabla.cb,.tabla.cb tbody,.tabla.cb tr,.tabla.cb td{display:block;width:auto}
+.tabla.cb tr{padding:12px 14px;border-top:1px solid var(--linea)}
+.tabla.cb td{padding:2px 0;border:0}
+.tabla.cb .cb-n{font-size:.78rem;width:auto}
+.tabla.cb .cb-e{font-weight:600;color:var(--tinta)}
+.tabla.cb .cb-r::before{content:'Referencia: ';color:var(--tinta-3)}
+.tabla.cb .cb-v::before{content:'En pesos 2026: ';color:var(--tinta-3);font-weight:400}
+}</style>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/img/icono-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/img/icono-180.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"邮件冒充检测工具：SPF、DKIM 和 DMARC","url":"https://grupoalmadia.com/zh/tools/spf-dkim-dmarc-checker/","description":"免费检测您域名的 SPF、DKIM 和 DMARC，几秒钟内了解骗子能否冒用您的名义发送邮件。无需注册，提供中文界面。","inLanguage":"zh","applicationCategory":"SecurityApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["检测 SPF 并统计 DNS 查询次数","检测 DMARC 策略及子域名设置","按常用选择器查找 DKIM 密钥","DNSSEC、MTA-STS、TLS-RPT、CAA 和 BIMI","可打印的报告，支持 13 种语言"],"provider":{"@type":"Organization","name":"Grupo Empresarial Almadía S.A.S.","taxID":"902.090.075-9","telephone":"+573223623930","email":"comercial@grupoalmadia.com","url":"https://grupoalmadia.com/","areaServed":"Worldwide","availableLanguage":["ar","de","en","es","fr","hi","it","ja","nl","pt","ru","tr","zh"]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"邮件被冒充是什么意思？","acceptedAnswer":{"@type":"Answer","text":"是指有人在“发件人”栏中使用您的确切地址（例如 billing@yourcompany.com）发送邮件，却从未进入过您的邮箱。他们不需要您的密码：只要您的域名没有告诉邮件服务器拒绝那些并非来自您的邮件，他们就能做到。他们会借这类伪造邮件索要付款、更改发票上的账号，或窃取密码。"}},{"@type":"Question","name":"我怎么知道自己的域名是否受到保护？","acceptedAnswer":{"@type":"Answer","text":"请在本页的检测工具中输入域名。几秒钟内，它会告诉您域名是否已发布 SPF、DKIM 和 DMARC，更重要的是，DMARC 策略是真正拦截伪造邮件，还是仅仅在监控。如果结果显示“高风险”，现在就有人可以冒用您的名义发送邮件。"}},{"@type":"Question","name":"SPF、DKIM 和 DMARC 有什么区别？","acceptedAnswer":{"@type":"Answer","text":"SPF 是获准使用您的域名发送邮件的服务器清单。DKIM 是一种数字签名，用来证明邮件确实来自您的某项服务，并且没有被篡改。DMARC 把两者结合起来并下达指令：当邮件使用了您的域名，却没有以该域名的名义通过这两项验证时，应当如何处理（放行、转入垃圾邮件或直接拒绝）。没有 DMARC，另外两项并不能阻止冒充。"}},{"@type":"Question","name":"我的 DMARC 是“p=none”，这样安全吗？","acceptedAnswer":{"@type":"Answer","text":"不安全。“p=none”是监控模式：您的域名不要求对伪造邮件采取任何措施，这些邮件照样可能送达。如果记录中设置了报告，您会收到有关谁在以您的名义发邮件的详细信息。这是正确的第一步，之后应分阶段升级到隔离，再升级到拒绝，前提是报告确认您的合法邮件都能通过验证。"}},{"@type":"Question","name":"为什么不直接设置“p=reject”？","acceptedAnswer":{"@type":"Answer","text":"因为如果您的某项合法服务（电子发票、订阅通讯、CRM、网站表单）以您的名义发信，但配置不当，您自己的邮件就会被拒收。因此需要分阶段进行，每次调整之前先查看报告。"}},{"@type":"Question","name":"这个工具会保存我的域名或数据吗？","acceptedAnswer":{"@type":"Answer","text":"不会。检测在您的浏览器中运行：查询直接发送到 Google 和 Cloudflare 的公共 DNS 解析服务，它们会像处理任何 DNS 查询一样收到域名。Almadía 不会接收您输入的域名，不要求提供邮箱或注册，页面也没有任何统计分析。只有当您决定通过 WhatsApp 联系我们时，我们才会知道。"}},{"@type":"Question","name":"这是渗透测试吗？","acceptedAnswer":{"@type":"Answer","text":"不是。该工具只读取 DNS 记录，而这些记录在设计上就是公开的：任何邮件服务器在接收邮件前都会查询同样的信息。它不会接触您的系统，不会尝试密码，也不会发送任何邮件。因此，您也可以用它检查供应商或客户的域名。"}},{"@type":"Question","name":"我的邮箱是 @gmail.com 或 @hotmail.com，可以用吗？","acceptedAnswer":{"@type":"Answer","text":"本检测适用于自有域名（例如 yourname.com、yourcompany.com）。如果您使用的是免费邮箱，防冒充的保护由服务商负责管理，您无法自行更改。对企业来说，使用自有域名并正确配置邮箱，是第一步。"}},{"@type":"Question","name":"我明明配置了 DKIM，为什么显示没有找到？","acceptedAnswer":{"@type":"Answer","text":"DKIM 密钥无法从外部列出：它们以服务商自行选定的名称（“选择器”）发布。工具会尝试最常用的名称；如果您的名称不同，就不会被发现。如果您知道选择器，请填写在可选的选择器栏中。您也可以查看从您的域名发出的一封真实邮件的邮件头来确认。"}},{"@type":"Question","name":"Google 和 Microsoft 有这方面的要求吗？","acceptedAnswer":{"@type":"Answer","text":"有，针对大批量发件人。自 2024 年 2 月起，Google 要求每天向 Gmail 发送超过 5,000 封邮件的发件人配置 SPF、DKIM 和 DMARC，Yahoo 对群发邮件的发件人也有同等规定。自 2025 年 5 月起，Microsoft 对每天向 Outlook、Hotmail 和 Live 发送超过 5,000 封邮件的发件人提出同样的要求。对于小型发件人，Google 至少要求配置 SPF 或 DKIM。实际上，没有这些记录的域名，越来越容易被归入垃圾邮件。"}},{"@type":"Question","name":"修复需要多少费用？","acceptedAnswer":{"@type":"Answer","text":"检测是免费的。邮件修复（配置并测试 SPF、DKIM 和 DMARC，并分阶段升级到拒绝）已包含在中小企业防护套餐中，该套餐有公开标价。如果您只需要处理邮件，请把域名发给我们，我们会在开始前以书面形式给您一个固定报价。"}},{"@type":"Question","name":"你们在哪些国家提供服务？","acceptedAnswer":{"@type":"Answer","text":"任何国家。我们远程提供服务：您可以给我们开放域名的 DNS 管理面板的权限，或者按我们的指引自行修改，我们通过 WhatsApp、电子邮件或视频通话沟通。工具和服务支持 13 种语言。"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://grupoalmadia.com/"},{"@type":"ListItem","position":2,"name":"企业套餐","item":"https://grupoalmadia.com/zh/packages/"},{"@type":"ListItem","position":3,"name":"检测 SPF、DKIM 和 DMARC","item":"https://grupoalmadia.com/zh/tools/spf-dkim-dmarc-checker/"}]}</script>
+<script defer src="/assets/js/main.js?v=1ad86d71"></script>
+<link rel="alternate" hreflang="ar" href="https://grupoalmadia.com/ar/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="de" href="https://grupoalmadia.com/de/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="en" href="https://grupoalmadia.com/en/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="es" href="https://grupoalmadia.com/herramientas/verificar-spf-dkim-dmarc/">
+<link rel="alternate" hreflang="fr" href="https://grupoalmadia.com/fr/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="hi" href="https://grupoalmadia.com/hi/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="it" href="https://grupoalmadia.com/it/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="ja" href="https://grupoalmadia.com/ja/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="nl" href="https://grupoalmadia.com/nl/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="pt" href="https://grupoalmadia.com/pt/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="ru" href="https://grupoalmadia.com/ru/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="tr" href="https://grupoalmadia.com/tr/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="zh" href="https://grupoalmadia.com/zh/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="x-default" href="https://grupoalmadia.com/en/tools/spf-dkim-dmarc-checker/">
+<style>
+.rv-form{margin-top:34px;max-width:640px}
+.rv-form label{display:block;color:rgba(255,255,255,.82);font-size:.92rem;font-weight:600;margin-bottom:10px}
+.rv-fila{display:flex;gap:10px;flex-wrap:wrap}
+.rv-fila input{flex:1 1 260px;min-width:0;font:inherit;font-size:1.08rem;padding:15px 18px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:#fff;color:var(--tinta)}
+.rv-fila input:focus-visible{outline:3px solid #8fd8c6;outline-offset:2px}
+.rv-fila .btn{flex:0 0 auto}
+.rv-fila .btn[disabled]{opacity:.7;cursor:progress;transform:none}
+.rv-sel{margin-top:12px;font-size:.88rem;color:rgba(255,255,255,.7)}
+.rv-sel summary{cursor:pointer;display:inline-block}
+.rv-sel input{display:block;margin-top:8px;font:inherit;padding:10px 16px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:#fff;color:var(--tinta);width:min(100%,280px)}
+.rv-aviso{min-height:1.5em;margin-top:12px;font-size:.95rem;color:rgba(255,255,255,.72)}
+.rv-aviso.rv-error{color:#ffc9bd;font-weight:600}
+.rv-priv{margin-top:6px;font-size:.86rem;color:rgba(255,255,255,.6);max-width:60ch}
+.rv-progreso{margin-top:16px;max-width:640px}
+.rv-via{height:6px;border-radius:99px;background:rgba(255,255,255,.16);overflow:hidden}
+.rv-barra{height:100%;width:0;background:#8fd8c6;border-radius:99px;transition:width .35s ease}
+.rv-etapa{margin-top:8px;font-size:.9rem;color:rgba(255,255,255,.75)}
+#rv-resultado{scroll-margin-top:90px}
+.rv-zona{padding:56px 0 8px}
+.rv-zona:has(#rv-resultado[hidden]){display:none}
+.rv-veredicto{display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;background:var(--blanco);border:1px solid var(--linea);border-inline-start:8px solid var(--tinta-3);border-radius:var(--radio);padding:36px 40px;box-shadow:var(--sombra)}
+.rv-veredicto.rv-alto{border-inline-start-color:#b3261e}.rv-veredicto.rv-medio{border-inline-start-color:var(--cobre)}.rv-veredicto.rv-bajo{border-inline-start-color:var(--verde)}
+.rv-veredicto h2{font-size:clamp(1.6rem,3.2vw,2.3rem);margin:12px 0 6px;outline:none}
+.rv-veredicto p{color:var(--tinta-2);max-width:62ch}
+.rv-dom{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:1rem;color:var(--tinta)!important;font-weight:600;margin-bottom:10px;overflow-wrap:anywhere}
+.rv-chapa{display:inline-block;font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:99px;background:var(--hueso-2);color:var(--tinta)}
+.rv-alto .rv-chapa{background:#fbe6e3;color:#8a1c16}.rv-medio .rv-chapa{background:#f6ead8;color:#7a4c14}.rv-bajo .rv-chapa{background:#dff1ec;color:#0b4439}
+.rv-ver-nota{text-align:center}
+.rv-anillo{width:136px;height:136px;display:block;margin:0 auto}
+.rv-pista{fill:none;stroke:var(--hueso-2);stroke-width:10}
+.rv-arco{fill:none;stroke-width:10;stroke-linecap:round;stroke:var(--tinta-3);transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.3,1)}
+.rv-alto .rv-arco{stroke:#b3261e}.rv-medio .rv-arco{stroke:var(--cobre)}.rv-bajo .rv-arco{stroke:var(--verde)}
+.rv-num{font-family:var(--ff-display);font-size:34px;font-weight:600;text-anchor:middle;dominant-baseline:middle;fill:var(--tinta)}
+.rv-de{font-size:11px;text-anchor:middle;fill:var(--tinta-3);letter-spacing:.08em;text-transform:uppercase}
+.rv-letra{margin-top:8px;font-weight:700;color:var(--tinta)!important;font-size:.95rem}
+.rv-acciones{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 30px}
+.rv-lista{display:grid;gap:12px}
+.rv-item{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden}
+.rv-item summary{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:18px 22px;cursor:pointer;list-style:none}
+.rv-item summary::-webkit-details-marker{display:none}
+.rv-item summary:focus-visible{outline:3px solid var(--verde-claro);outline-offset:-3px}
+.rv-ic{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.95rem;background:var(--hueso-2);color:var(--tinta-2)}
+.rv-e-ok .rv-ic{background:#dff1ec;color:#0b4439}.rv-e-aviso .rv-ic{background:#f6ead8;color:#7a4c14}.rv-e-falla .rv-ic{background:#fbe6e3;color:#8a1c16}
+.rv-nom{display:block;font-size:.8rem;font-weight:600;letter-spacing:.04em;color:var(--tinta-3);margin-bottom:3px}
+.rv-res{display:block;font-weight:600;color:var(--tinta);line-height:1.4}
+.rv-rot{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-3);white-space:nowrap}
+.rv-e-falla .rv-rot{color:#8a1c16}.rv-e-aviso .rv-rot{color:#7a4c14}.rv-e-ok .rv-rot{color:#0b4439}
+.rv-cuerpo{padding:4px 22px 22px;padding-inline-start:70px;color:var(--tinta-2)}
+.rv-cuerpo h3{font-family:var(--ff-texto);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta-3);margin:16px 0 6px;font-weight:700}
+.rv-avisos{margin:10px 0 0;padding-inline-start:20px}
+.rv-avisos li{margin:4px 0}
+.rv-reg{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.84rem;background:var(--hueso);border:1px solid var(--linea);border-radius:8px;padding:10px 12px;margin:6px 0;overflow-wrap:anywhere;color:var(--tinta)}
+.rv-pie{margin-top:18px;font-size:.84rem;color:var(--tinta-3)}
+.rv-indice{display:flex;gap:10px 22px;flex-wrap:wrap;margin-top:8px;font-size:.95rem}
+@media (max-width:720px){
+  .rv-veredicto{grid-template-columns:1fr;padding:26px 22px;gap:20px}
+  .rv-item summary{grid-template-columns:auto 1fr;padding:16px}
+  .rv-rot{display:none}
+  .rv-cuerpo{padding:0 16px 18px;padding-inline-start:16px}
+  .rv-fila .btn{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){.rv-arco,.rv-barra{transition:none}}
+@media print{
+  .hdr,.ftr,.hero,main>section:not(.rv-zona),.rv-acciones{display:none!important}
+  .rv-zona{padding:0}
+  .rv-item{break-inside:avoid}
+  .rv-veredicto{box-shadow:none}
+}</style>
+<script>window.RevisorTextos={"n":{"spf":"SPF：谁可以使用您的域名发送邮件","dmarc":"DMARC：冒用您名义的伪造邮件会被如何处理","dkim":"DKIM：证明邮件确实来自您的签名","mx":"您的邮件在哪里接收","dnssec":"DNSSEC：防止他人伪造您域名的解析结果","transporte":"邮件传输加密（MTA-STS 和 TLS-RPT）","caa":"谁可以为您的域名签发证书（CAA）","bimi":"在邮件旁显示您的标志（BIMI）"},"h":{"spf.ausente":{"r":"您的域名没有发布获准发送邮件的服务器清单。","s":"接收邮件的服务器无法区分哪些邮件是您发送的，哪些是骗子从其他服务器发出的。","h":"发布 SPF 记录，只列出真正用于发送您邮件的服务。"},"spf.multiple":{"r":"您的域名有 {n} 条 SPF 记录，但只能有一条。","s":"存在多条记录时，标准要求服务器将 SPF 视为错误：实际上等于没有配置。","h":"把这些记录合并为一条。"},"spf.exceso":{"r":"您的 SPF 需要进行 {n} 次 DNS 查询，而标准最多允许 10 次。","s":"超过 10 次后，服务器会判定 SPF 无效。这通常是因为不断添加新的发信服务，却没有删除旧的。","h":"把记录精简为目前实际用于发送邮件的服务。"},"spf.abierto":{"r":"您的 SPF 以“+all”结尾：这意味着全世界任何服务器都可以使用您的域名发送邮件。","s":"这是最糟糕的设置：它告诉所有服务器，任何发件人都是合法的。","h":"修改记录的结尾，使其拒绝未获授权的服务器。"},"spf.sin_cierre":{"r":"您的 SPF 已存在，但没有说明如何处理不在清单上的服务器。","s":"没有结尾设置时，骗子得到的结果是“中立”：既不算通过，也不算拒绝。","h":"添加会拒绝未获授权服务器的结尾设置。"},"spf.neutro":{"r":"您的 SPF 以“?all”结尾：不会拒绝任何人。","s":"这是中立的结尾设置。清单虽然存在，但对不在清单上的发件人没有任何约束。","h":"改用能够拒绝未获授权服务器的结尾设置。"},"spf.ok_duro":{"r":"您的 SPF 有效，并会拒绝未获授权的服务器（“-all”）。","s":"仅靠 SPF，并不能阻止别人把您的地址填写在收件人看到的“发件人”栏中。这需要 DMARC。","h":"无需操作。每次更换邮件服务商或群发服务商时，请重新检查。","h2":"请先处理上面的提示。"},"spf.ok_suave":{"r":"您的 SPF 有效，并会将未获授权的服务器标记为可疑（“~all”）。","s":"仅靠 SPF，并不能阻止别人把您的地址填写在收件人看到的“发件人”栏中。这需要 DMARC。","h":"无需操作。每次更换邮件服务商或群发服务商时，请重新检查。","h2":"请先处理上面的提示。"},"spf.ok_redirect":{"r":"您的 SPF 有效，并将清单委托给了另一个域名（“redirect”）。","s":"仅靠 SPF，并不能阻止别人把您的地址填写在收件人看到的“发件人”栏中。这需要 DMARC。","h":"无需操作。每次更换邮件服务商或群发服务商时，请重新检查。","h2":"请先处理上面的提示。"},"dmarc.ausente":{"r":"您的域名没有 DMARC。目前任何人都可以发送看起来来自 {d} 的邮件。","s":"DMARC 是告诉 Gmail、Outlook 等邮箱如何处理未经许可使用您域名的邮件的指令。没有它，伪造邮件就可能带着您的名称和地址进入您客户的收件箱。","h":"先以监控模式发布 DMARC，观察报告几周，再分阶段升级到拒绝。"},"dmarc.multiple":{"r":"您的域名有 {n} 条 DMARC 记录。存在多条时，服务器会把它们全部忽略。","s":"实际上等于没有配置 DMARC。","h":"只保留一条记录。"},"dmarc.invalida":{"r":"您的 DMARC 记录没有给出有效的策略。","s":"没有可识别的策略，服务器就不会执行任何操作。","h":"修正该记录。"},"dmarc.none":{"r":"您的 DMARC 处于监控模式（“p=none”）：只会发出提示，不会拦截任何邮件。","s":"这是正确的第一步，但只要保持这种状态，您的域名就不会要求对冒用 {d} 名义的伪造邮件采取任何措施，这些邮件仍可能送达。许多域名一停留就是好几年。","h":"查看记录已要求发送的报告，修复未通过验证的合法邮件，再分阶段升级策略。","h2":"开启报告，修复未通过验证的合法邮件，再分阶段升级策略。"},"dmarc.quarantine":{"r":"您的 DMARC 会把伪造邮件转入垃圾邮件文件夹（“p=quarantine”）。","s":"这是切实有效的保护。伪造邮件仍会被投递，只是进入垃圾邮件文件夹，而有些收件人还是会打开它。","h":"待报告显示一切正常后，升级为拒绝。"},"dmarc.reject":{"r":"您的 DMARC 要求拒绝伪造邮件（“p=reject”）。这是最高级别。","s":"在执行 DMARC 的邮件服务商（主流服务商都是如此）那里，未经授权使用您域名的邮件不会送达收件人。","h":"无需操作。请继续查看报告，以便发现冒充企图。","h2":"请先处理上面的提示。"},"dkim.anuladas":{"r":"我们找到了 DKIM 密钥，但它们已被作废（内容为空）。","s":"空密钥表示该选择器已被停用。如果没有其他启用的密钥，您的邮件就会不带签名发出。","h":"向您的邮件服务商确认 DKIM 签名已启用。"},"dkim.ok1":{"r":"您的域名会对邮件签名：我们找到了一个启用的 DKIM 密钥（{sel}）。","s":"签名可以验证邮件确实来自您的某项服务，并且在传输途中没有被篡改。DMARC 需要它，才能在邮件转发时正常工作。","h":"无需操作。请确认所有以您名义发信的服务（发票、订阅通讯、CRM）也都启用了签名。","h2":"把长度较短的密钥更换为 2048 位的密钥。"},"dkim.ok":{"r":"您的域名会对邮件签名：我们找到了 {n} 个启用的 DKIM 密钥（{sel}）。","s":"签名可以验证邮件确实来自您的某项服务，并且在传输途中没有被篡改。DMARC 需要它，才能在邮件转发时正常工作。","h":"无需操作。请确认所有以您名义发信的服务（发票、订阅通讯、CRM）也都启用了签名。","h2":"把长度较短的密钥更换为 2048 位的密钥。"},"dkim.oculto":{"r":"您的域名已发布 DKIM 密钥，但使用的不是常见的名称。","s":"DKIM 密钥无法从外部列出：只有知道其名称（“选择器”）才能找到。我们尝试了 {n} 个常用名称，均未匹配，但该域名确实存在 DKIM 分支。","h":"要确认这一点，需要查看从您域名发出的一封真实邮件的邮件头。"},"dkim.ninguna":{"r":"我们没有在您的域名中找到任何已发布的 DKIM 密钥。","s":"没有 DKIM 签名，您的邮件只能依赖 SPF，而邮件被转发时 SPF 就会失效。此项检测并非定论：名称不常见的密钥从外部是无法发现的。","h":"在每一项使用您域名发信的服务中启用 DKIM 签名。"},"dkim.no_hallada":{"r":"我们没有找到使用常见名称的 DKIM 密钥。","s":"没有 DKIM 签名，您的邮件只能依赖 SPF，而邮件被转发时 SPF 就会失效。此项检测并非定论：名称不常见的密钥从外部是无法发现的。","h":"在每一项使用您域名发信的服务中启用 DKIM 签名。"},"mx.nulo":{"r":"此域名声明不接收邮件。","s":"不使用邮件的域名同样可能被冒充。其实这样的域名更容易保护：只需声明没有任何人获准发送邮件即可。"},"mx.sin":{"r":"此域名没有配置邮件服务器。","s":"不使用邮件的域名同样可能被冒充。其实这样的域名更容易保护：只需声明没有任何人获准发送邮件即可。"},"mx.prov":{"r":"您的邮件由 {p} 接收。","s":"这只是背景信息：它说明需要与哪家服务商一起进行调整。"},"mx.uno":{"r":"您的邮件由一台服务器（{d}）接收。","s":"这只是背景信息：它说明需要与哪家服务商一起进行调整。"},"mx.varios":{"r":"您的邮件由 {n} 台服务器（{d}）接收。","s":"这只是背景信息：它说明需要与哪家服务商一起进行调整。"},"dnssec.si":{"r":"您的域名已启用 DNSSEC 签名。","s":"DNSSEC 可以防止攻击者以您域名的名义返回虚假数据。这是附加防护层：大多数小型企业都没有配置，也不是最需要优先处理的事项。","h":"无需操作。"},"dnssec.no":{"r":"您的域名没有使用 DNSSEC。","s":"DNSSEC 可以防止攻击者以您域名的名义返回虚假数据。这是附加防护层：大多数小型企业都没有配置，也不是最需要优先处理的事项。","h":"待上述问题解决后，在域名注册商的管理面板中启用它。"},"transporte.si_rpt":{"r":"您的域名要求接收的邮件必须加密传输，并要求发送故障报告。","s":"没有这项策略，网络中的攻击者可能迫使发给您的邮件以未加密的方式传输。这是一项高级设置。","h":"无需操作。"},"transporte.si":{"r":"您的域名要求接收的邮件必须加密传输。","s":"没有这项策略，网络中的攻击者可能迫使发给您的邮件以未加密的方式传输。这是一项高级设置。","h":"无需操作。"},"transporte.no":{"r":"您的域名没有要求接收的邮件必须加密传输。","s":"没有这项策略，网络中的攻击者可能迫使发给您的邮件以未加密的方式传输。这是一项高级设置。","h":"如果您通过邮件处理敏感信息，建议考虑配置。"},"caa.si":{"r":"您的域名限制了哪些机构可以为其签发证书。","s":"CAA 记录可以降低他人以您域名的名义获取有效证书的风险。","h":"无需操作。"},"caa.no":{"r":"任何证书颁发机构都可以为您的域名签发证书。","s":"CAA 记录可以降低他人以您域名的名义获取有效证书的风险。","h":"这只需要五分钟的设置，建议尽早完成。"},"bimi.si":{"r":"您的域名已为支持的邮箱发布了企业标志。","s":"BIMI 会在支持的邮箱中，把企业标志显示在邮件旁边。它只在 DMARC 设置为隔离或拒绝时才有效。","h":"无需操作。"},"bimi.no":{"r":"您的域名没有为邮件发布企业标志。","s":"BIMI 会在支持的邮箱中，把企业标志显示在邮件旁边。它只在 DMARC 设置为隔离或拒绝时才有效。","h":"这是可选项，放在最后处理即可。"},"spf.roto":{"r":"您的 SPF 引用了一项服务（{d}），而该服务没有有效的 SPF。","s":"当被引用的服务没有返回有效记录时，标准要求将您的整个 SPF 视为错误：实际上等于没有配置。这通常是因为停用了某个服务商，却把它留在了记录里。","h":"从记录中删除已不存在的服务，或更正其名称。"}},"a":{"spf.a_ptr":"使用了“ptr”机制，标准不建议使用，因为它速度慢且不可靠。","spf.a_desconocido":"含有无法识别的内容：可能导致整条记录失效。","spf.a_limite":"已用掉 {n} 次 DNS 查询，上限为 10 次：再增加一项服务就会失效。","dmarc.a_heredado":"该子域名没有自己的记录：继承 {d} 的策略。","dmarc.a_sin_rua":"没有要求发送报告（“rua”）：您无从得知是谁在使用您的域名发送邮件。","dmarc.a_sp":"您的子域名没有受到保护（“sp=none”）：{d} 的任何子域名都可能被冒充。","dmarc.a_pct":"该策略只适用于 {n}% 的伪造邮件（“pct={n}”）。","dkim.a_corta1":"有一个密钥长度为 1024 位。目前建议使用 2048 位。","dkim.a_cortas":"有 {n} 个密钥长度为 1024 位。目前建议使用 2048 位。","dmarc.a_prueba":"该策略处于测试模式（“t=y”）：服务器实际执行的级别比您设置的更宽松。"},"v":{"alto_sin":{"t":"目前您的邮箱可以被冒充","x":"您的域名没有告诉任何邮件服务商拒绝伪造邮件。骗子可以使用您的确切地址给您的客户、银行或会计发邮件，而且这些邮件可能进入收件箱。"},"alto_none":{"t":"目前您的邮箱可以被冒充","x":"您的域名只是监控，并不拦截：策略处于监控模式。只要保持这种状态，使用您确切地址的伪造邮件仍可能送达。"},"medio":{"t":"您的邮箱只受到部分保护","x":"您已经有针对伪造邮件的生效策略，但仍存在骗子可以利用的漏洞。详情见下方，已按重要程度从高到低排列。"},"bajo":{"t":"您的邮箱已得到良好的防冒充保护","x":"您的域名要求拒绝未经授权使用您地址的邮件。这正是各大邮件服务商要求的水平。"}},"ui":{"riesgo":{"alto":"高冒充风险","medio":"中等冒充风险","bajo":"低冒充风险"},"rotulo":{"ok":"良好","aviso":"可改进","falla":"有问题","info":"信息"},"significa":"这意味着什么","hacer":"需要怎么做","publica":"您的域名目前发布的内容","calif":"评分 {n}","de100":"满分 100","btn_wa":"通过 WhatsApp 请我们修复","btn_wa_bajo":"通过 WhatsApp 申请二次检查","btn_imp":"保存或打印报告","btn_cop":"复制结果链接","copiado":"链接已复制","copie":"请复制链接：","pie":"检测日期 {f} · 查询了 {n} 条公开 DNS 记录 · grupoalmadia.com · 评分仅概括已发布的配置；不检查邮箱、密码或设备。","revisar":"免费检测","revisando":"正在检测…","buscando":"正在查找域名…","listo":"完成","pasos":["邮件服务器","发件人清单（SPF）","防伪造策略（DMARC）","邮件签名（DKIM）","附加防护层"]},"err":{"invalido":"请输入域名（如 mycompany.com）或邮箱地址（如 sales@mycompany.com）。","inexistente":"该域名不存在或没有 DNS。请检查是否输入正确。","fetch":"您的浏览器版本过旧，无法使用此工具。请换用较新的浏览器。","red":"目前无法查询 DNS。请检查网络连接后重试。","gratuito":"这是免费邮箱的域名：由服务商管理，您无法更改。请输入贵公司自己的域名。"},"wa":{"msg":"您好。我用 Almadía 的工具检测了我的域名，希望你们帮我做好保护。","msg_bajo":"您好。我用 Almadía 的工具检测了我的域名，希望你们帮我做二次检查。","dominio":"域名","resultado":"结果","corregir":"待修复"}}</script>
+<script defer src="/assets/js/revisor-correo.js?v=a3263afd93"></script>
+<script defer src="/assets/js/revisor-ui.js?v=8a805825de"></script>
+</head>
+<body>
+<script>document.documentElement.className+=" js"</script>
+
+<header class="hdr">
+  <div class="wrap">
+    <a class="marca" href="/">
+      <img src="/assets/img/icono-192.png" alt="" width="34" height="34" loading="eager" decoding="async">
+      <span><b>Almadía</b><span>Grupo Empresarial</span></span>
+    </a>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="/#lineas">Líneas</a>
+      <a href="/invertir-en-colombia/">Invertir</a>
+      <a href="/licitaciones/">Licitaciones</a>
+      <a href="/empresas/">Crear empresa</a>
+      <a href="/servicios-digitales/">Digital e IA</a>
+      <a href="/proteccion-digital/">Paquetes pyme</a>
+      <a class="btn btn-p btn-sm" href="https://wa.me/573223623930?text=%E6%82%A8%E5%A5%BD%E3%80%82%E6%88%91%E5%B8%8C%E6%9C%9B%20Almad%C3%ADa%20%E5%B8%AE%E6%88%91%E6%A3%80%E6%9F%A5%E5%B9%B6%E4%BF%9D%E6%8A%A4%E5%85%AC%E5%8F%B8%E9%82%AE%E7%AE%B1%EF%BC%8C%E9%98%B2%E6%AD%A2%E8%A2%AB%E5%86%92%E5%85%85%E3%80%82%20%5Bzh%5D" rel="noopener">Cotizar</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap" id="rv" data-wa="573223623930" data-url="https://grupoalmadia.com/zh/tools/spf-dkim-dmarc-checker/">
+    <nav class="idiomas" aria-label="Language"><ul style="list-style:none;display:flex;flex-wrap:wrap;gap:6px 14px;padding:0;margin:0 0 26px;font-size:13.5px"><li><a href="/ar/tools/spf-dkim-dmarc-checker/" hreflang="ar" lang="ar" style="color:#8fd8c6">العربية</a></li><li><a href="/de/tools/spf-dkim-dmarc-checker/" hreflang="de" lang="de" style="color:#8fd8c6">Deutsch</a></li><li><a href="/en/tools/spf-dkim-dmarc-checker/" hreflang="en" lang="en" style="color:#8fd8c6">English</a></li><li><a href="/herramientas/verificar-spf-dkim-dmarc/" hreflang="es" lang="es" style="color:#8fd8c6">Español</a></li><li><a href="/fr/tools/spf-dkim-dmarc-checker/" hreflang="fr" lang="fr" style="color:#8fd8c6">Français</a></li><li><a href="/hi/tools/spf-dkim-dmarc-checker/" hreflang="hi" lang="hi" style="color:#8fd8c6">हिन्दी</a></li><li><a href="/it/tools/spf-dkim-dmarc-checker/" hreflang="it" lang="it" style="color:#8fd8c6">Italiano</a></li><li><a href="/ja/tools/spf-dkim-dmarc-checker/" hreflang="ja" lang="ja" style="color:#8fd8c6">日本語</a></li><li><a href="/nl/tools/spf-dkim-dmarc-checker/" hreflang="nl" lang="nl" style="color:#8fd8c6">Nederlands</a></li><li><a href="/pt/tools/spf-dkim-dmarc-checker/" hreflang="pt" lang="pt" style="color:#8fd8c6">Português</a></li><li><a href="/ru/tools/spf-dkim-dmarc-checker/" hreflang="ru" lang="ru" style="color:#8fd8c6">Русский</a></li><li><a href="/tr/tools/spf-dkim-dmarc-checker/" hreflang="tr" lang="tr" style="color:#8fd8c6">Türkçe</a></li><li><b style="color:#fff">中文</b></li></ul></nav>
+    <span class="eyebrow">免费工具 · 无需注册 · 中文</span>
+    <h1 style="max-width:24ch;font-size:clamp(2.1rem,5vw,3.7rem)">检测 SPF、DKIM 和 DMARC：别人能否冒用贵公司的名义发邮件？</h1>
+    <p class="lead">输入您的域名，几秒钟内即可知道骗子能否使用您的确切邮箱地址给您的客户发邮件。我们检查 SPF、DKIM 和 DMARC，并用通俗易懂的语言为您解释结果。</p>
+    <form class="rv-form" id="rv-form" novalidate>
+      <label for="rv-dominio">您的域名或公司邮箱</label>
+      <div class="rv-fila">
+        <input id="rv-dominio" name="d" type="text" dir="ltr" inputmode="url" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="mycompany.com" maxlength="260" required aria-describedby="rv-aviso rv-priv">
+        <button class="btn btn-p" id="rv-boton" type="submit">免费检测</button>
+      </div>
+      <details class="rv-sel"><summary>您知道自己的 DKIM 选择器吗？（可选）</summary><input id="rv-selector" name="s" type="text" dir="ltr" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="63" placeholder="例如：selector1" aria-label="您知道自己的 DKIM 选择器吗？（可选）"></details>
+      <p class="rv-aviso" id="rv-aviso" role="status" aria-live="polite"></p>
+      <div class="rv-progreso" id="rv-progreso" hidden>
+        <div class="rv-via"><div class="rv-barra" id="rv-barra"></div></div>
+        <p class="rv-etapa" id="rv-etapa"></p>
+      </div>
+      <p class="rv-priv" id="rv-priv">检测在您的浏览器中运行，只读取公开的 DNS 记录，通过 Google 和 Cloudflare 的解析服务完成。Almadía 不会接收或保存您输入的域名。</p>
+    </form>
+    <noscript><p class="lead" style="margin-top:20px">此工具需要启用 JavaScript。您也可以通过 WhatsApp 把域名发给我们，我们会把检测结果发给您。 <a href="https://wa.me/573223623930?text=%E6%82%A8%E5%A5%BD%E3%80%82%E6%88%91%E5%B8%8C%E6%9C%9B%20Almad%C3%ADa%20%E5%B8%AE%E6%88%91%E6%A3%80%E6%9F%A5%E5%B9%B6%E4%BF%9D%E6%8A%A4%E5%85%AC%E5%8F%B8%E9%82%AE%E7%AE%B1%EF%BC%8C%E9%98%B2%E6%AD%A2%E8%A2%AB%E5%86%92%E5%85%85%E3%80%82%20%5Bzh%5D" style="color:#8fd8c6">WhatsApp 322 362 3930</a></p></noscript>
+    <dl class="datos">
+      <div><dt>价格</dt><dd>免费，无需注册</dd></div>
+      <div><dt>检查内容</dt><dd>SPF、DKIM、DMARC 及另外 5 层防护</dd></div>
+      <div><dt>耗时</dt><dd>约 10 秒</dd></div>
+      <div><dt>您的数据</dt><dd>Almadía 不会接收</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="rv-zona" aria-label="检测结果">
+  <div class="wrap">
+    <div id="rv-resultado" hidden></div>
+  </div>
+</section>
+
+<section class="seccion" id="how">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">发票诈骗</span>
+      <h2>冒用您的邮箱，并不需要您的密码。</h2>
+      <p class="lead">电子邮件在设计之初并不核实发件人的身份。任何服务器都可以声称“这封邮件来自 manager@yourcompany.com”。唯一能阻止这种行为的，是您在域名上发布的三条记录。如果缺失或配置不完整，伪造的邮件就可能送达。</p>
+    </div>
+    <div class="pasos rev">
+      <div class="paso"><span class="num">01</span><h3>骗子选定要联系的对象</h3><p>您的客户、会计、银行或内部付款团队。这些人的名字通常能在您的网站和社交媒体上找到。</p></div>
+      <div class="paso"><span class="num">02</span><h3>用您的确切地址发出邮件</h3><p>不是相似的域名，而是您自己的域名。内容可能是更换了银行账户的发票、“付款信息变更”通知，或是经理发出的紧急指令。</p></div>
+      <div class="paso"><span class="num">03</span><h3>收件方的服务器查询您的域名</h3><p>它会询问该发件人是否获得授权，以及未获授权时应如何处理。如果您的域名没有任何回应，邮件就可能被正常投递。</p></div>
+      <div class="paso"><span class="num">04</span><h3>客户付了款，回头向您追问</h3><p>钱转入了另一个账户，而在所有人看来，这封邮件就是从您的公司发出的。商业纠纷和法律问题由此开始。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion seccion-clara" id="checks">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">工具检查哪些内容</span>
+      <h2>三条记录决定您的邮件能否被伪造。</h2>
+      <p class="lead">这三条记录都发布在您域名的 DNS 中，并且是公开的：任何邮件服务器在接收邮件之前都会读取它们。本工具执行同样的读取，并把结果翻译成您能看懂的语言。</p>
+    </div>
+    <div class="tabla-envoltura rev">
+      <table class="tabla">
+        <thead><tr><th scope="col">记录</th><th scope="col">作用</th><th scope="col">缺失或配置错误会怎样</th><th scope="col">我们检查什么</th></tr></thead>
+        <tbody><tr><th scope="row">SPF</th><td>列出可以使用您的域名发送邮件的服务器。</td><td>没有任何服务器知道您的邮件应该从哪里发出。如果存在多条记录、需要超过 10 次 DNS 查询，或引用了不存在的服务，该记录会被判定为无效。</td><td>记录是否存在且只有一条、结尾如何设置（拒绝、标记或放行）、需要多少次 DNS 查询，以及所引用的服务是否有效。</td></tr>
+          <tr><th scope="row">DKIM</th><td>为每封邮件附上数字签名，并用发布在您域名中的公钥进行验证。</td><td>您的邮件只能依赖 SPF，而邮件被转发时 SPF 就会失效。</td><td>是否发布了使用服务商常用名称的密钥、密钥是否处于启用状态，以及密钥的长度。</td></tr>
+          <tr><th scope="row">DMARC</th><td>一条指令：当邮件使用了您的域名，却未能以该域名的名义通过 SPF 或 DKIM 验证时，应当如何处理。</td><td><b>没有 DMARC，或 DMARC 设置为“p=none”，伪造的邮件就可能进入收件箱。</b>它是起决定作用的记录。</td><td>记录是否存在且只有一条、策略类型（仅监控、隔离或拒绝）、是否处于测试模式或仅适用于部分邮件、子域名如何处理，以及是否要求发送报告。</td></tr>
+          <tr><th scope="row">附加防护层</th><td>DNSSEC、MTA-STS、TLS-RPT、CAA 和 BIMI。</td><td>它们不会直接为冒充邮件打开方便之门，但却是“合格的域名”与“管理周到的域名”之间的差别。</td><td>是否已发布。它们在评分中占比较小，重要性排在前面几项之后。</td></tr></tbody>
+      </table>
+    </div>
+    <p class="nota-catalogo rev">0 到 100 分的评分按以下权重计算：DMARC 占 45，SPF 占 25，DKIM 占 15，附加防护层占 15。风险结论主要取决于 DMARC，因为在这三项中只有它能要求拦截伪造邮件。</p>
+  </div>
+</section>
+
+<section class="seccion" id="levels">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">如何看懂结果</span>
+      <h2>各个风险等级的含义。</h2>
+    </div>
+    <div class="duo">
+      <div class="rev">
+        <h3 style="font-family:var(--ff-display);font-size:1.5rem;margin-bottom:14px">高风险</h3>
+        <ul class="lista"><li>您的域名没有 DMARC，或 DMARC 处于监控模式（“p=none”）。</li><li>目前，使用您地址的伪造邮件可能进入收件箱。</li><li>这是小型企业中最常见的情况，无需更换邮件服务商即可修复。</li></ul>
+      </div>
+      <div class="rev">
+        <h3 style="font-family:var(--ff-display);font-size:1.5rem;margin-bottom:14px">中等或低风险</h3>
+        <ul class="lista"><li><b>中等：</b>已有生效的策略（隔离），但仍有漏洞：策略只适用于部分邮件或处于测试模式，子域名未被覆盖，或者 SPF 允许任何人发送。</li><li><b>低：</b>您的域名要求拒绝伪造邮件。接下来只需确认所有发信服务都已签名，并查看报告。</li><li>无论哪种情况，详细结果都会按重要程度从高到低告诉您需要改进什么。</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion seccion-clara" id="why">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">为什么现在很重要</span>
+      <h2>这已不再是可选项：大型邮箱服务商都有硬性要求。</h2>
+    </div>
+    <div class="rev"><ul class="lista"><li><b>Google（自 2024 年 2 月起）：</b>要求每天向 Gmail 账户发送超过 5,000 封邮件的发件人配置 SPF、DKIM 和 DMARC，其他所有发件人至少要配置 SPF 或 DKIM。Yahoo 对群发邮件的发件人也实行相同的规定。</li><li><b>Microsoft（自 2025 年 5 月起）：</b>要求每天向 Outlook、Hotmail 和 Live 发送超过 5,000 封邮件的域名配置 SPF、DKIM 和 DMARC。</li><li><b>送达率：</b>没有这些记录的域名不仅容易被冒充，其合法邮件，包括发票和报价单，也更容易被归入垃圾邮件。</li><li><b>数据保护：</b>没有任何法律明确提到 DMARC，但欧洲的 GDPR（第 32 条）或哥伦比亚的第 1581 号法律（2012 年）等规范，要求处理个人数据的机构采取适当的技术措施，防止未经授权或欺诈性的使用。可被冒充的企业邮箱显然是一个薄弱环节。</li><li><b>追究骗子的责任是可行的，但过程缓慢。</b>以哥伦比亚为例，第 1273 号法律（2009 年）对冒用网站窃取数据以及未经同意转移资产的行为予以惩处。而堵住这扇门只需要几周时间。</li></ul></div>
+  </div>
+</section>
+
+<section class="seccion" id="limits">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">坦率地说</span>
+      <h2>本次检测无法告诉您的事。</h2>
+    </div>
+    <div class="rev"><ul class="lista"><li><b>不检查邮箱和密码。</b>如果团队中有人的密码被盗，邮件确实是从您的账户发出的，任何 DNS 记录都无法阻止。这需要通过双重验证来解决。</li><li><b>无法发现相似域名。</b>骗子可以注册 yourcompany-payments.com 这样的域名。DMARC 保护的是您自己的域名，而不是与之相似的域名。</li><li><b>DKIM 的结果并非定论。</b>密钥无法从外部列出；如果您的密钥名称不常见，就不会被发现。</li><li><b>这不是渗透测试，也不是经过认证的审计。</b>它只是读取您域名的公开配置，而大多数邮件诈骗正是从这里开始的。</li><li><b>评分高并不保证邮件一定送达。</b>邮件服务商还会参考发件人的信誉和邮件内容。</li></ul></div>
+  </div>
+</section>
+
+<section class="seccion seccion-clara" id="faq">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">常见问题</span>
+      <h2>关于邮件被冒充，大家常问的问题。</h2>
+    </div>
+    <div class="catalogo rev">
+      <section class="cat-grupo"><h3>邮件被冒充是什么意思？</h3><p style="padding:0 2px">是指有人在“发件人”栏中使用您的确切地址（例如 billing@yourcompany.com）发送邮件，却从未进入过您的邮箱。他们不需要您的密码：只要您的域名没有告诉邮件服务器拒绝那些并非来自您的邮件，他们就能做到。他们会借这类伪造邮件索要付款、更改发票上的账号，或窃取密码。</p></section>
+      <section class="cat-grupo"><h3>我怎么知道自己的域名是否受到保护？</h3><p style="padding:0 2px">请在本页的检测工具中输入域名。几秒钟内，它会告诉您域名是否已发布 SPF、DKIM 和 DMARC，更重要的是，DMARC 策略是真正拦截伪造邮件，还是仅仅在监控。如果结果显示“高风险”，现在就有人可以冒用您的名义发送邮件。</p></section>
+      <section class="cat-grupo"><h3>SPF、DKIM 和 DMARC 有什么区别？</h3><p style="padding:0 2px">SPF 是获准使用您的域名发送邮件的服务器清单。DKIM 是一种数字签名，用来证明邮件确实来自您的某项服务，并且没有被篡改。DMARC 把两者结合起来并下达指令：当邮件使用了您的域名，却没有以该域名的名义通过这两项验证时，应当如何处理（放行、转入垃圾邮件或直接拒绝）。没有 DMARC，另外两项并不能阻止冒充。</p></section>
+      <section class="cat-grupo"><h3>我的 DMARC 是“p=none”，这样安全吗？</h3><p style="padding:0 2px">不安全。“p=none”是监控模式：您的域名不要求对伪造邮件采取任何措施，这些邮件照样可能送达。如果记录中设置了报告，您会收到有关谁在以您的名义发邮件的详细信息。这是正确的第一步，之后应分阶段升级到隔离，再升级到拒绝，前提是报告确认您的合法邮件都能通过验证。</p></section>
+      <section class="cat-grupo"><h3>为什么不直接设置“p=reject”？</h3><p style="padding:0 2px">因为如果您的某项合法服务（电子发票、订阅通讯、CRM、网站表单）以您的名义发信，但配置不当，您自己的邮件就会被拒收。因此需要分阶段进行，每次调整之前先查看报告。</p></section>
+      <section class="cat-grupo"><h3>这个工具会保存我的域名或数据吗？</h3><p style="padding:0 2px">不会。检测在您的浏览器中运行：查询直接发送到 Google 和 Cloudflare 的公共 DNS 解析服务，它们会像处理任何 DNS 查询一样收到域名。Almadía 不会接收您输入的域名，不要求提供邮箱或注册，页面也没有任何统计分析。只有当您决定通过 WhatsApp 联系我们时，我们才会知道。</p></section>
+      <section class="cat-grupo"><h3>这是渗透测试吗？</h3><p style="padding:0 2px">不是。该工具只读取 DNS 记录，而这些记录在设计上就是公开的：任何邮件服务器在接收邮件前都会查询同样的信息。它不会接触您的系统，不会尝试密码，也不会发送任何邮件。因此，您也可以用它检查供应商或客户的域名。</p></section>
+      <section class="cat-grupo"><h3>我的邮箱是 @gmail.com 或 @hotmail.com，可以用吗？</h3><p style="padding:0 2px">本检测适用于自有域名（例如 yourname.com、yourcompany.com）。如果您使用的是免费邮箱，防冒充的保护由服务商负责管理，您无法自行更改。对企业来说，使用自有域名并正确配置邮箱，是第一步。</p></section>
+      <section class="cat-grupo"><h3>我明明配置了 DKIM，为什么显示没有找到？</h3><p style="padding:0 2px">DKIM 密钥无法从外部列出：它们以服务商自行选定的名称（“选择器”）发布。工具会尝试最常用的名称；如果您的名称不同，就不会被发现。如果您知道选择器，请填写在可选的选择器栏中。您也可以查看从您的域名发出的一封真实邮件的邮件头来确认。</p></section>
+      <section class="cat-grupo"><h3>Google 和 Microsoft 有这方面的要求吗？</h3><p style="padding:0 2px">有，针对大批量发件人。自 2024 年 2 月起，Google 要求每天向 Gmail 发送超过 5,000 封邮件的发件人配置 SPF、DKIM 和 DMARC，Yahoo 对群发邮件的发件人也有同等规定。自 2025 年 5 月起，Microsoft 对每天向 Outlook、Hotmail 和 Live 发送超过 5,000 封邮件的发件人提出同样的要求。对于小型发件人，Google 至少要求配置 SPF 或 DKIM。实际上，没有这些记录的域名，越来越容易被归入垃圾邮件。</p></section>
+      <section class="cat-grupo"><h3>修复需要多少费用？</h3><p style="padding:0 2px">检测是免费的。邮件修复（配置并测试 SPF、DKIM 和 DMARC，并分阶段升级到拒绝）已包含在中小企业防护套餐中，该套餐有公开标价。如果您只需要处理邮件，请把域名发给我们，我们会在开始前以书面形式给您一个固定报价。</p></section>
+      <section class="cat-grupo"><h3>你们在哪些国家提供服务？</h3><p style="padding:0 2px">任何国家。我们远程提供服务：您可以给我们开放域名的 DNS 管理面板的权限，或者按我们的指引自行修改，我们通过 WhatsApp、电子邮件或视频通话沟通。工具和服务支持 13 种语言。</p></section>
+    </div>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="wrap">
+    <div class="cta rev">
+      <h2>结果显示高风险？我们会分阶段把它设置到“拒绝”，而且不影响您的邮件使用。</h2>
+      <p>我们会为每一项以您的名义发信的服务配置 SPF、DKIM 和 DMARC，查看报告，并逐步升级策略，直到伪造邮件被拒收。此项服务已包含在中小企业防护套餐中；如果您只需要处理邮件，我们会在开始前以书面形式给您一个固定报价。我们远程为任何国家的企业提供服务。</p>
+      <div class="btns">
+        <a class="btn btn-p" href="https://wa.me/573223623930?text=%E6%82%A8%E5%A5%BD%E3%80%82%E6%88%91%E5%B8%8C%E6%9C%9B%20Almad%C3%ADa%20%E5%B8%AE%E6%88%91%E6%A3%80%E6%9F%A5%E5%B9%B6%E4%BF%9D%E6%8A%A4%E5%85%AC%E5%8F%B8%E9%82%AE%E7%AE%B1%EF%BC%8C%E9%98%B2%E6%AD%A2%E8%A2%AB%E5%86%92%E5%85%85%E3%80%82%20%5Bzh%5D" rel="noopener">WhatsApp 322 362 3930</a>
+        <a class="btn btn-claro" href="/zh/packages/#proteccion">查看中小企业防护套餐</a>
+      </div>
+      <p style="margin-top:14px"><a href="#rv-dominio">检测另一个域名 ↑</a> · <a href="/zh/packages/#proteccion">修复包含哪些内容及费用 →</a></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div style="text-align:center;padding:6px 0 16px"><img src="/assets/img/logo-pie.jpg" alt="Grupo Empresarial Almadía" width="260" height="185" loading="lazy" decoding="async" style="width:230px;height:auto;border-radius:14px"></div>
+    <div class="ftr-legal">
+      <span>Grupo Empresarial Almadía S.A.S. · NIT 902.090.075-9 · Matrícula 04133931 Cámara de Comercio de Bogotá</span>
+      <span>© 2026 Almadía · <a href="/invertir-en-colombia/">Invertir en Colombia</a> · <a href="/licitaciones/">Licitaciones</a> · <a href="/empresas/">Crear empresa</a> · <a href="/crear-empresa/bogota/">Crear empresa en Bogotá</a> · <a href="/empresa-llave-en-mano/">Llave en mano</a> · <a href="/contador-publico/">Contador público</a> · <a href="/cobranza/cobro-de-cartera-empresas/">Cobranza de cartera</a> · <a href="/incentivos-tributarios/">Incentivos tributarios</a> · <a href="/tramites-desde-el-exterior/">Trámites desde el exterior</a> · <a href="/tarifas-abogados-colombia-2026/">Tarifas de abogados 2026</a> · <a href="/servicios-digitales/">Digital e IA</a> · <a href="/proteccion-digital/">Paquetes pyme</a></span>
+      <span style="display:block;margin-top:6px;font-size:.82rem">Todos los derechos reservados. Prohibida la reproducción total o parcial de textos, imágenes, datos y diseño sin autorización escrita (Ley 23 de 1982). · <a href="/politica-de-datos/">Política de tratamiento de datos personales</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

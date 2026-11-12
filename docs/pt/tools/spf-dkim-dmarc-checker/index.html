@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verificar SPF, DKIM e DMARC Grátis: Checker em Português</title>
+<meta name="description" content="Verifique grátis o SPF, DKIM e DMARC do seu domínio e saiba em segundos se um golpista pode enviar e-mails em seu nome. Sem cadastro e em português.">
+<link rel="canonical" href="https://grupoalmadia.com/pt/tools/spf-dkim-dmarc-checker/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#f7f6f3">
+<meta property="og:type" content="website">
+
+<meta property="og:title" content="Verificar SPF, DKIM e DMARC Grátis: Checker em Português">
+<meta property="og:description" content="Verifique grátis o SPF, DKIM e DMARC do seu domínio e saiba em segundos se um golpista pode enviar e-mails em seu nome. Sem cadastro e em português.">
+<meta property="og:url" content="https://grupoalmadia.com/pt/tools/spf-dkim-dmarc-checker/">
+<meta property="og:image" content="https://grupoalmadia.com/assets/img/og-almadia.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>@font-face{
+font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;
+src:url(/assets/fuentes/fraunces-latin.woff2) format("woff2");
+unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;
+src:url(/assets/fuentes/fraunces-latin-ext.woff2) format("woff2");
+unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+:root{
+--tinta:#0d1117;
+--tinta-2:#3d4854;
+--tinta-3:#6b7684;
+--hueso:#f7f6f3;
+--hueso-2:#efede8;
+--linea:#e2dfd8;
+--verde:#0f5c4e;
+--verde-claro:#147a67;
+--cobre:#b0722a;
+--blanco:#fff;
+--ff-display:"Fraunces","Georgia",serif;
+--ff-texto:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+--radio:14px;
+--sombra:0 1px 2px rgba(13,17,23,.04),0 8px 24px -12px rgba(13,17,23,.14);
+--sombra-alta:0 2px 4px rgba(13,17,23,.05),0 24px 48px -20px rgba(13,17,23,.28);
+--ancho:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+margin:0;background:var(--hueso);color:var(--tinta);
+font-family:var(--ff-texto);font-size:17px;line-height:1.62;
+-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:var(--ancho);margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--ff-display);font-weight:600;letter-spacing:-.02em;line-height:1.08;margin:0}
+h1{font-size:clamp(2.6rem,6.2vw,4.6rem);font-weight:600}
+h2{font-size:clamp(1.9rem,3.7vw,2.9rem)}
+h3{font-size:1.16rem;letter-spacing:-.01em;line-height:1.3}
+p{margin:0 0 1em}
+.lead{font-size:clamp(1.06rem,1.7vw,1.28rem);color:var(--tinta-2);line-height:1.6}
+.eyebrow{
+font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+color:var(--verde);margin:0 0 18px;display:block;
+}
+.hdr{
+position:sticky;top:0;z-index:50;
+background:rgba(247,246,243,.82);backdrop-filter:saturate(180%) blur(14px);
+border-bottom:1px solid transparent;transition:border-color .3s,background .3s;
+}
+.hdr.fija{border-bottom-color:var(--linea)}
+.hdr .wrap{display:flex;align-items:center;gap:28px;height:70px}
+.marca{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:600;letter-spacing:-.02em}
+.marca svg,.marca img{width:34px;height:34px;flex:none;object-fit:contain}
+.marca b{font-family:var(--ff-display);font-size:1.14rem;font-weight:600}
+.marca span{display:block;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta-3);font-weight:500;margin-top:-2px}
+.nav{margin-left:auto;display:flex;align-items:center;gap:28px}
+.nav a{text-decoration:none;font-size:.93rem;color:var(--tinta-2);font-weight:500;transition:color .2s}
+.nav a:hover{color:var(--tinta)}
+.nav a.btn-p,.nav a.btn-p:hover{color:#fff}
+.btn{
+display:inline-flex;align-items:center;justify-content:center;gap:9px;
+padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:600;
+font-size:.95rem;border:1px solid transparent;cursor:pointer;
+transition:transform .18s cubic-bezier(.2,.8,.3,1),box-shadow .18s,background .18s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-p{background:var(--verde);color:#fff;box-shadow:0 8px 20px -10px rgba(15,92,78,.7)}
+.btn-p:hover{background:var(--verde-claro);box-shadow:0 14px 28px -12px rgba(15,92,78,.8)}
+.btn-g{background:transparent;color:var(--tinta);border-color:var(--linea)}
+.btn-g:hover{border-color:var(--tinta-3);background:var(--blanco)}
+.btn-claro{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.28);backdrop-filter:blur(8px)}
+.btn-claro:hover{background:rgba(255,255,255,.2)}
+.btn-sm{padding:10px 18px;font-size:.89rem}
+.burger{display:none;margin-left:auto;background:none;border:0;padding:9px;cursor:pointer}
+.burger span{display:block;width:22px;height:2px;background:var(--tinta);margin:4px 0;transition:.25s}
+.hero{
+position:relative;color:#fff;overflow:hidden;isolation:isolate;background:#0b1014;
+}
+.hero::before{
+content:'';position:absolute;inset:0;z-index:0;opacity:.9;
+background:
+radial-gradient(120% 90% at 82% 8%,rgba(20,122,103,.32) 0%,transparent 58%),
+radial-gradient(80% 70% at 0% 100%,rgba(176,114,42,.2) 0%,transparent 60%);
+}
+.hero::after{
+content:'';position:absolute;inset:0;z-index:0;opacity:.35;
+background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+background-size:64px 64px;
+mask-image:radial-gradient(120% 90% at 50% 0%,#000 20%,transparent 75%);
+}
+.hero .wrap{position:relative;z-index:1;padding-top:96px;padding-bottom:84px}
+.hero-split{display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center}
+.hero h1{color:#fff;max-width:15ch}
+.hero .lead{color:rgba(255,255,255,.78);max-width:52ch;margin-top:26px}
+.hero .eyebrow{color:#8fd8c6}
+.hero-cta{display:flex;gap:13px;flex-wrap:wrap;margin-top:38px}
+.mosaico{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mosaico figure{
+margin:0;position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/2;
+box-shadow:0 20px 40px -24px rgba(0,0,0,.8);border:1px solid rgba(255,255,255,.1);
+}
+.mosaico figure:nth-child(1){transform:translateY(-16px)}
+.mosaico figure:nth-child(4){transform:translateY(16px)}
+.mosaico img{width:100%;height:100%;object-fit:cover}
+.mosaico figcaption{
+position:absolute;left:0;right:0;bottom:0;padding:22px 12px 9px;
+font-size:.73rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#fff;
+background:linear-gradient(180deg,transparent,rgba(6,10,13,.88));
+}
+.datos{
+display:flex;flex-wrap:wrap;gap:0;margin-top:64px;
+border-top:1px solid rgba(255,255,255,.16);
+}
+.datos div{flex:1 1 190px;padding:22px 26px 0 0}
+.datos dt{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px}
+.datos dd{margin:0;font-size:1.02rem;font-weight:600;font-variant-numeric:lining-nums tabular-nums}
+.seccion{padding:96px 0}
+.seccion-clara{background:var(--blanco)}
+.cab{max-width:64ch;margin-bottom:56px}
+.cab p{margin-top:18px}
+.rejilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:26px}
+.linea{
+position:relative;border-radius:var(--radio);overflow:hidden;background:var(--blanco);
+border:1px solid var(--linea);box-shadow:var(--sombra);
+transition:transform .3s cubic-bezier(.2,.8,.3,1),box-shadow .3s,border-color .3s;
+}
+.linea:hover{transform:translateY(-6px);box-shadow:var(--sombra-alta);border-color:transparent}
+.linea .foto{position:relative;aspect-ratio:3/2;overflow:hidden;background:var(--hueso-2)}
+.linea .foto img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.3,1)}
+.linea:hover .foto img{transform:scale(1.06)}
+.linea .foto::after{
+content:'';position:absolute;inset:0;
+background:linear-gradient(180deg,rgba(13,17,23,0) 40%,rgba(13,17,23,.5) 100%);
+}
+.linea .cuerpo{padding:24px 24px 26px}
+.linea h3{margin-bottom:9px}
+.linea p{color:var(--tinta-2);font-size:.96rem;margin:0}
+.etiquetas{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.etiquetas span{
+font-size:.76rem;font-weight:500;color:var(--tinta-2);
+background:var(--hueso-2);border-radius:999px;padding:5px 11px;
+}
+.pasos{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;border-top:1px solid var(--linea)}
+.paso{padding:32px 28px 32px 0;border-right:1px solid var(--linea)}
+.paso:last-child{border-right:0}
+.paso .num{
+font-family:var(--ff-display);font-size:2.1rem;color:var(--cobre);
+font-variant-numeric:lining-nums;line-height:1;margin-bottom:16px;display:block;
+}
+.paso h3{margin-bottom:8px}
+.paso p{color:var(--tinta-2);font-size:.94rem;margin:0}
+.servicios{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:2px;background:var(--linea);border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden}
+.serv{background:var(--blanco);padding:32px 28px;transition:background .25s}
+.serv:hover{background:var(--hueso)}
+.serv h3{margin-bottom:10px}
+.serv p{color:var(--tinta-2);font-size:.95rem;margin:0}
+.duo{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+.duo img{border-radius:var(--radio);box-shadow:var(--sombra-alta)}
+.lista{list-style:none;padding:0;margin:26px 0 0}
+.lista li{position:relative;padding-left:30px;margin-bottom:14px;color:var(--tinta-2)}
+.lista li::before{
+content:'';position:absolute;left:0;top:.55em;width:14px;height:2px;background:var(--cobre);
+}
+.lista b{color:var(--tinta);font-weight:600}
+.cta{background:var(--tinta);color:#fff;border-radius:var(--radio);padding:64px 56px;text-align:center}
+.cta h2{color:#fff;max-width:20ch;margin:0 auto}
+.cta p{color:rgba(255,255,255,.72);max-width:52ch;margin:20px auto 34px}
+.cta .btns{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
+.ftr{background:var(--tinta);color:rgba(255,255,255,.66);padding:72px 0 34px;font-size:.92rem}
+.ftr a{color:rgba(255,255,255,.66);text-decoration:none}
+.ftr a:hover{color:#fff}
+.ftr-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.12)}
+.ftr h4{color:#fff;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 16px;font-family:var(--ff-texto);font-weight:600}
+.ftr ul{list-style:none;padding:0;margin:0}
+.ftr li{margin-bottom:9px}
+.ftr .marca b,.ftr .marca span{color:#fff}
+.ftr-legal{padding-top:26px;font-size:.83rem;color:rgba(255,255,255,.44);display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap}
+.js .rev{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.8,.3,1),transform .7s cubic-bezier(.2,.8,.3,1)}
+.js .rev.visto{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+.js .rev{opacity:1;transform:none;transition:none}
+html{scroll-behavior:auto}
+.linea:hover{transform:none}
+.linea:hover .foto img{transform:none}
+}
+@media (max-width:1000px){
+.hero-split{grid-template-columns:1fr;gap:44px}
+.mosaico figure:nth-child(1),.mosaico figure:nth-child(4){transform:none}
+}
+@media (max-width:900px){
+.duo{grid-template-columns:1fr;gap:36px}
+.ftr-grid{grid-template-columns:1fr 1fr;gap:32px}
+.paso{border-right:0;border-bottom:1px solid var(--linea);padding:26px 0}
+.paso:last-child{border-bottom:0}
+}
+@media (max-width:760px){
+body{font-size:16px}
+.seccion{padding:64px 0}
+.hero .wrap{padding-top:64px;padding-bottom:60px}
+.nav{
+position:fixed;inset:70px 0 auto;background:var(--hueso);flex-direction:column;
+align-items:stretch;gap:0;padding:14px 24px 26px;border-bottom:1px solid var(--linea);
+transform:translateY(-130%);transition:transform .3s cubic-bezier(.2,.8,.3,1);
+}
+.nav.abierto{transform:none}
+.nav a{padding:13px 0;border-bottom:1px solid var(--linea);font-size:1rem}
+.nav .btn{margin-top:16px}
+.burger{display:block}
+.datos{margin-top:44px}
+.datos div{flex-basis:45%;padding:18px 18px 0 0}
+.cta{padding:44px 26px}
+.ftr-grid{grid-template-columns:1fr}
+}
+.catalogo{columns:3 300px;column-gap:34px}
+.cat-grupo{break-inside:avoid;margin:0 0 30px;padding:0}
+.cat-grupo h3{
+font-family:var(--ff-texto);font-size:.76rem;font-weight:600;letter-spacing:.14em;
+text-transform:uppercase;color:var(--verde);margin-bottom:12px;
+padding-bottom:9px;border-bottom:1px solid var(--linea);
+}
+.cat-grupo ul{list-style:none;margin:0;padding:0}
+.cat-grupo li{
+font-size:.93rem;color:var(--tinta-2);padding:3px 0 3px 16px;position:relative;line-height:1.45;
+}
+.cat-grupo li::before{content:'';position:absolute;left:0;top:.72em;width:6px;height:1px;background:var(--cobre)}
+.nota-catalogo{margin-top:34px;padding-top:22px;border-top:1px solid var(--linea);color:var(--tinta-3);font-size:.9rem}
+@media (max-width:760px){ .catalogo{columns:1} }
+.tabla-envoltura{overflow-x:auto;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);box-shadow:var(--sombra)}
+.tabla{width:100%;border-collapse:collapse;font-size:.94rem;min-width:640px}
+.tabla caption{text-align:left;padding:16px 18px 0;color:var(--tinta-3);font-size:.86rem}
+.tabla th,.tabla td{padding:12px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--linea)}
+.tabla thead th{
+font-family:var(--ff-texto);font-size:.72rem;font-weight:600;letter-spacing:.13em;
+text-transform:uppercase;color:var(--verde);background:var(--hueso-2);border-bottom:1px solid var(--linea);
+}
+.tabla tbody tr:last-child td{border-bottom:0}
+.tabla tbody th{font-weight:600;color:var(--tinta)}
+.tabla td{color:var(--tinta-2)}
+.tabla td b{color:var(--tinta)}
+.fichas{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.ficha{
+display:block;text-decoration:none;color:inherit;background:var(--blanco);
+border:1px solid var(--linea);border-radius:var(--radio);padding:20px 22px;box-shadow:var(--sombra);
+transition:transform .18s ease,box-shadow .18s ease;
+}
+.ficha:hover{transform:translateY(-2px);box-shadow:var(--sombra-alta)}
+.ficha h3{margin-bottom:6px}
+.ficha p{margin:0;color:var(--tinta-3);font-size:.9rem;line-height:1.5}
+.ficha span{display:block;margin-top:10px;font-weight:700;color:var(--verde);font-size:.86rem}
+.cb-barra{margin:0 0 18px;max-width:640px}
+.cb-lab{display:block;font-weight:600;margin-bottom:8px}
+.cb-barra input{width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)}
+.cb-chica{font-size:.88rem;color:var(--tinta-3);margin:8px 0 0}
+.cb-texto{max-width:760px}.cb-texto p{color:var(--tinta-2)}
+.cb-indice{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.cb-indice a{font-size:.82rem;text-decoration:none;color:var(--verde);background:var(--blanco);border:1px solid var(--linea);border-radius:999px;padding:6px 12px}
+.cb-indice a:hover{border-color:var(--verde)}
+.cb-cap{border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);margin-bottom:10px;scroll-margin-top:84px}
+.cb-cap>summary{cursor:pointer;padding:15px 18px;display:flex;justify-content:space-between;gap:12px;align-items:center;list-style:none}
+.cb-cap>summary::-webkit-details-marker{display:none}
+.cb-cap>summary::after{content:'+';font-size:1.3rem;color:var(--cobre);margin-left:auto;padding-left:12px}
+.cb-cap[open]>summary::after{content:'−'}
+.cb-cap>summary span{font-size:.82rem;color:var(--tinta-3);white-space:nowrap}
+.cb-sc{border:0;border-top:1px solid var(--linea);border-radius:0 0 var(--radio) var(--radio);box-shadow:none}
+.tabla.cb{min-width:0;table-layout:auto}
+.tabla.cb td{padding:11px 14px;vertical-align:top;border-top:1px solid var(--linea);font-size:.92rem}
+.tabla.cb .cb-n{white-space:nowrap;color:var(--tinta-3);width:1%}
+.tabla.cb .cb-v{white-space:nowrap;font-weight:600;font-variant-numeric:tabular-nums}
+.tabla.cb .cb-r{color:var(--tinta-2)}
+.tabla.cb tr[hidden]{display:none}
+.cb-corr td{background:#fbf4e8}
+.cb-aviso{font-size:.72rem;background:var(--cobre);color:#fff;border-radius:999px;padding:2px 8px;text-decoration:none;margin-left:6px;white-space:nowrap}
+@media (max-width:700px){
+.tabla.cb thead{display:none}
+.tabla.cb,.tabla.cb tbody,.tabla.cb tr,.tabla.cb td{display:block;width:auto}
+.tabla.cb tr{padding:12px 14px;border-top:1px solid var(--linea)}
+.tabla.cb td{padding:2px 0;border:0}
+.tabla.cb .cb-n{font-size:.78rem;width:auto}
+.tabla.cb .cb-e{font-weight:600;color:var(--tinta)}
+.tabla.cb .cb-r::before{content:'Referencia: ';color:var(--tinta-3)}
+.tabla.cb .cb-v::before{content:'En pesos 2026: ';color:var(--tinta-3);font-weight:400}
+}</style>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/img/icono-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/img/icono-180.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Verificador de falsificação de e-mail: SPF, DKIM e DMARC","url":"https://grupoalmadia.com/pt/tools/spf-dkim-dmarc-checker/","description":"Verifique grátis o SPF, DKIM e DMARC do seu domínio e saiba em segundos se um golpista pode enviar e-mails em seu nome. Sem cadastro e em português.","inLanguage":"pt","applicationCategory":"SecurityApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Verificação do SPF e contagem de consultas DNS","Verificação da política DMARC e dos subdomínios","Busca de chaves DKIM por seletores comuns","DNSSEC, MTA-STS, TLS-RPT, CAA e BIMI","Relatório para impressão em 13 idiomas"],"provider":{"@type":"Organization","name":"Grupo Empresarial Almadía S.A.S.","taxID":"902.090.075-9","telephone":"+573223623930","email":"comercial@grupoalmadia.com","url":"https://grupoalmadia.com/","areaServed":"Worldwide","availableLanguage":["ar","de","en","es","fr","hi","it","ja","nl","pt","ru","tr","zh"]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"O que significa dizer que falsificam o meu e-mail?","acceptedAnswer":{"@type":"Answer","text":"Significa que alguém envia uma mensagem com o seu endereço exato no campo “De:”, por exemplo financeiro@suaempresa.com, sem ter entrado na sua caixa de e-mail. Não precisa da sua senha: basta que o seu domínio não diga aos servidores de e-mail para rejeitar as mensagens que não saem de você. Com esse e-mail falso, pedem-se pagamentos, troca-se o número da conta de uma fatura ou roubam-se senhas."}},{"@type":"Question","name":"Como sei se o meu domínio está protegido?","acceptedAnswer":{"@type":"Answer","text":"Digite-o no verificador desta página. Em poucos segundos, ele informa se o seu domínio publica SPF, DKIM e DMARC e, sobretudo, se a política DMARC realmente bloqueia os e-mails falsos ou apenas os observa. Se o resultado for “risco alto”, hoje é possível enviar um e-mail em seu nome."}},{"@type":"Question","name":"Qual é a diferença entre SPF, DKIM e DMARC?","acceptedAnswer":{"@type":"Answer","text":"O SPF é a lista de servidores autorizados a enviar e-mail com o seu domínio. O DKIM é uma assinatura digital que comprova que a mensagem saiu de um serviço seu e que ninguém a alterou. O DMARC une os dois e dá a ordem: o que fazer com um e-mail que usa o seu domínio e não passa em nenhum dos dois testes em nome desse domínio (deixar passar, enviar para o spam ou rejeitar). Sem DMARC, os outros dois não impedem a falsificação."}},{"@type":"Question","name":"Tenho DMARC em “p=none”. Estou protegido?","acceptedAnswer":{"@type":"Answer","text":"Não. O “p=none” é o modo de observação: seu domínio não pede nenhuma ação contra as mensagens falsas, que podem chegar do mesmo jeito. Se o registro solicita relatórios, você recebe o detalhe de quem envia e-mail em seu nome. É o primeiro passo correto, e é preciso elevá-lo por etapas, para quarentena e depois para rejeição, quando os relatórios confirmarem que os seus envios legítimos passam."}},{"@type":"Question","name":"Por que não coloco “p=reject” de uma vez?","acceptedAnswer":{"@type":"Answer","text":"Porque, se algum dos seus serviços legítimos (nota fiscal eletrônica, newsletters, CRM, formulários do site) enviar e-mail em seu nome sem estar bem configurado, as suas próprias mensagens seriam rejeitadas. Por isso se faz por etapas, lendo os relatórios antes de cada mudança."}},{"@type":"Question","name":"A ferramenta guarda o meu domínio ou os meus dados?","acceptedAnswer":{"@type":"Answer","text":"Não. A verificação roda no seu navegador: as consultas vão diretamente aos resolvedores DNS públicos do Google e da Cloudflare, que recebem o nome do domínio como em qualquer consulta DNS. A Almadía não recebe o domínio que você digita, não pede e-mail nem cadastro e a página não tem análise de tráfego. Só ficamos sabendo se você decidir nos escrever por WhatsApp."}},{"@type":"Question","name":"Isto é um teste de invasão?","acceptedAnswer":{"@type":"Answer","text":"Não. A ferramenta apenas lê registros DNS, que são públicos por natureza: é a mesma informação que qualquer servidor de e-mail consulta antes de aceitar uma mensagem. Ela não toca nos seus sistemas, não testa senhas e não envia nenhum e-mail. Por isso também pode verificar o domínio de um fornecedor ou de um cliente."}},{"@type":"Question","name":"Meu e-mail é @gmail.com ou @hotmail.com. Serve para mim?","acceptedAnswer":{"@type":"Answer","text":"Esta verificação é para domínios próprios (seunome.com, suaempresa.com). Se você usa uma conta gratuita, a proteção contra falsificação é administrada pelo provedor e você não pode alterá-la. Para uma empresa, ter o e-mail em um domínio próprio e bem configurado é o primeiro passo."}},{"@type":"Question","name":"Por que diz que não encontrou DKIM se eu tenho?","acceptedAnswer":{"@type":"Answer","text":"As chaves DKIM não podem ser listadas de fora: são publicadas com um nome (“seletor”) escolhido por cada provedor. A ferramenta testa os nomes mais usados; se o seu for outro, ele não aparece. Se você o conhece, digite-o no campo opcional do seletor. Também é possível confirmar olhando o cabeçalho de um e-mail real enviado do seu domínio."}},{"@type":"Question","name":"O Google e a Microsoft exigem isso?","acceptedAnswer":{"@type":"Answer","text":"Sim, de quem envia em grande volume. Desde fevereiro de 2024, o Google exige SPF, DKIM e DMARC de quem envia mais de 5.000 e-mails por dia para o Gmail, e o Yahoo aplica regras equivalentes aos remetentes em massa. Desde maio de 2025, a Microsoft exige o mesmo de quem envia mais de 5.000 por dia para Outlook, Hotmail e Live. Dos pequenos remetentes, o Google exige no mínimo SPF ou DKIM. Na prática, um domínio sem esses registros acaba cada vez mais na pasta de spam."}},{"@type":"Question","name":"Quanto custa resolver?","acceptedAnswer":{"@type":"Answer","text":"A verificação é grátis. A correção do e-mail (SPF, DKIM e DMARC configurados, testados e elevados por etapas até a rejeição) está incluída no pacote PME Protegida, que tem preço publicado. Se você precisa apenas do e-mail, envie-nos o domínio e informaremos um preço fixo por escrito antes de começar."}},{"@type":"Question","name":"Em quais países vocês atuam?","acceptedAnswer":{"@type":"Answer","text":"Em qualquer um. Atendemos a distância: você nos dá acesso ao painel DNS do seu domínio ou aplica as mudanças que indicarmos, e nos comunicamos por WhatsApp, e-mail ou videochamada. A ferramenta e o atendimento estão disponíveis em 13 idiomas."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://grupoalmadia.com/"},{"@type":"ListItem","position":2,"name":"Pacotes para empresas","item":"https://grupoalmadia.com/pt/packages/"},{"@type":"ListItem","position":3,"name":"Verificar SPF, DKIM e DMARC","item":"https://grupoalmadia.com/pt/tools/spf-dkim-dmarc-checker/"}]}</script>
+<script defer src="/assets/js/main.js?v=1ad86d71"></script>
+<link rel="alternate" hreflang="ar" href="https://grupoalmadia.com/ar/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="de" href="https://grupoalmadia.com/de/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="en" href="https://grupoalmadia.com/en/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="es" href="https://grupoalmadia.com/herramientas/verificar-spf-dkim-dmarc/">
+<link rel="alternate" hreflang="fr" href="https://grupoalmadia.com/fr/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="hi" href="https://grupoalmadia.com/hi/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="it" href="https://grupoalmadia.com/it/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="ja" href="https://grupoalmadia.com/ja/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="nl" href="https://grupoalmadia.com/nl/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="pt" href="https://grupoalmadia.com/pt/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="ru" href="https://grupoalmadia.com/ru/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="tr" href="https://grupoalmadia.com/tr/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="zh" href="https://grupoalmadia.com/zh/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="x-default" href="https://grupoalmadia.com/en/tools/spf-dkim-dmarc-checker/">
+<style>
+.rv-form{margin-top:34px;max-width:640px}
+.rv-form label{display:block;color:rgba(255,255,255,.82);font-size:.92rem;font-weight:600;margin-bottom:10px}
+.rv-fila{display:flex;gap:10px;flex-wrap:wrap}
+.rv-fila input{flex:1 1 260px;min-width:0;font:inherit;font-size:1.08rem;padding:15px 18px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:#fff;color:var(--tinta)}
+.rv-fila input:focus-visible{outline:3px solid #8fd8c6;outline-offset:2px}
+.rv-fila .btn{flex:0 0 auto}
+.rv-fila .btn[disabled]{opacity:.7;cursor:progress;transform:none}
+.rv-sel{margin-top:12px;font-size:.88rem;color:rgba(255,255,255,.7)}
+.rv-sel summary{cursor:pointer;display:inline-block}
+.rv-sel input{display:block;margin-top:8px;font:inherit;padding:10px 16px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:#fff;color:var(--tinta);width:min(100%,280px)}
+.rv-aviso{min-height:1.5em;margin-top:12px;font-size:.95rem;color:rgba(255,255,255,.72)}
+.rv-aviso.rv-error{color:#ffc9bd;font-weight:600}
+.rv-priv{margin-top:6px;font-size:.86rem;color:rgba(255,255,255,.6);max-width:60ch}
+.rv-progreso{margin-top:16px;max-width:640px}
+.rv-via{height:6px;border-radius:99px;background:rgba(255,255,255,.16);overflow:hidden}
+.rv-barra{height:100%;width:0;background:#8fd8c6;border-radius:99px;transition:width .35s ease}
+.rv-etapa{margin-top:8px;font-size:.9rem;color:rgba(255,255,255,.75)}
+#rv-resultado{scroll-margin-top:90px}
+.rv-zona{padding:56px 0 8px}
+.rv-zona:has(#rv-resultado[hidden]){display:none}
+.rv-veredicto{display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;background:var(--blanco);border:1px solid var(--linea);border-inline-start:8px solid var(--tinta-3);border-radius:var(--radio);padding:36px 40px;box-shadow:var(--sombra)}
+.rv-veredicto.rv-alto{border-inline-start-color:#b3261e}.rv-veredicto.rv-medio{border-inline-start-color:var(--cobre)}.rv-veredicto.rv-bajo{border-inline-start-color:var(--verde)}
+.rv-veredicto h2{font-size:clamp(1.6rem,3.2vw,2.3rem);margin:12px 0 6px;outline:none}
+.rv-veredicto p{color:var(--tinta-2);max-width:62ch}
+.rv-dom{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:1rem;color:var(--tinta)!important;font-weight:600;margin-bottom:10px;overflow-wrap:anywhere}
+.rv-chapa{display:inline-block;font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:99px;background:var(--hueso-2);color:var(--tinta)}
+.rv-alto .rv-chapa{background:#fbe6e3;color:#8a1c16}.rv-medio .rv-chapa{background:#f6ead8;color:#7a4c14}.rv-bajo .rv-chapa{background:#dff1ec;color:#0b4439}
+.rv-ver-nota{text-align:center}
+.rv-anillo{width:136px;height:136px;display:block;margin:0 auto}
+.rv-pista{fill:none;stroke:var(--hueso-2);stroke-width:10}
+.rv-arco{fill:none;stroke-width:10;stroke-linecap:round;stroke:var(--tinta-3);transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.3,1)}
+.rv-alto .rv-arco{stroke:#b3261e}.rv-medio .rv-arco{stroke:var(--cobre)}.rv-bajo .rv-arco{stroke:var(--verde)}
+.rv-num{font-family:var(--ff-display);font-size:34px;font-weight:600;text-anchor:middle;dominant-baseline:middle;fill:var(--tinta)}
+.rv-de{font-size:11px;text-anchor:middle;fill:var(--tinta-3);letter-spacing:.08em;text-transform:uppercase}
+.rv-letra{margin-top:8px;font-weight:700;color:var(--tinta)!important;font-size:.95rem}
+.rv-acciones{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 30px}
+.rv-lista{display:grid;gap:12px}
+.rv-item{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden}
+.rv-item summary{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:18px 22px;cursor:pointer;list-style:none}
+.rv-item summary::-webkit-details-marker{display:none}
+.rv-item summary:focus-visible{outline:3px solid var(--verde-claro);outline-offset:-3px}
+.rv-ic{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.95rem;background:var(--hueso-2);color:var(--tinta-2)}
+.rv-e-ok .rv-ic{background:#dff1ec;color:#0b4439}.rv-e-aviso .rv-ic{background:#f6ead8;color:#7a4c14}.rv-e-falla .rv-ic{background:#fbe6e3;color:#8a1c16}
+.rv-nom{display:block;font-size:.8rem;font-weight:600;letter-spacing:.04em;color:var(--tinta-3);margin-bottom:3px}
+.rv-res{display:block;font-weight:600;color:var(--tinta);line-height:1.4}
+.rv-rot{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-3);white-space:nowrap}
+.rv-e-falla .rv-rot{color:#8a1c16}.rv-e-aviso .rv-rot{color:#7a4c14}.rv-e-ok .rv-rot{color:#0b4439}
+.rv-cuerpo{padding:4px 22px 22px;padding-inline-start:70px;color:var(--tinta-2)}
+.rv-cuerpo h3{font-family:var(--ff-texto);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta-3);margin:16px 0 6px;font-weight:700}
+.rv-avisos{margin:10px 0 0;padding-inline-start:20px}
+.rv-avisos li{margin:4px 0}
+.rv-reg{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.84rem;background:var(--hueso);border:1px solid var(--linea);border-radius:8px;padding:10px 12px;margin:6px 0;overflow-wrap:anywhere;color:var(--tinta)}
+.rv-pie{margin-top:18px;font-size:.84rem;color:var(--tinta-3)}
+.rv-indice{display:flex;gap:10px 22px;flex-wrap:wrap;margin-top:8px;font-size:.95rem}
+@media (max-width:720px){
+  .rv-veredicto{grid-template-columns:1fr;padding:26px 22px;gap:20px}
+  .rv-item summary{grid-template-columns:auto 1fr;padding:16px}
+  .rv-rot{display:none}
+  .rv-cuerpo{padding:0 16px 18px;padding-inline-start:16px}
+  .rv-fila .btn{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){.rv-arco,.rv-barra{transition:none}}
+@media print{
+  .hdr,.ftr,.hero,main>section:not(.rv-zona),.rv-acciones{display:none!important}
+  .rv-zona{padding:0}
+  .rv-item{break-inside:avoid}
+  .rv-veredicto{box-shadow:none}
+}</style>
+<script>window.RevisorTextos={"n":{"spf":"SPF: quem pode enviar e-mail com o seu domínio","dmarc":"DMARC: o que acontece com um e-mail falso em seu nome","dkim":"DKIM: a assinatura que comprova que o e-mail é seu","mx":"Onde o seu e-mail é recebido","dnssec":"DNSSEC: para que ninguém falsifique as respostas do seu domínio","transporte":"Criptografia do e-mail em trânsito (MTA-STS e TLS-RPT)","caa":"Quem pode emitir certificados para o seu domínio (CAA)","bimi":"Seu logotipo junto aos seus e-mails (BIMI)"},"h":{"spf.ausente":{"r":"Seu domínio não publica a lista de servidores autorizados a enviar o seu e-mail.","s":"Os servidores que recebem e-mail não têm como distinguir uma mensagem enviada por você de uma enviada por um golpista a partir de qualquer outro servidor.","h":"Publicar um registro SPF com os serviços que realmente enviam o seu e-mail, e somente esses."},"spf.multiple":{"r":"Seu domínio tem {n} registros SPF. Só pode haver um.","s":"Com mais de um registro, a norma manda os servidores tratarem o SPF como erro: na prática, é como não tê-lo.","h":"Unir os registros em um só."},"spf.exceso":{"r":"Seu SPF obriga a fazer {n} consultas DNS e a norma permite no máximo 10.","s":"Acima de 10, os servidores consideram o SPF inválido. Costuma acontecer quando serviços de envio vão sendo somados sem remover os antigos.","h":"Reduzir o registro aos serviços que hoje enviam o seu e-mail."},"spf.abierto":{"r":"Seu SPF termina em “+all”: autoriza qualquer servidor do mundo a enviar e-mail com o seu domínio.","s":"É o pior ajuste possível: diz a todos os servidores que qualquer remetente é legítimo.","h":"Alterar o fechamento do registro para que rejeite os servidores não autorizados."},"spf.sin_cierre":{"r":"Seu SPF existe, mas não diz o que fazer com os servidores que não estão na lista.","s":"Sem um fechamento, o resultado para um golpista é “neutro”: nem aprovado nem rejeitado.","h":"Adicionar o fechamento que rejeita os não autorizados."},"spf.neutro":{"r":"Seu SPF termina em “?all”: não rejeita ninguém.","s":"É um fechamento neutro. A lista existe, mas não tem consequências para quem não está nela.","h":"Trocar o fechamento por um que rejeite os não autorizados."},"spf.ok_duro":{"r":"Seu SPF é válido e rejeita os servidores não autorizados (“-all”).","s":"O SPF sozinho não impede que alguém coloque o seu endereço no campo “De:” que o destinatário vê. Para isso é necessário o DMARC.","h":"Nada. Revise-o sempre que trocar de provedor de e-mail ou de newsletters.","h2":"Corrigir os avisos acima."},"spf.ok_suave":{"r":"Seu SPF é válido e marca como suspeitos os servidores não autorizados (“~all”).","s":"O SPF sozinho não impede que alguém coloque o seu endereço no campo “De:” que o destinatário vê. Para isso é necessário o DMARC.","h":"Nada. Revise-o sempre que trocar de provedor de e-mail ou de newsletters.","h2":"Corrigir os avisos acima."},"spf.ok_redirect":{"r":"Seu SPF é válido e delega a lista a outro domínio (“redirect”).","s":"O SPF sozinho não impede que alguém coloque o seu endereço no campo “De:” que o destinatário vê. Para isso é necessário o DMARC.","h":"Nada. Revise-o sempre que trocar de provedor de e-mail ou de newsletters.","h2":"Corrigir os avisos acima."},"dmarc.ausente":{"r":"Seu domínio não tem DMARC. Hoje qualquer pessoa pode enviar e-mails que parecem sair de {d}.","s":"O DMARC é a instrução que diz ao Gmail, ao Outlook e aos demais o que fazer com um e-mail que usa o seu domínio sem permissão. Sem ela, a mensagem falsa pode chegar à caixa de entrada do seu cliente com o seu nome e o seu endereço.","h":"Publicar o DMARC em modo de observação, ler os relatórios por algumas semanas e elevá-lo por etapas até a rejeição."},"dmarc.multiple":{"r":"Seu domínio tem {n} registros DMARC. Com mais de um, os servidores ignoram todos.","s":"Na prática, é como não ter DMARC.","h":"Deixar um único registro."},"dmarc.invalida":{"r":"Seu registro DMARC não indica uma política válida.","s":"Sem uma política reconhecível, os servidores não aplicam nada.","h":"Corrigir o registro."},"dmarc.none":{"r":"Seu DMARC está em modo de observação (“p=none”): avisa, mas não bloqueia nada.","s":"É o primeiro passo correto, mas, enquanto continuar assim, seu domínio não pede nenhuma ação contra um e-mail falso em nome de {d}, que pode chegar do mesmo jeito. Muitos domínios ficam aqui por anos.","h":"Ler os relatórios que o seu registro já solicita, corrigir os envios legítimos que falharem e elevar a política por etapas.","h2":"Solicitar os relatórios, corrigir os envios legítimos que falharem e elevar a política por etapas."},"dmarc.quarantine":{"r":"Seu DMARC envia os e-mails falsos para a pasta de spam (“p=quarantine”).","s":"É uma proteção real. O e-mail falso ainda é entregue, embora na pasta de spam, onde alguns destinatários o abrem.","h":"Quando os relatórios saírem limpos, passar para rejeição."},"dmarc.reject":{"r":"Seu DMARC ordena rejeitar os e-mails falsos (“p=reject”). É o nível mais alto.","s":"Um e-mail que use o seu domínio sem autorização não chega ao destinatário nos provedores que aplicam o DMARC, que são os principais.","h":"Nada. Continue lendo os relatórios para detectar tentativas.","h2":"Corrigir os avisos acima."},"dkim.anuladas":{"r":"Encontramos chaves DKIM, mas estão anuladas (vazias).","s":"Uma chave vazia indica que esse seletor foi desativado. Se não houver outra ativa, o seu e-mail sai sem assinatura.","h":"Confirmar com o seu provedor de e-mail que a assinatura DKIM está ativa."},"dkim.ok1":{"r":"Seu domínio assina o e-mail: encontramos uma chave DKIM ativa ({sel}).","s":"A assinatura permite comprovar que a mensagem saiu de um serviço seu e que ninguém a alterou no caminho. É o que o DMARC precisa para funcionar bem com encaminhamentos.","h":"Nada. Confira se todos os serviços que enviam em seu nome (faturamento, newsletters, CRM) também assinam.","h2":"Renovar a chave curta por uma de 2048 bits."},"dkim.ok":{"r":"Seu domínio assina o e-mail: encontramos {n} chaves DKIM ativas ({sel}).","s":"A assinatura permite comprovar que a mensagem saiu de um serviço seu e que ninguém a alterou no caminho. É o que o DMARC precisa para funcionar bem com encaminhamentos.","h":"Nada. Confira se todos os serviços que enviam em seu nome (faturamento, newsletters, CRM) também assinam.","h2":"Renovar as chaves curtas por chaves de 2048 bits."},"dkim.oculto":{"r":"Seu domínio tem chaves DKIM publicadas, mas com um nome que não está entre os habituais.","s":"As chaves DKIM não podem ser listadas de fora: só são encontradas se o nome (“seletor”) for conhecido. Testamos {n} nomes comuns e nenhum coincidiu, mas o domínio de fato tem um ramo DKIM.","h":"Para confirmar, observa-se o cabeçalho de um e-mail real enviado do seu domínio."},"dkim.ninguna":{"r":"Não encontramos nenhuma chave DKIM publicada no seu domínio.","s":"Sem assinatura DKIM, o seu e-mail depende apenas do SPF, que deixa de funcionar quando uma mensagem é encaminhada. Esta verificação não é conclusiva: uma chave com nome pouco comum não aparece de fora.","h":"Ativar a assinatura DKIM em cada serviço que envia e-mail com o seu domínio."},"dkim.no_hallada":{"r":"Não encontramos chaves DKIM com os nomes habituais.","s":"Sem assinatura DKIM, o seu e-mail depende apenas do SPF, que deixa de funcionar quando uma mensagem é encaminhada. Esta verificação não é conclusiva: uma chave com nome pouco comum não aparece de fora.","h":"Ativar a assinatura DKIM em cada serviço que envia e-mail com o seu domínio."},"mx.nulo":{"r":"Este domínio declara que não recebe e-mail.","s":"Um domínio que não usa e-mail também pode ser falsificado. Na verdade, é mais fácil protegê-lo: basta declarar que ninguém está autorizado a enviar."},"mx.sin":{"r":"Este domínio não tem servidores de e-mail configurados.","s":"Um domínio que não usa e-mail também pode ser falsificado. Na verdade, é mais fácil protegê-lo: basta declarar que ninguém está autorizado a enviar."},"mx.prov":{"r":"Seu e-mail é recebido por {p}.","s":"É apenas um dado de contexto: indica com qual provedor os ajustes devem ser feitos."},"mx.uno":{"r":"Seu e-mail é recebido por um servidor ({d}).","s":"É apenas um dado de contexto: indica com qual provedor os ajustes devem ser feitos."},"mx.varios":{"r":"Seu e-mail é recebido por {n} servidores ({d}).","s":"É apenas um dado de contexto: indica com qual provedor os ajustes devem ser feitos."},"dnssec.si":{"r":"Seu domínio está assinado com DNSSEC.","s":"O DNSSEC impede que um atacante responda em nome do seu domínio com dados falsos. É uma camada adicional: a maioria das pequenas empresas não a tem e não é a primeira coisa a corrigir.","h":"Nada."},"dnssec.no":{"r":"Seu domínio não usa DNSSEC.","s":"O DNSSEC impede que um atacante responda em nome do seu domínio com dados falsos. É uma camada adicional: a maioria das pequenas empresas não a tem e não é a primeira coisa a corrigir.","h":"Ativá-lo no painel do seu registrador quando o item anterior estiver resolvido."},"transporte.si_rpt":{"r":"Seu domínio exige que o e-mail recebido trafegue criptografado e solicita relatórios de falhas.","s":"Sem esta política, um atacante na rede pode forçar que um e-mail destinado a você trafegue sem criptografia. É um ajuste avançado.","h":"Nada."},"transporte.si":{"r":"Seu domínio exige que o e-mail recebido trafegue criptografado.","s":"Sem esta política, um atacante na rede pode forçar que um e-mail destinado a você trafegue sem criptografia. É um ajuste avançado.","h":"Nada."},"transporte.no":{"r":"Seu domínio não exige que o e-mail recebido trafegue criptografado.","s":"Sem esta política, um atacante na rede pode forçar que um e-mail destinado a você trafegue sem criptografia. É um ajuste avançado.","h":"Avaliar a adoção se você lida com informações sensíveis por e-mail."},"caa.si":{"r":"Seu domínio limita quais entidades podem emitir certificados para ele.","s":"O registro CAA reduz o risco de alguém obter um certificado válido em nome do seu domínio.","h":"Nada."},"caa.no":{"r":"Qualquer autoridade certificadora pode emitir um certificado para o seu domínio.","s":"O registro CAA reduz o risco de alguém obter um certificado válido em nome do seu domínio.","h":"É um ajuste de cinco minutos que vale a pena deixar feito."},"bimi.si":{"r":"Seu domínio publica o seu logotipo para as caixas de e-mail compatíveis.","s":"O BIMI exibe o logotipo da empresa junto à mensagem nas caixas de e-mail compatíveis. Só funciona com DMARC em quarentena ou rejeição.","h":"Nada."},"bimi.no":{"r":"Seu domínio não publica um logotipo para o e-mail.","s":"O BIMI exibe o logotipo da empresa junto à mensagem nas caixas de e-mail compatíveis. Só funciona com DMARC em quarentena ou rejeição.","h":"É opcional e fica por último."},"spf.roto":{"r":"Seu SPF inclui um serviço ({d}) que não tem um SPF válido.","s":"Quando um serviço incluído não responde com um registro válido, a norma manda tratar todo o seu SPF como erro: na prática, é como não tê-lo. Costuma acontecer ao encerrar um provedor e deixá-lo no registro.","h":"Remover do registro o serviço que já não existe ou corrigir o nome dele."}},"a":{"spf.a_ptr":"Usa o mecanismo “ptr”, que a norma desaconselha por ser lento e pouco confiável.","spf.a_desconocido":"Tem um termo que não é reconhecido: pode invalidar todo o registro.","spf.a_limite":"Está em {n} das 10 consultas DNS permitidas: mais um serviço e deixa de funcionar.","dmarc.a_heredado":"O subdomínio não tem registro próprio: herda a política de {d}.","dmarc.a_sin_rua":"Não solicita relatórios (“rua”): você não fica sabendo quem está enviando e-mail com o seu domínio.","dmarc.a_sp":"Seus subdomínios ficam sem proteção (“sp=none”): qualquer subdomínio de {d} pode ser falsificado.","dmarc.a_pct":"A política só se aplica a {n}% dos e-mails falsos (“pct={n}”).","dkim.a_corta1":"Uma chave tem 1024 bits. Hoje recomenda-se 2048.","dkim.a_cortas":"{n} chaves têm 1024 bits. Hoje recomenda-se 2048.","dmarc.a_prueba":"A política está em modo de teste (“t=y”): os servidores aplicam um nível menos rigoroso do que o indicado."},"v":{"alto_sin":{"t":"Hoje o seu e-mail pode ser falsificado","x":"Seu domínio não diz a nenhum provedor de e-mail para rejeitar as mensagens falsas. Um golpista pode escrever aos seus clientes, ao seu banco ou ao seu contador com o seu endereço exato, e a mensagem pode chegar à caixa de entrada."},"alto_none":{"t":"Hoje o seu e-mail pode ser falsificado","x":"Seu domínio vigia, mas não bloqueia: a política está em modo de observação. Enquanto continuar assim, um e-mail falso com o seu endereço exato pode chegar do mesmo jeito."},"medio":{"t":"Seu e-mail está parcialmente protegido","x":"Você já tem uma política que age contra os e-mails falsos, mas ainda há brechas que um golpista pode aproveitar. Elas estão detalhadas abaixo, da mais à menos importante."},"bajo":{"t":"Seu e-mail está bem protegido contra a falsificação","x":"Seu domínio ordena rejeitar os e-mails que usam o seu endereço sem autorização. É o nível exigido pelos grandes provedores de e-mail."}},"ui":{"riesgo":{"alto":"Risco alto de falsificação","medio":"Risco médio de falsificação","bajo":"Risco baixo de falsificação"},"rotulo":{"ok":"Bom","aviso":"Pode melhorar","falla":"Falha","info":"Dado"},"significa":"O que significa","hacer":"O que fazer","publica":"O que o seu domínio publica hoje","calif":"Nota {n}","de100":"de 100","btn_wa":"Pedir correção por WhatsApp","btn_wa_bajo":"Pedir uma segunda verificação por WhatsApp","btn_imp":"Salvar ou imprimir o relatório","btn_cop":"Copiar o link do resultado","copiado":"Link copiado","copie":"Copie o link:","pie":"Verificação de {f} · {n} consultas a registros DNS públicos · grupoalmadia.com · A nota resume a configuração publicada; não verifica caixas de e-mail, senhas nem equipamentos.","revisar":"Verificar grátis","revisando":"Verificando…","buscando":"Procurando o domínio…","listo":"Pronto","pasos":["Servidores de e-mail","Lista de remetentes (SPF)","Política contra falsificações (DMARC)","Assinatura do e-mail (DKIM)","Camadas adicionais"]},"err":{"invalido":"Digite um domínio como minhaempresa.com ou um e-mail como vendas@minhaempresa.com.","inexistente":"Esse domínio não existe ou não tem DNS. Confira se está escrito corretamente.","fetch":"Seu navegador é muito antigo para esta ferramenta. Tente um atualizado.","red":"Não foi possível consultar o DNS neste momento. Verifique sua conexão e tente novamente.","gratuito":"Esse é um domínio de e-mail gratuito: é administrado pelo provedor e você não pode alterá-lo. Digite o domínio próprio da sua empresa."},"wa":{"msg":"Bom dia. Verifiquei meu domínio com a ferramenta da Almadía e quero que o protejam.","msg_bajo":"Bom dia. Verifiquei meu domínio com a ferramenta da Almadía e quero uma segunda verificação.","dominio":"Domínio","resultado":"Resultado","corregir":"A corrigir"}}</script>
+<script defer src="/assets/js/revisor-correo.js?v=a3263afd93"></script>
+<script defer src="/assets/js/revisor-ui.js?v=8a805825de"></script>
+</head>
+<body>
+<script>document.documentElement.className+=" js"</script>
+
+<header class="hdr">
+  <div class="wrap">
+    <a class="marca" href="/">
+      <img src="/assets/img/icono-192.png" alt="" width="34" height="34" loading="eager" decoding="async">
+      <span><b>Almadía</b><span>Grupo Empresarial</span></span>
+    </a>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="/#lineas">Líneas</a>
+      <a href="/invertir-en-colombia/">Invertir</a>
+      <a href="/licitaciones/">Licitaciones</a>
+      <a href="/empresas/">Crear empresa</a>
+      <a href="/servicios-digitales/">Digital e IA</a>
+      <a href="/proteccion-digital/">Paquetes pyme</a>
+      <a class="btn btn-p btn-sm" href="https://wa.me/573223623930?text=Bom%20dia.%20Quero%20que%20a%20Almad%C3%ADa%20verifique%20e%20proteja%20o%20e-mail%20da%20minha%20empresa%20contra%20a%20falsifica%C3%A7%C3%A3o.%20%5Bpt%5D" rel="noopener">Cotizar</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap" id="rv" data-wa="573223623930" data-url="https://grupoalmadia.com/pt/tools/spf-dkim-dmarc-checker/">
+    <nav class="idiomas" aria-label="Language"><ul style="list-style:none;display:flex;flex-wrap:wrap;gap:6px 14px;padding:0;margin:0 0 26px;font-size:13.5px"><li><a href="/ar/tools/spf-dkim-dmarc-checker/" hreflang="ar" lang="ar" style="color:#8fd8c6">العربية</a></li><li><a href="/de/tools/spf-dkim-dmarc-checker/" hreflang="de" lang="de" style="color:#8fd8c6">Deutsch</a></li><li><a href="/en/tools/spf-dkim-dmarc-checker/" hreflang="en" lang="en" style="color:#8fd8c6">English</a></li><li><a href="/herramientas/verificar-spf-dkim-dmarc/" hreflang="es" lang="es" style="color:#8fd8c6">Español</a></li><li><a href="/fr/tools/spf-dkim-dmarc-checker/" hreflang="fr" lang="fr" style="color:#8fd8c6">Français</a></li><li><a href="/hi/tools/spf-dkim-dmarc-checker/" hreflang="hi" lang="hi" style="color:#8fd8c6">हिन्दी</a></li><li><a href="/it/tools/spf-dkim-dmarc-checker/" hreflang="it" lang="it" style="color:#8fd8c6">Italiano</a></li><li><a href="/ja/tools/spf-dkim-dmarc-checker/" hreflang="ja" lang="ja" style="color:#8fd8c6">日本語</a></li><li><a href="/nl/tools/spf-dkim-dmarc-checker/" hreflang="nl" lang="nl" style="color:#8fd8c6">Nederlands</a></li><li><b style="color:#fff">Português</b></li><li><a href="/ru/tools/spf-dkim-dmarc-checker/" hreflang="ru" lang="ru" style="color:#8fd8c6">Русский</a></li><li><a href="/tr/tools/spf-dkim-dmarc-checker/" hreflang="tr" lang="tr" style="color:#8fd8c6">Türkçe</a></li><li><a href="/zh/tools/spf-dkim-dmarc-checker/" hreflang="zh" lang="zh" style="color:#8fd8c6">中文</a></li></ul></nav>
+    <span class="eyebrow">Ferramenta gratuita · Sem cadastro · Em português</span>
+    <h1 style="max-width:24ch;font-size:clamp(2.1rem,5vw,3.7rem)">Verificar SPF, DKIM e DMARC: podem enviar e-mails em nome da sua empresa?</h1>
+    <p class="lead">Digite seu domínio e, em poucos segundos, você saberá se um golpista consegue escrever aos seus clientes com o seu endereço exato. Verificamos SPF, DKIM e DMARC e explicamos o resultado sem jargão técnico.</p>
+    <form class="rv-form" id="rv-form" novalidate>
+      <label for="rv-dominio">Seu domínio ou um e-mail da sua empresa</label>
+      <div class="rv-fila">
+        <input id="rv-dominio" name="d" type="text" dir="ltr" inputmode="url" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="minhaempresa.com" maxlength="260" required aria-describedby="rv-aviso rv-priv">
+        <button class="btn btn-p" id="rv-boton" type="submit">Verificar grátis</button>
+      </div>
+      <details class="rv-sel"><summary>Conhece o seletor DKIM? (opcional)</summary><input id="rv-selector" name="s" type="text" dir="ltr" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="63" placeholder="por exemplo: selector1" aria-label="Conhece o seletor DKIM? (opcional)"></details>
+      <p class="rv-aviso" id="rv-aviso" role="status" aria-live="polite"></p>
+      <div class="rv-progreso" id="rv-progreso" hidden>
+        <div class="rv-via"><div class="rv-barra" id="rv-barra"></div></div>
+        <p class="rv-etapa" id="rv-etapa"></p>
+      </div>
+      <p class="rv-priv" id="rv-priv">A verificação roda no seu navegador e lê apenas registros DNS públicos, por meio dos resolvedores do Google e da Cloudflare. A Almadía não recebe nem guarda o domínio que você digita.</p>
+    </form>
+    <noscript><p class="lead" style="margin-top:20px">Esta ferramenta precisa de JavaScript. Se preferir, envie-nos seu domínio por WhatsApp e lhe enviaremos a verificação. <a href="https://wa.me/573223623930?text=Bom%20dia.%20Quero%20que%20a%20Almad%C3%ADa%20verifique%20e%20proteja%20o%20e-mail%20da%20minha%20empresa%20contra%20a%20falsifica%C3%A7%C3%A3o.%20%5Bpt%5D" style="color:#8fd8c6">WhatsApp 322 362 3930</a></p></noscript>
+    <dl class="datos">
+      <div><dt>Preço</dt><dd>Grátis, sem cadastro</dd></div>
+      <div><dt>Verifica</dt><dd>SPF, DKIM, DMARC e mais 5 camadas</dd></div>
+      <div><dt>Leva</dt><dd>Cerca de 10 segundos</dd></div>
+      <div><dt>Seus dados</dt><dd>A Almadía não os recebe</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="rv-zona" aria-label="Resultado da verificação">
+  <div class="wrap">
+    <div id="rv-resultado" hidden></div>
+  </div>
+</section>
+
+<section class="seccion" id="how">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">A fraude da fatura</span>
+      <h2>Para falsificar o seu e-mail, não é preciso ter a sua senha.</h2>
+      <p class="lead">O e-mail foi projetado sem verificar quem é o remetente. Qualquer servidor pode dizer “esta mensagem vem de diretoria@suaempresa.com”. A única coisa que impede isso são três registros que você publica no seu domínio. Se faltam ou estão incompletos, a mensagem falsa pode chegar.</p>
+    </div>
+    <div class="pasos rev">
+      <div class="paso"><span class="num">01</span><h3>O golpista escolhe a quem escrever</h3><p>Seus clientes, seu contador, seu banco ou a própria equipe de pagamentos. Os nomes costumam estar no seu site e nas redes sociais.</p></div>
+      <div class="paso"><span class="num">02</span><h3>Envia o e-mail com o seu endereço exato</h3><p>Não um domínio parecido: o seu. Uma fatura com outra conta bancária, uma “alteração de dados de pagamento” ou uma ordem urgente do diretor.</p></div>
+      <div class="paso"><span class="num">03</span><h3>O servidor do destinatário consulta o seu domínio</h3><p>Ele pergunta se esse remetente está autorizado e o que fazer se não estiver. Se o seu domínio não responde nada, a mensagem pode ser entregue.</p></div>
+      <div class="paso"><span class="num">04</span><h3>O cliente paga e cobra a você</h3><p>O dinheiro foi para outra conta e o e-mail saiu, aos olhos de todos, da sua empresa. Aí começa o problema comercial e jurídico.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion seccion-clara" id="checks">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">O que a ferramenta verifica</span>
+      <h2>Três registros decidem se o seu e-mail pode ser falsificado.</h2>
+      <p class="lead">Os três são publicados no DNS do seu domínio e são públicos: qualquer servidor de e-mail os lê antes de aceitar uma mensagem. A ferramenta faz essa mesma leitura e a traduz.</p>
+    </div>
+    <div class="tabla-envoltura rev">
+      <table class="tabla">
+        <thead><tr><th scope="col">Registro</th><th scope="col">O que é</th><th scope="col">O que acontece se faltar ou estiver errado</th><th scope="col">O que verificamos</th></tr></thead>
+        <tbody><tr><th scope="row">SPF</th><td>A lista de servidores que podem enviar e-mail com o seu domínio.</td><td>Nenhum servidor sabe de onde o seu e-mail deve sair. Com mais de um registro, com mais de 10 consultas DNS ou com um serviço incluído que não existe, ele é considerado inválido.</td><td>Se existe e é um só, como termina (rejeita, marca ou deixa passar), quantas consultas DNS exige e se os serviços incluídos são válidos.</td></tr>
+          <tr><th scope="row">DKIM</th><td>Uma assinatura digital em cada mensagem, verificada com uma chave pública no seu domínio.</td><td>Seu e-mail depende apenas do SPF, que deixa de funcionar quando uma mensagem é encaminhada.</td><td>Se há chaves publicadas com os nomes mais usados pelos provedores, se estão ativas e qual o tamanho delas.</td></tr>
+          <tr><th scope="row">DMARC</th><td>A ordem: o que fazer com um e-mail que usa o seu domínio e não passa nem no SPF nem no DKIM em nome desse mesmo domínio.</td><td><b>Sem DMARC, ou com DMARC em “p=none”, o e-mail falso pode chegar à caixa de entrada.</b> É o registro que decide.</td><td>Se existe e é um só, a política (observar, quarentena ou rejeição), se está em modo de teste ou se aplica a apenas uma parte, o que acontece com os subdomínios e se solicita relatórios.</td></tr>
+          <tr><th scope="row">Camadas adicionais</th><td>DNSSEC, MTA-STS, TLS-RPT, CAA e BIMI.</td><td>Não abrem a porta para a falsificação direta, mas são a diferença entre um domínio correto e um domínio bem cuidado.</td><td>Se estão publicadas. Pesam pouco na nota e vêm depois do que foi dito acima.</td></tr></tbody>
+      </table>
+    </div>
+    <p class="nota-catalogo rev">A nota de 0 a 100 distribui o peso assim: DMARC 45, SPF 25, DKIM 15 e camadas adicionais 15. O veredito de risco depende sobretudo do DMARC, porque é o único dos três que ordena bloquear.</p>
+  </div>
+</section>
+
+<section class="seccion" id="levels">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">Como ler o resultado</span>
+      <h2>O que significa cada nível de risco.</h2>
+    </div>
+    <div class="duo">
+      <div class="rev">
+        <h3 style="font-family:var(--ff-display);font-size:1.5rem;margin-bottom:14px">Risco alto</h3>
+        <ul class="lista"><li>Seu domínio não tem DMARC, ou o tem em modo de observação (“p=none”).</li><li>Hoje, um e-mail falso com o seu endereço pode chegar à caixa de entrada.</li><li>É a situação mais comum nas pequenas empresas e se corrige sem trocar de provedor de e-mail.</li></ul>
+      </div>
+      <div class="rev">
+        <h3 style="font-family:var(--ff-display);font-size:1.5rem;margin-bottom:14px">Risco médio ou baixo</h3>
+        <ul class="lista"><li><b>Médio:</b> já existe uma política que age (quarentena), mas ainda há brechas: ela se aplica apenas a uma parte ou está em modo de teste, os subdomínios estão sem cobertura ou o SPF autoriza qualquer um.</li><li><b>Baixo:</b> seu domínio ordena rejeitar os e-mails falsos. Resta conferir se todos os seus serviços de envio assinam e ler os relatórios.</li><li>Em ambos os casos, o detalhe indica o que melhorar, do mais ao menos importante.</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion seccion-clara" id="why">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">Por que isso importa agora</span>
+      <h2>Já não é opcional: os grandes provedores de e-mail exigem.</h2>
+    </div>
+    <div class="rev"><ul class="lista"><li><b>Google (desde fevereiro de 2024):</b> exige SPF, DKIM e DMARC de quem envia mais de 5.000 e-mails por dia para contas do Gmail e, no mínimo, SPF ou DKIM de todos os demais. O Yahoo aplica regras equivalentes aos remetentes em massa.</li><li><b>Microsoft (desde maio de 2025):</b> exige SPF, DKIM e DMARC dos domínios que enviam mais de 5.000 e-mails por dia para Outlook, Hotmail e Live.</li><li><b>Entregabilidade:</b> um domínio sem esses registros não só pode ser falsificado; seus e-mails legítimos, inclusive faturas e orçamentos, caem com mais frequência na pasta de spam.</li><li><b>Proteção de dados:</b> nenhuma lei menciona o DMARC, mas normas como o GDPR na Europa (artigo 32) ou a Ley 1581 de 2012, na Colômbia, obrigam quem trata dados pessoais a adotar medidas técnicas adequadas contra o uso não autorizado ou fraudulento. Um e-mail corporativo que pode ser falsificado é um ponto fraco evidente.</li><li><b>Perseguir o golpista é possível, mas demorado.</b> Na Colômbia, por exemplo, a Ley 1273 de 2009 pune a falsificação de sites para capturar dados e a transferência não consentida de ativos. Fechar a porta para ele leva algumas semanas.</li></ul></div>
+  </div>
+</section>
+
+<section class="seccion" id="limits">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">Com franqueza</span>
+      <h2>O que esta verificação não informa.</h2>
+    </div>
+    <div class="rev"><ul class="lista"><li><b>Não verifica caixas de e-mail nem senhas.</b> Se alguém da sua equipe teve a senha roubada, o e-mail sai de fato da conta dessa pessoa e nenhum registro DNS o impede. Isso se resolve com verificação em duas etapas.</li><li><b>Não detecta domínios parecidos.</b> Um golpista pode registrar suaempresa-pagamentos.com. O DMARC protege o seu domínio, não os que se parecem com ele.</li><li><b>O DKIM não é conclusivo.</b> As chaves não podem ser listadas de fora; se a sua tem um nome pouco comum, ela não aparece.</li><li><b>Não é um teste de invasão nem uma auditoria certificada.</b> É uma leitura da configuração pública do seu domínio, que é por onde começa a maioria das fraudes por e-mail.</li><li><b>Uma boa nota não garante a entrega.</b> Os provedores também avaliam a reputação do remetente e o conteúdo.</li></ul></div>
+  </div>
+</section>
+
+<section class="seccion seccion-clara" id="faq">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">Perguntas frequentes</span>
+      <h2>O que nos perguntam sobre a falsificação de e-mail.</h2>
+    </div>
+    <div class="catalogo rev">
+      <section class="cat-grupo"><h3>O que significa dizer que falsificam o meu e-mail?</h3><p style="padding:0 2px">Significa que alguém envia uma mensagem com o seu endereço exato no campo “De:”, por exemplo financeiro@suaempresa.com, sem ter entrado na sua caixa de e-mail. Não precisa da sua senha: basta que o seu domínio não diga aos servidores de e-mail para rejeitar as mensagens que não saem de você. Com esse e-mail falso, pedem-se pagamentos, troca-se o número da conta de uma fatura ou roubam-se senhas.</p></section>
+      <section class="cat-grupo"><h3>Como sei se o meu domínio está protegido?</h3><p style="padding:0 2px">Digite-o no verificador desta página. Em poucos segundos, ele informa se o seu domínio publica SPF, DKIM e DMARC e, sobretudo, se a política DMARC realmente bloqueia os e-mails falsos ou apenas os observa. Se o resultado for “risco alto”, hoje é possível enviar um e-mail em seu nome.</p></section>
+      <section class="cat-grupo"><h3>Qual é a diferença entre SPF, DKIM e DMARC?</h3><p style="padding:0 2px">O SPF é a lista de servidores autorizados a enviar e-mail com o seu domínio. O DKIM é uma assinatura digital que comprova que a mensagem saiu de um serviço seu e que ninguém a alterou. O DMARC une os dois e dá a ordem: o que fazer com um e-mail que usa o seu domínio e não passa em nenhum dos dois testes em nome desse domínio (deixar passar, enviar para o spam ou rejeitar). Sem DMARC, os outros dois não impedem a falsificação.</p></section>
+      <section class="cat-grupo"><h3>Tenho DMARC em “p=none”. Estou protegido?</h3><p style="padding:0 2px">Não. O “p=none” é o modo de observação: seu domínio não pede nenhuma ação contra as mensagens falsas, que podem chegar do mesmo jeito. Se o registro solicita relatórios, você recebe o detalhe de quem envia e-mail em seu nome. É o primeiro passo correto, e é preciso elevá-lo por etapas, para quarentena e depois para rejeição, quando os relatórios confirmarem que os seus envios legítimos passam.</p></section>
+      <section class="cat-grupo"><h3>Por que não coloco “p=reject” de uma vez?</h3><p style="padding:0 2px">Porque, se algum dos seus serviços legítimos (nota fiscal eletrônica, newsletters, CRM, formulários do site) enviar e-mail em seu nome sem estar bem configurado, as suas próprias mensagens seriam rejeitadas. Por isso se faz por etapas, lendo os relatórios antes de cada mudança.</p></section>
+      <section class="cat-grupo"><h3>A ferramenta guarda o meu domínio ou os meus dados?</h3><p style="padding:0 2px">Não. A verificação roda no seu navegador: as consultas vão diretamente aos resolvedores DNS públicos do Google e da Cloudflare, que recebem o nome do domínio como em qualquer consulta DNS. A Almadía não recebe o domínio que você digita, não pede e-mail nem cadastro e a página não tem análise de tráfego. Só ficamos sabendo se você decidir nos escrever por WhatsApp.</p></section>
+      <section class="cat-grupo"><h3>Isto é um teste de invasão?</h3><p style="padding:0 2px">Não. A ferramenta apenas lê registros DNS, que são públicos por natureza: é a mesma informação que qualquer servidor de e-mail consulta antes de aceitar uma mensagem. Ela não toca nos seus sistemas, não testa senhas e não envia nenhum e-mail. Por isso também pode verificar o domínio de um fornecedor ou de um cliente.</p></section>
+      <section class="cat-grupo"><h3>Meu e-mail é @gmail.com ou @hotmail.com. Serve para mim?</h3><p style="padding:0 2px">Esta verificação é para domínios próprios (seunome.com, suaempresa.com). Se você usa uma conta gratuita, a proteção contra falsificação é administrada pelo provedor e você não pode alterá-la. Para uma empresa, ter o e-mail em um domínio próprio e bem configurado é o primeiro passo.</p></section>
+      <section class="cat-grupo"><h3>Por que diz que não encontrou DKIM se eu tenho?</h3><p style="padding:0 2px">As chaves DKIM não podem ser listadas de fora: são publicadas com um nome (“seletor”) escolhido por cada provedor. A ferramenta testa os nomes mais usados; se o seu for outro, ele não aparece. Se você o conhece, digite-o no campo opcional do seletor. Também é possível confirmar olhando o cabeçalho de um e-mail real enviado do seu domínio.</p></section>
+      <section class="cat-grupo"><h3>O Google e a Microsoft exigem isso?</h3><p style="padding:0 2px">Sim, de quem envia em grande volume. Desde fevereiro de 2024, o Google exige SPF, DKIM e DMARC de quem envia mais de 5.000 e-mails por dia para o Gmail, e o Yahoo aplica regras equivalentes aos remetentes em massa. Desde maio de 2025, a Microsoft exige o mesmo de quem envia mais de 5.000 por dia para Outlook, Hotmail e Live. Dos pequenos remetentes, o Google exige no mínimo SPF ou DKIM. Na prática, um domínio sem esses registros acaba cada vez mais na pasta de spam.</p></section>
+      <section class="cat-grupo"><h3>Quanto custa resolver?</h3><p style="padding:0 2px">A verificação é grátis. A correção do e-mail (SPF, DKIM e DMARC configurados, testados e elevados por etapas até a rejeição) está incluída no pacote PME Protegida, que tem preço publicado. Se você precisa apenas do e-mail, envie-nos o domínio e informaremos um preço fixo por escrito antes de começar.</p></section>
+      <section class="cat-grupo"><h3>Em quais países vocês atuam?</h3><p style="padding:0 2px">Em qualquer um. Atendemos a distância: você nos dá acesso ao painel DNS do seu domínio ou aplica as mudanças que indicarmos, e nos comunicamos por WhatsApp, e-mail ou videochamada. A ferramenta e o atendimento estão disponíveis em 13 idiomas.</p></section>
+    </div>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="wrap">
+    <div class="cta rev">
+      <h2>Deu risco alto? Deixamos o seu domínio em rejeição, por etapas e sem derrubar o seu e-mail.</h2>
+      <p>Configuramos SPF, DKIM e DMARC com cada serviço que envia em seu nome, lemos os relatórios e elevamos a política passo a passo até que os e-mails falsos sejam rejeitados. Está incluído no pacote PME Protegida; se você precisa apenas do e-mail, informamos um preço fixo por escrito antes de começar. Trabalhamos a distância com empresas de qualquer país.</p>
+      <div class="btns">
+        <a class="btn btn-p" href="https://wa.me/573223623930?text=Bom%20dia.%20Quero%20que%20a%20Almad%C3%ADa%20verifique%20e%20proteja%20o%20e-mail%20da%20minha%20empresa%20contra%20a%20falsifica%C3%A7%C3%A3o.%20%5Bpt%5D" rel="noopener">WhatsApp 322 362 3930</a>
+        <a class="btn btn-claro" href="/pt/packages/#proteccion">Ver o pacote PME Protegida</a>
+      </div>
+      <p style="margin-top:14px"><a href="#rv-dominio">Verificar outro domínio ↑</a> · <a href="/pt/packages/#proteccion">O que inclui a correção e quanto custa →</a></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div style="text-align:center;padding:6px 0 16px"><img src="/assets/img/logo-pie.jpg" alt="Grupo Empresarial Almadía" width="260" height="185" loading="lazy" decoding="async" style="width:230px;height:auto;border-radius:14px"></div>
+    <div class="ftr-legal">
+      <span>Grupo Empresarial Almadía S.A.S. · NIT 902.090.075-9 · Matrícula 04133931 Cámara de Comercio de Bogotá</span>
+      <span>© 2026 Almadía · <a href="/invertir-en-colombia/">Invertir en Colombia</a> · <a href="/licitaciones/">Licitaciones</a> · <a href="/empresas/">Crear empresa</a> · <a href="/crear-empresa/bogota/">Crear empresa en Bogotá</a> · <a href="/empresa-llave-en-mano/">Llave en mano</a> · <a href="/contador-publico/">Contador público</a> · <a href="/cobranza/cobro-de-cartera-empresas/">Cobranza de cartera</a> · <a href="/incentivos-tributarios/">Incentivos tributarios</a> · <a href="/tramites-desde-el-exterior/">Trámites desde el exterior</a> · <a href="/tarifas-abogados-colombia-2026/">Tarifas de abogados 2026</a> · <a href="/servicios-digitales/">Digital e IA</a> · <a href="/proteccion-digital/">Paquetes pyme</a></span>
+      <span style="display:block;margin-top:6px;font-size:.82rem">Todos los derechos reservados. Prohibida la reproducción total o parcial de textos, imágenes, datos y diseño sin autorización escrita (Ley 23 de 1982). · <a href="/politica-de-datos/">Política de tratamiento de datos personales</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

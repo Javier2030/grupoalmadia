@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPF, DKIM, DMARC Kontrolü: Ücretsiz Checker ve Test Aracı</title>
+<meta name="description" content="SPF, DKIM ve DMARC kayıtlarınızı ücretsiz kontrol edin; adınıza sahte e-posta gönderilip gönderilemeyeceğini saniyeler içinde öğrenin. Kayıt yok, Türkçe.">
+<link rel="canonical" href="https://grupoalmadia.com/tr/tools/spf-dkim-dmarc-checker/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#f7f6f3">
+<meta property="og:type" content="website">
+
+<meta property="og:title" content="SPF, DKIM, DMARC Kontrolü: Ücretsiz Checker ve Test Aracı">
+<meta property="og:description" content="SPF, DKIM ve DMARC kayıtlarınızı ücretsiz kontrol edin; adınıza sahte e-posta gönderilip gönderilemeyeceğini saniyeler içinde öğrenin. Kayıt yok, Türkçe.">
+<meta property="og:url" content="https://grupoalmadia.com/tr/tools/spf-dkim-dmarc-checker/">
+<meta property="og:image" content="https://grupoalmadia.com/assets/img/og-almadia.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>@font-face{
+font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;
+src:url(/assets/fuentes/fraunces-latin.woff2) format("woff2");
+unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;
+src:url(/assets/fuentes/fraunces-latin-ext.woff2) format("woff2");
+unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+:root{
+--tinta:#0d1117;
+--tinta-2:#3d4854;
+--tinta-3:#6b7684;
+--hueso:#f7f6f3;
+--hueso-2:#efede8;
+--linea:#e2dfd8;
+--verde:#0f5c4e;
+--verde-claro:#147a67;
+--cobre:#b0722a;
+--blanco:#fff;
+--ff-display:"Fraunces","Georgia",serif;
+--ff-texto:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+--radio:14px;
+--sombra:0 1px 2px rgba(13,17,23,.04),0 8px 24px -12px rgba(13,17,23,.14);
+--sombra-alta:0 2px 4px rgba(13,17,23,.05),0 24px 48px -20px rgba(13,17,23,.28);
+--ancho:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+margin:0;background:var(--hueso);color:var(--tinta);
+font-family:var(--ff-texto);font-size:17px;line-height:1.62;
+-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:var(--ancho);margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--ff-display);font-weight:600;letter-spacing:-.02em;line-height:1.08;margin:0}
+h1{font-size:clamp(2.6rem,6.2vw,4.6rem);font-weight:600}
+h2{font-size:clamp(1.9rem,3.7vw,2.9rem)}
+h3{font-size:1.16rem;letter-spacing:-.01em;line-height:1.3}
+p{margin:0 0 1em}
+.lead{font-size:clamp(1.06rem,1.7vw,1.28rem);color:var(--tinta-2);line-height:1.6}
+.eyebrow{
+font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+color:var(--verde);margin:0 0 18px;display:block;
+}
+.hdr{
+position:sticky;top:0;z-index:50;
+background:rgba(247,246,243,.82);backdrop-filter:saturate(180%) blur(14px);
+border-bottom:1px solid transparent;transition:border-color .3s,background .3s;
+}
+.hdr.fija{border-bottom-color:var(--linea)}
+.hdr .wrap{display:flex;align-items:center;gap:28px;height:70px}
+.marca{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:600;letter-spacing:-.02em}
+.marca svg,.marca img{width:34px;height:34px;flex:none;object-fit:contain}
+.marca b{font-family:var(--ff-display);font-size:1.14rem;font-weight:600}
+.marca span{display:block;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta-3);font-weight:500;margin-top:-2px}
+.nav{margin-left:auto;display:flex;align-items:center;gap:28px}
+.nav a{text-decoration:none;font-size:.93rem;color:var(--tinta-2);font-weight:500;transition:color .2s}
+.nav a:hover{color:var(--tinta)}
+.nav a.btn-p,.nav a.btn-p:hover{color:#fff}
+.btn{
+display:inline-flex;align-items:center;justify-content:center;gap:9px;
+padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:600;
+font-size:.95rem;border:1px solid transparent;cursor:pointer;
+transition:transform .18s cubic-bezier(.2,.8,.3,1),box-shadow .18s,background .18s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-p{background:var(--verde);color:#fff;box-shadow:0 8px 20px -10px rgba(15,92,78,.7)}
+.btn-p:hover{background:var(--verde-claro);box-shadow:0 14px 28px -12px rgba(15,92,78,.8)}
+.btn-g{background:transparent;color:var(--tinta);border-color:var(--linea)}
+.btn-g:hover{border-color:var(--tinta-3);background:var(--blanco)}
+.btn-claro{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.28);backdrop-filter:blur(8px)}
+.btn-claro:hover{background:rgba(255,255,255,.2)}
+.btn-sm{padding:10px 18px;font-size:.89rem}
+.burger{display:none;margin-left:auto;background:none;border:0;padding:9px;cursor:pointer}
+.burger span{display:block;width:22px;height:2px;background:var(--tinta);margin:4px 0;transition:.25s}
+.hero{
+position:relative;color:#fff;overflow:hidden;isolation:isolate;background:#0b1014;
+}
+.hero::before{
+content:'';position:absolute;inset:0;z-index:0;opacity:.9;
+background:
+radial-gradient(120% 90% at 82% 8%,rgba(20,122,103,.32) 0%,transparent 58%),
+radial-gradient(80% 70% at 0% 100%,rgba(176,114,42,.2) 0%,transparent 60%);
+}
+.hero::after{
+content:'';position:absolute;inset:0;z-index:0;opacity:.35;
+background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+background-size:64px 64px;
+mask-image:radial-gradient(120% 90% at 50% 0%,#000 20%,transparent 75%);
+}
+.hero .wrap{position:relative;z-index:1;padding-top:96px;padding-bottom:84px}
+.hero-split{display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center}
+.hero h1{color:#fff;max-width:15ch}
+.hero .lead{color:rgba(255,255,255,.78);max-width:52ch;margin-top:26px}
+.hero .eyebrow{color:#8fd8c6}
+.hero-cta{display:flex;gap:13px;flex-wrap:wrap;margin-top:38px}
+.mosaico{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mosaico figure{
+margin:0;position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/2;
+box-shadow:0 20px 40px -24px rgba(0,0,0,.8);border:1px solid rgba(255,255,255,.1);
+}
+.mosaico figure:nth-child(1){transform:translateY(-16px)}
+.mosaico figure:nth-child(4){transform:translateY(16px)}
+.mosaico img{width:100%;height:100%;object-fit:cover}
+.mosaico figcaption{
+position:absolute;left:0;right:0;bottom:0;padding:22px 12px 9px;
+font-size:.73rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#fff;
+background:linear-gradient(180deg,transparent,rgba(6,10,13,.88));
+}
+.datos{
+display:flex;flex-wrap:wrap;gap:0;margin-top:64px;
+border-top:1px solid rgba(255,255,255,.16);
+}
+.datos div{flex:1 1 190px;padding:22px 26px 0 0}
+.datos dt{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px}
+.datos dd{margin:0;font-size:1.02rem;font-weight:600;font-variant-numeric:lining-nums tabular-nums}
+.seccion{padding:96px 0}
+.seccion-clara{background:var(--blanco)}
+.cab{max-width:64ch;margin-bottom:56px}
+.cab p{margin-top:18px}
+.rejilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:26px}
+.linea{
+position:relative;border-radius:var(--radio);overflow:hidden;background:var(--blanco);
+border:1px solid var(--linea);box-shadow:var(--sombra);
+transition:transform .3s cubic-bezier(.2,.8,.3,1),box-shadow .3s,border-color .3s;
+}
+.linea:hover{transform:translateY(-6px);box-shadow:var(--sombra-alta);border-color:transparent}
+.linea .foto{position:relative;aspect-ratio:3/2;overflow:hidden;background:var(--hueso-2)}
+.linea .foto img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.3,1)}
+.linea:hover .foto img{transform:scale(1.06)}
+.linea .foto::after{
+content:'';position:absolute;inset:0;
+background:linear-gradient(180deg,rgba(13,17,23,0) 40%,rgba(13,17,23,.5) 100%);
+}
+.linea .cuerpo{padding:24px 24px 26px}
+.linea h3{margin-bottom:9px}
+.linea p{color:var(--tinta-2);font-size:.96rem;margin:0}
+.etiquetas{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.etiquetas span{
+font-size:.76rem;font-weight:500;color:var(--tinta-2);
+background:var(--hueso-2);border-radius:999px;padding:5px 11px;
+}
+.pasos{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;border-top:1px solid var(--linea)}
+.paso{padding:32px 28px 32px 0;border-right:1px solid var(--linea)}
+.paso:last-child{border-right:0}
+.paso .num{
+font-family:var(--ff-display);font-size:2.1rem;color:var(--cobre);
+font-variant-numeric:lining-nums;line-height:1;margin-bottom:16px;display:block;
+}
+.paso h3{margin-bottom:8px}
+.paso p{color:var(--tinta-2);font-size:.94rem;margin:0}
+.servicios{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:2px;background:var(--linea);border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden}
+.serv{background:var(--blanco);padding:32px 28px;transition:background .25s}
+.serv:hover{background:var(--hueso)}
+.serv h3{margin-bottom:10px}
+.serv p{color:var(--tinta-2);font-size:.95rem;margin:0}
+.duo{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+.duo img{border-radius:var(--radio);box-shadow:var(--sombra-alta)}
+.lista{list-style:none;padding:0;margin:26px 0 0}
+.lista li{position:relative;padding-left:30px;margin-bottom:14px;color:var(--tinta-2)}
+.lista li::before{
+content:'';position:absolute;left:0;top:.55em;width:14px;height:2px;background:var(--cobre);
+}
+.lista b{color:var(--tinta);font-weight:600}
+.cta{background:var(--tinta);color:#fff;border-radius:var(--radio);padding:64px 56px;text-align:center}
+.cta h2{color:#fff;max-width:20ch;margin:0 auto}
+.cta p{color:rgba(255,255,255,.72);max-width:52ch;margin:20px auto 34px}
+.cta .btns{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
+.ftr{background:var(--tinta);color:rgba(255,255,255,.66);padding:72px 0 34px;font-size:.92rem}
+.ftr a{color:rgba(255,255,255,.66);text-decoration:none}
+.ftr a:hover{color:#fff}
+.ftr-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.12)}
+.ftr h4{color:#fff;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 16px;font-family:var(--ff-texto);font-weight:600}
+.ftr ul{list-style:none;padding:0;margin:0}
+.ftr li{margin-bottom:9px}
+.ftr .marca b,.ftr .marca span{color:#fff}
+.ftr-legal{padding-top:26px;font-size:.83rem;color:rgba(255,255,255,.44);display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap}
+.js .rev{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.8,.3,1),transform .7s cubic-bezier(.2,.8,.3,1)}
+.js .rev.visto{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+.js .rev{opacity:1;transform:none;transition:none}
+html{scroll-behavior:auto}
+.linea:hover{transform:none}
+.linea:hover .foto img{transform:none}
+}
+@media (max-width:1000px){
+.hero-split{grid-template-columns:1fr;gap:44px}
+.mosaico figure:nth-child(1),.mosaico figure:nth-child(4){transform:none}
+}
+@media (max-width:900px){
+.duo{grid-template-columns:1fr;gap:36px}
+.ftr-grid{grid-template-columns:1fr 1fr;gap:32px}
+.paso{border-right:0;border-bottom:1px solid var(--linea);padding:26px 0}
+.paso:last-child{border-bottom:0}
+}
+@media (max-width:760px){
+body{font-size:16px}
+.seccion{padding:64px 0}
+.hero .wrap{padding-top:64px;padding-bottom:60px}
+.nav{
+position:fixed;inset:70px 0 auto;background:var(--hueso);flex-direction:column;
+align-items:stretch;gap:0;padding:14px 24px 26px;border-bottom:1px solid var(--linea);
+transform:translateY(-130%);transition:transform .3s cubic-bezier(.2,.8,.3,1);
+}
+.nav.abierto{transform:none}
+.nav a{padding:13px 0;border-bottom:1px solid var(--linea);font-size:1rem}
+.nav .btn{margin-top:16px}
+.burger{display:block}
+.datos{margin-top:44px}
+.datos div{flex-basis:45%;padding:18px 18px 0 0}
+.cta{padding:44px 26px}
+.ftr-grid{grid-template-columns:1fr}
+}
+.catalogo{columns:3 300px;column-gap:34px}
+.cat-grupo{break-inside:avoid;margin:0 0 30px;padding:0}
+.cat-grupo h3{
+font-family:var(--ff-texto);font-size:.76rem;font-weight:600;letter-spacing:.14em;
+text-transform:uppercase;color:var(--verde);margin-bottom:12px;
+padding-bottom:9px;border-bottom:1px solid var(--linea);
+}
+.cat-grupo ul{list-style:none;margin:0;padding:0}
+.cat-grupo li{
+font-size:.93rem;color:var(--tinta-2);padding:3px 0 3px 16px;position:relative;line-height:1.45;
+}
+.cat-grupo li::before{content:'';position:absolute;left:0;top:.72em;width:6px;height:1px;background:var(--cobre)}
+.nota-catalogo{margin-top:34px;padding-top:22px;border-top:1px solid var(--linea);color:var(--tinta-3);font-size:.9rem}
+@media (max-width:760px){ .catalogo{columns:1} }
+.tabla-envoltura{overflow-x:auto;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);box-shadow:var(--sombra)}
+.tabla{width:100%;border-collapse:collapse;font-size:.94rem;min-width:640px}
+.tabla caption{text-align:left;padding:16px 18px 0;color:var(--tinta-3);font-size:.86rem}
+.tabla th,.tabla td{padding:12px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--linea)}
+.tabla thead th{
+font-family:var(--ff-texto);font-size:.72rem;font-weight:600;letter-spacing:.13em;
+text-transform:uppercase;color:var(--verde);background:var(--hueso-2);border-bottom:1px solid var(--linea);
+}
+.tabla tbody tr:last-child td{border-bottom:0}
+.tabla tbody th{font-weight:600;color:var(--tinta)}
+.tabla td{color:var(--tinta-2)}
+.tabla td b{color:var(--tinta)}
+.fichas{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.ficha{
+display:block;text-decoration:none;color:inherit;background:var(--blanco);
+border:1px solid var(--linea);border-radius:var(--radio);padding:20px 22px;box-shadow:var(--sombra);
+transition:transform .18s ease,box-shadow .18s ease;
+}
+.ficha:hover{transform:translateY(-2px);box-shadow:var(--sombra-alta)}
+.ficha h3{margin-bottom:6px}
+.ficha p{margin:0;color:var(--tinta-3);font-size:.9rem;line-height:1.5}
+.ficha span{display:block;margin-top:10px;font-weight:700;color:var(--verde);font-size:.86rem}
+.cb-barra{margin:0 0 18px;max-width:640px}
+.cb-lab{display:block;font-weight:600;margin-bottom:8px}
+.cb-barra input{width:100%;padding:14px 16px;font-size:1.05rem;border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);color:var(--tinta)}
+.cb-chica{font-size:.88rem;color:var(--tinta-3);margin:8px 0 0}
+.cb-texto{max-width:760px}.cb-texto p{color:var(--tinta-2)}
+.cb-indice{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.cb-indice a{font-size:.82rem;text-decoration:none;color:var(--verde);background:var(--blanco);border:1px solid var(--linea);border-radius:999px;padding:6px 12px}
+.cb-indice a:hover{border-color:var(--verde)}
+.cb-cap{border:1px solid var(--linea);border-radius:var(--radio);background:var(--blanco);margin-bottom:10px;scroll-margin-top:84px}
+.cb-cap>summary{cursor:pointer;padding:15px 18px;display:flex;justify-content:space-between;gap:12px;align-items:center;list-style:none}
+.cb-cap>summary::-webkit-details-marker{display:none}
+.cb-cap>summary::after{content:'+';font-size:1.3rem;color:var(--cobre);margin-left:auto;padding-left:12px}
+.cb-cap[open]>summary::after{content:'−'}
+.cb-cap>summary span{font-size:.82rem;color:var(--tinta-3);white-space:nowrap}
+.cb-sc{border:0;border-top:1px solid var(--linea);border-radius:0 0 var(--radio) var(--radio);box-shadow:none}
+.tabla.cb{min-width:0;table-layout:auto}
+.tabla.cb td{padding:11px 14px;vertical-align:top;border-top:1px solid var(--linea);font-size:.92rem}
+.tabla.cb .cb-n{white-space:nowrap;color:var(--tinta-3);width:1%}
+.tabla.cb .cb-v{white-space:nowrap;font-weight:600;font-variant-numeric:tabular-nums}
+.tabla.cb .cb-r{color:var(--tinta-2)}
+.tabla.cb tr[hidden]{display:none}
+.cb-corr td{background:#fbf4e8}
+.cb-aviso{font-size:.72rem;background:var(--cobre);color:#fff;border-radius:999px;padding:2px 8px;text-decoration:none;margin-left:6px;white-space:nowrap}
+@media (max-width:700px){
+.tabla.cb thead{display:none}
+.tabla.cb,.tabla.cb tbody,.tabla.cb tr,.tabla.cb td{display:block;width:auto}
+.tabla.cb tr{padding:12px 14px;border-top:1px solid var(--linea)}
+.tabla.cb td{padding:2px 0;border:0}
+.tabla.cb .cb-n{font-size:.78rem;width:auto}
+.tabla.cb .cb-e{font-weight:600;color:var(--tinta)}
+.tabla.cb .cb-r::before{content:'Referencia: ';color:var(--tinta-3)}
+.tabla.cb .cb-v::before{content:'En pesos 2026: ';color:var(--tinta-3);font-weight:400}
+}</style>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/img/icono-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/img/icono-180.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"E-posta taklidi kontrolü: SPF, DKIM ve DMARC","url":"https://grupoalmadia.com/tr/tools/spf-dkim-dmarc-checker/","description":"SPF, DKIM ve DMARC kayıtlarınızı ücretsiz kontrol edin; adınıza sahte e-posta gönderilip gönderilemeyeceğini saniyeler içinde öğrenin. Kayıt yok, Türkçe.","inLanguage":"tr","applicationCategory":"SecurityApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["SPF kontrolü ve DNS sorgu sayımı","DMARC politikası ve alt alan adı kontrolü","Yaygın selector'lerle DKIM anahtarı arama","DNSSEC, MTA-STS, TLS-RPT, CAA ve BIMI","13 dilde yazdırılabilir rapor"],"provider":{"@type":"Organization","name":"Grupo Empresarial Almadía S.A.S.","taxID":"902.090.075-9","telephone":"+573223623930","email":"comercial@grupoalmadia.com","url":"https://grupoalmadia.com/","areaServed":"Worldwide","availableLanguage":["ar","de","en","es","fr","hi","it","ja","nl","pt","ru","tr","zh"]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"E-postamın taklit edilmesi ne demek?","acceptedAnswer":{"@type":"Answer","text":"Birinin, posta kutunuza girmeden, “Kimden:” alanına tam olarak sizin adresinizi (örneğin fatura@sirketiniz.com) yazarak mesaj göndermesi demektir. Şifrenize ihtiyaç duymaz: alan adınızın, e-posta sunucularına sizden çıkmayan mesajları reddetmelerini söylememesi yeterlidir. Bu sahte e-postayla ödeme istenir, bir faturadaki hesap numarası değiştirilir veya şifreler çalınır."}},{"@type":"Question","name":"Alan adımın korunup korunmadığını nasıl anlarım?","acceptedAnswer":{"@type":"Answer","text":"Bu sayfadaki kontrol aracına yazın. Birkaç saniye içinde alan adınızın SPF, DKIM ve DMARC yayımlayıp yayımlamadığını ve özellikle DMARC politikasının sahte e-postaları gerçekten engelleyip engellemediğini, yoksa yalnızca izleyip izlemediğini söyler. Sonuç “yüksek risk” ise bugün adınıza e-posta gönderilebilir."}},{"@type":"Question","name":"SPF, DKIM ve DMARC arasındaki fark nedir?","acceptedAnswer":{"@type":"Answer","text":"SPF, alan adınızla e-posta göndermeye yetkili sunucuların listesidir. DKIM, mesajın sizin bir hizmetinizden çıktığını ve kimsenin değiştirmediğini kanıtlayan dijital bir imzadır. DMARC ikisini birleştirir ve talimat verir: alan adınızı kullanan ve bu alan adı adına iki testi de geçemeyen bir e-postaya ne yapılacağı (geçirmek, gereksiz klasörüne göndermek veya reddetmek). DMARC olmadan diğer ikisi taklidi engellemez."}},{"@type":"Question","name":"DMARC'ım “p=none” modunda. Korunuyor muyum?","acceptedAnswer":{"@type":"Answer","text":"Hayır. “p=none” izleme modudur: alan adınız sahte mesajlara karşı hiçbir işlem istemez ve bu mesajlar yine de ulaşabilir. Kayıt rapor istiyorsa adınıza kimlerin e-posta gönderdiğine dair ayrıntıları alırsınız. Bu doğru bir ilk adımdır; raporlar meşru gönderimlerinizin geçtiğini doğruladığında politikayı aşama aşama önce karantinaya, sonra reddetmeye yükseltmek gerekir."}},{"@type":"Question","name":"Neden hemen “p=reject” yapmıyorum?","acceptedAnswer":{"@type":"Answer","text":"Çünkü meşru hizmetlerinizden biri (e-fatura, bültenler, CRM, web sitesi formları) adınıza doğru yapılandırılmadan e-posta gönderiyorsa, kendi mesajlarınız reddedilir. Bu yüzden işlem aşamalarla, her değişiklikten önce raporlar okunarak yapılır."}},{"@type":"Question","name":"Araç alan adımı veya verilerimi saklıyor mu?","acceptedAnswer":{"@type":"Answer","text":"Hayır. Kontrol tarayıcınızda çalışır: sorgular doğrudan Google ve Cloudflare'ın herkese açık DNS çözümleyicilerine gider; onlar da alan adını her DNS sorgusunda olduğu gibi alır. Almadía yazdığınız alan adını almaz, e-posta veya kayıt istemez ve sayfada analitik yoktur. Biz yalnızca siz WhatsApp'tan yazmaya karar verirseniz haberdar oluruz."}},{"@type":"Question","name":"Bu bir sızma testi mi?","acceptedAnswer":{"@type":"Answer","text":"Hayır. Araç yalnızca tasarım gereği herkese açık olan DNS kayıtlarını okur: bir e-posta sunucusunun mesajı kabul etmeden önce sorguladığı bilgilerin aynısıdır. Sistemlerinize dokunmaz, şifre denemez ve hiçbir e-posta göndermez. Bu nedenle bir tedarikçinin veya müşterinin alan adını da kontrol edebilirsiniz."}},{"@type":"Question","name":"E-posta adresim @gmail.com veya @hotmail.com. Bu bana uygun mu?","acceptedAnswer":{"@type":"Answer","text":"Bu kontrol kendi alan adları içindir (adiniz.com, sirketiniz.com). Ücretsiz bir hesap kullanıyorsanız taklide karşı koruma sağlayıcı tarafından yönetilir ve siz değiştiremezsiniz. Bir şirket için e-postanın kendi alan adında ve doğru yapılandırılmış olması ilk adımdır."}},{"@type":"Question","name":"DKIM bende var, neden bulunamadı diyor?","acceptedAnswer":{"@type":"Answer","text":"DKIM anahtarları dışarıdan listelenemez: her sağlayıcının seçtiği bir adla (“selector”) yayımlanırlar. Araç en sık kullanılan adları dener; sizinki farklıysa görünmez. Biliyorsanız isteğe bağlı selector alanına yazın. Alan adınızdan gönderilmiş gerçek bir e-postanın başlık bilgisine bakarak da doğrulanabilir."}},{"@type":"Question","name":"Google ve Microsoft bunu zorunlu tutuyor mu?","acceptedAnswer":{"@type":"Answer","text":"Evet, yüksek hacimde gönderenler için. Google, Şubat 2024'ten itibaren Gmail'e günde 5.000'den fazla e-posta gönderenlerden SPF, DKIM ve DMARC'ı şart koşuyor; Yahoo da toplu gönderim yapanlar için eşdeğer kurallar uyguluyor. Microsoft, Mayıs 2025'ten itibaren Outlook, Hotmail ve Live'a günde 5.000'den fazla gönderenlerden aynısını istiyor. Küçük göndericilerden Google en az SPF veya DKIM istiyor. Uygulamada bu kayıtları olmayan bir alan adı giderek daha sık gereksiz klasörüne düşüyor."}},{"@type":"Question","name":"Düzeltmek ne kadara mal olur?","acceptedAnswer":{"@type":"Answer","text":"Kontrol ücretsizdir. E-postanın düzeltilmesi (SPF, DKIM ve DMARC yapılandırılır, test edilir ve reddetmeye kadar aşama aşama yükseltilir) fiyatı yayımlanmış olan Korumalı KOBİ paketine dahildir. Yalnızca e-postaya ihtiyacınız varsa alan adınızı bize yazın, başlamadan önce yazılı sabit bir fiyat verelim."}},{"@type":"Question","name":"Hangi ülkelerde çalışıyorsunuz?","acceptedAnswer":{"@type":"Answer","text":"Herhangi birinde. Uzaktan hizmet veriyoruz: siz bize alan adınızın DNS paneline erişim verirsiniz veya size ilettiğimiz değişiklikleri kendiniz uygularsınız; iletişimi WhatsApp, e-posta veya görüntülü görüşmeyle yürütürüz. Araç ve hizmet 13 dilde sunulmaktadır."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ana sayfa","item":"https://grupoalmadia.com/"},{"@type":"ListItem","position":2,"name":"Şirket paketleri","item":"https://grupoalmadia.com/tr/packages/"},{"@type":"ListItem","position":3,"name":"SPF, DKIM ve DMARC kontrolü","item":"https://grupoalmadia.com/tr/tools/spf-dkim-dmarc-checker/"}]}</script>
+<script defer src="/assets/js/main.js?v=1ad86d71"></script>
+<link rel="alternate" hreflang="ar" href="https://grupoalmadia.com/ar/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="de" href="https://grupoalmadia.com/de/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="en" href="https://grupoalmadia.com/en/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="es" href="https://grupoalmadia.com/herramientas/verificar-spf-dkim-dmarc/">
+<link rel="alternate" hreflang="fr" href="https://grupoalmadia.com/fr/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="hi" href="https://grupoalmadia.com/hi/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="it" href="https://grupoalmadia.com/it/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="ja" href="https://grupoalmadia.com/ja/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="nl" href="https://grupoalmadia.com/nl/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="pt" href="https://grupoalmadia.com/pt/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="ru" href="https://grupoalmadia.com/ru/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="tr" href="https://grupoalmadia.com/tr/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="zh" href="https://grupoalmadia.com/zh/tools/spf-dkim-dmarc-checker/">
+<link rel="alternate" hreflang="x-default" href="https://grupoalmadia.com/en/tools/spf-dkim-dmarc-checker/">
+<style>
+.rv-form{margin-top:34px;max-width:640px}
+.rv-form label{display:block;color:rgba(255,255,255,.82);font-size:.92rem;font-weight:600;margin-bottom:10px}
+.rv-fila{display:flex;gap:10px;flex-wrap:wrap}
+.rv-fila input{flex:1 1 260px;min-width:0;font:inherit;font-size:1.08rem;padding:15px 18px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:#fff;color:var(--tinta)}
+.rv-fila input:focus-visible{outline:3px solid #8fd8c6;outline-offset:2px}
+.rv-fila .btn{flex:0 0 auto}
+.rv-fila .btn[disabled]{opacity:.7;cursor:progress;transform:none}
+.rv-sel{margin-top:12px;font-size:.88rem;color:rgba(255,255,255,.7)}
+.rv-sel summary{cursor:pointer;display:inline-block}
+.rv-sel input{display:block;margin-top:8px;font:inherit;padding:10px 16px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:#fff;color:var(--tinta);width:min(100%,280px)}
+.rv-aviso{min-height:1.5em;margin-top:12px;font-size:.95rem;color:rgba(255,255,255,.72)}
+.rv-aviso.rv-error{color:#ffc9bd;font-weight:600}
+.rv-priv{margin-top:6px;font-size:.86rem;color:rgba(255,255,255,.6);max-width:60ch}
+.rv-progreso{margin-top:16px;max-width:640px}
+.rv-via{height:6px;border-radius:99px;background:rgba(255,255,255,.16);overflow:hidden}
+.rv-barra{height:100%;width:0;background:#8fd8c6;border-radius:99px;transition:width .35s ease}
+.rv-etapa{margin-top:8px;font-size:.9rem;color:rgba(255,255,255,.75)}
+#rv-resultado{scroll-margin-top:90px}
+.rv-zona{padding:56px 0 8px}
+.rv-zona:has(#rv-resultado[hidden]){display:none}
+.rv-veredicto{display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;background:var(--blanco);border:1px solid var(--linea);border-inline-start:8px solid var(--tinta-3);border-radius:var(--radio);padding:36px 40px;box-shadow:var(--sombra)}
+.rv-veredicto.rv-alto{border-inline-start-color:#b3261e}.rv-veredicto.rv-medio{border-inline-start-color:var(--cobre)}.rv-veredicto.rv-bajo{border-inline-start-color:var(--verde)}
+.rv-veredicto h2{font-size:clamp(1.6rem,3.2vw,2.3rem);margin:12px 0 6px;outline:none}
+.rv-veredicto p{color:var(--tinta-2);max-width:62ch}
+.rv-dom{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:1rem;color:var(--tinta)!important;font-weight:600;margin-bottom:10px;overflow-wrap:anywhere}
+.rv-chapa{display:inline-block;font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:99px;background:var(--hueso-2);color:var(--tinta)}
+.rv-alto .rv-chapa{background:#fbe6e3;color:#8a1c16}.rv-medio .rv-chapa{background:#f6ead8;color:#7a4c14}.rv-bajo .rv-chapa{background:#dff1ec;color:#0b4439}
+.rv-ver-nota{text-align:center}
+.rv-anillo{width:136px;height:136px;display:block;margin:0 auto}
+.rv-pista{fill:none;stroke:var(--hueso-2);stroke-width:10}
+.rv-arco{fill:none;stroke-width:10;stroke-linecap:round;stroke:var(--tinta-3);transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.3,1)}
+.rv-alto .rv-arco{stroke:#b3261e}.rv-medio .rv-arco{stroke:var(--cobre)}.rv-bajo .rv-arco{stroke:var(--verde)}
+.rv-num{font-family:var(--ff-display);font-size:34px;font-weight:600;text-anchor:middle;dominant-baseline:middle;fill:var(--tinta)}
+.rv-de{font-size:11px;text-anchor:middle;fill:var(--tinta-3);letter-spacing:.08em;text-transform:uppercase}
+.rv-letra{margin-top:8px;font-weight:700;color:var(--tinta)!important;font-size:.95rem}
+.rv-acciones{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 30px}
+.rv-lista{display:grid;gap:12px}
+.rv-item{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden}
+.rv-item summary{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:18px 22px;cursor:pointer;list-style:none}
+.rv-item summary::-webkit-details-marker{display:none}
+.rv-item summary:focus-visible{outline:3px solid var(--verde-claro);outline-offset:-3px}
+.rv-ic{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.95rem;background:var(--hueso-2);color:var(--tinta-2)}
+.rv-e-ok .rv-ic{background:#dff1ec;color:#0b4439}.rv-e-aviso .rv-ic{background:#f6ead8;color:#7a4c14}.rv-e-falla .rv-ic{background:#fbe6e3;color:#8a1c16}
+.rv-nom{display:block;font-size:.8rem;font-weight:600;letter-spacing:.04em;color:var(--tinta-3);margin-bottom:3px}
+.rv-res{display:block;font-weight:600;color:var(--tinta);line-height:1.4}
+.rv-rot{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-3);white-space:nowrap}
+.rv-e-falla .rv-rot{color:#8a1c16}.rv-e-aviso .rv-rot{color:#7a4c14}.rv-e-ok .rv-rot{color:#0b4439}
+.rv-cuerpo{padding:4px 22px 22px;padding-inline-start:70px;color:var(--tinta-2)}
+.rv-cuerpo h3{font-family:var(--ff-texto);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta-3);margin:16px 0 6px;font-weight:700}
+.rv-avisos{margin:10px 0 0;padding-inline-start:20px}
+.rv-avisos li{margin:4px 0}
+.rv-reg{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.84rem;background:var(--hueso);border:1px solid var(--linea);border-radius:8px;padding:10px 12px;margin:6px 0;overflow-wrap:anywhere;color:var(--tinta)}
+.rv-pie{margin-top:18px;font-size:.84rem;color:var(--tinta-3)}
+.rv-indice{display:flex;gap:10px 22px;flex-wrap:wrap;margin-top:8px;font-size:.95rem}
+@media (max-width:720px){
+  .rv-veredicto{grid-template-columns:1fr;padding:26px 22px;gap:20px}
+  .rv-item summary{grid-template-columns:auto 1fr;padding:16px}
+  .rv-rot{display:none}
+  .rv-cuerpo{padding:0 16px 18px;padding-inline-start:16px}
+  .rv-fila .btn{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){.rv-arco,.rv-barra{transition:none}}
+@media print{
+  .hdr,.ftr,.hero,main>section:not(.rv-zona),.rv-acciones{display:none!important}
+  .rv-zona{padding:0}
+  .rv-item{break-inside:avoid}
+  .rv-veredicto{box-shadow:none}
+}</style>
+<script>window.RevisorTextos={"n":{"spf":"SPF: alan adınızla kimler e-posta gönderebilir","dmarc":"DMARC: adınıza gönderilen sahte e-postaya ne olur","dkim":"DKIM: e-postanın size ait olduğunu kanıtlayan imza","mx":"E-postanızı nerede alıyorsunuz","dnssec":"DNSSEC: alan adınızın yanıtlarının kimse tarafından sahtelenmemesi","transporte":"Aktarım sırasında e-posta şifrelemesi (MTA-STS ve TLS-RPT)","caa":"Alan adınız için sertifikayı kimler verebilir (CAA)","bimi":"E-postalarınızın yanında logonuz (BIMI)"},"h":{"spf.ausente":{"r":"Alan adınız, e-posta göndermeye yetkili sunucuların listesini yayımlamıyor.","s":"E-posta alan sunucular, sizin gönderdiğiniz bir mesajı, bir dolandırıcının başka bir sunucudan gönderdiği mesajdan ayırt edemez.","h":"E-postanızı gerçekten gönderen hizmetleri ve yalnızca onları içeren bir SPF kaydı yayımlamak."},"spf.multiple":{"r":"Alan adınızda {n} SPF kaydı var. Yalnızca bir tane olabilir.","s":"Birden fazla kayıt olduğunda standart, sunucuların SPF'yi hata saymasını emreder: pratikte SPF'niz yok demektir.","h":"Kayıtları tek bir kayıtta birleştirmek."},"spf.exceso":{"r":"SPF'niz {n} DNS sorgusu gerektiriyor; standart en fazla 10'a izin verir.","s":"10'u aşınca sunucular SPF'yi geçersiz sayar. Eski gönderim hizmetleri kaldırılmadan yenileri eklendiğinde sık görülür.","h":"Kaydı, bugün e-postanızı gönderen hizmetlere indirmek."},"spf.abierto":{"r":"SPF'niz “+all” ile bitiyor: dünyadaki her sunucuya alan adınızla e-posta gönderme yetkisi veriyor.","s":"Olabilecek en kötü ayardır: tüm sunuculara her göndericinin meşru olduğunu söyler.","h":"Kaydın kapanışını, yetkisiz sunucuları reddedecek şekilde değiştirmek."},"spf.sin_cierre":{"r":"SPF'niz var, ancak listede olmayan sunuculara ne yapılacağını söylemiyor.","s":"Kapanış olmadığında bir dolandırıcı için sonuç “nötr” olur: ne onaylanır ne reddedilir.","h":"Yetkisizleri reddeden kapanışı eklemek."},"spf.neutro":{"r":"SPF'niz “?all” ile bitiyor: kimseyi reddetmiyor.","s":"Nötr bir kapanıştır. Liste var, ancak listede olmayanlar için bir sonucu yok.","h":"Kapanışı, yetkisizleri gerçekten reddeden bir kapanışla değiştirmek."},"spf.ok_duro":{"r":"SPF'niz geçerli ve yetkisiz sunucuları reddediyor (“-all”).","s":"SPF tek başına, birinin alıcının gördüğü “Kimden:” alanına adresinizi yazmasını engellemez. Bunun için DMARC gerekir.","h":"Gerek yok. E-posta veya bülten sağlayıcınızı her değiştirdiğinizde gözden geçirin.","h2":"Yukarıdaki uyarıları düzeltmek."},"spf.ok_suave":{"r":"SPF'niz geçerli ve yetkisiz sunucuları şüpheli olarak işaretliyor (“~all”).","s":"SPF tek başına, birinin alıcının gördüğü “Kimden:” alanına adresinizi yazmasını engellemez. Bunun için DMARC gerekir.","h":"Gerek yok. E-posta veya bülten sağlayıcınızı her değiştirdiğinizde gözden geçirin.","h2":"Yukarıdaki uyarıları düzeltmek."},"spf.ok_redirect":{"r":"SPF'niz geçerli ve listeyi başka bir alan adına devrediyor (“redirect”).","s":"SPF tek başına, birinin alıcının gördüğü “Kimden:” alanına adresinizi yazmasını engellemez. Bunun için DMARC gerekir.","h":"Gerek yok. E-posta veya bülten sağlayıcınızı her değiştirdiğinizde gözden geçirin.","h2":"Yukarıdaki uyarıları düzeltmek."},"dmarc.ausente":{"r":"Alan adınızda DMARC yok. Bugün herkes {d} adresinden çıkmış gibi görünen e-postalar gönderebilir.","s":"DMARC, Gmail, Outlook ve diğerlerine, alan adınızı izinsiz kullanan bir e-postaya ne yapacaklarını söyleyen talimattır. Bu talimat olmadan sahte mesaj, sizin adınız ve adresinizle müşterinizin gelen kutusuna ulaşabilir.","h":"DMARC'ı izleme modunda yayımlamak, raporları birkaç hafta okumak ve reddetmeye kadar aşama aşama yükseltmek."},"dmarc.multiple":{"r":"Alan adınızda {n} DMARC kaydı var. Birden fazla olduğunda sunucular hepsini yok sayar.","s":"Pratikte DMARC'ınız yok demektir.","h":"Tek bir kayıt bırakmak."},"dmarc.invalida":{"r":"DMARC kaydınız geçerli bir politika belirtmiyor.","s":"Tanınabilir bir politika olmadığında sunucular hiçbir şey uygulamaz.","h":"Kaydı düzeltmek."},"dmarc.none":{"r":"DMARC'ınız izleme modunda (“p=none”): uyarır, ancak hiçbir şeyi engellemez.","s":"Doğru bir ilk adımdır, ancak bu şekilde kaldığı sürece alan adınız, {d} adına gönderilen sahte bir e-postaya karşı hiçbir işlem istemez ve e-posta yine de ulaşabilir. Pek çok alan adı yıllarca burada kalır.","h":"Kaydınızın zaten istediği raporları okumak, başarısız olan meşru gönderimleri düzeltmek ve politikayı aşama aşama yükseltmek.","h2":"Raporları istemek, başarısız olan meşru gönderimleri düzeltmek ve politikayı aşama aşama yükseltmek."},"dmarc.quarantine":{"r":"DMARC'ınız sahte e-postaları gereksiz klasörüne gönderiyor (“p=quarantine”).","s":"Gerçek bir korumadır. Sahte e-posta yine teslim edilir; ancak bazı alıcıların açtığı gereksiz klasörüne düşer.","h":"Raporlar temiz çıktığında reddetmeye geçmek."},"dmarc.reject":{"r":"DMARC'ınız sahte e-postaların reddedilmesini emrediyor (“p=reject”). En yüksek düzeydir.","s":"Alan adınızı yetkisiz kullanan bir e-posta, DMARC uygulayan sağlayıcılarda, yani başlıca sağlayıcılarda alıcıya ulaşmaz.","h":"Gerek yok. Girişimleri tespit etmek için raporları okumaya devam edin.","h2":"Yukarıdaki uyarıları düzeltmek."},"dkim.anuladas":{"r":"DKIM anahtarları bulduk, ancak iptal edilmişler (boşlar).","s":"Boş bir anahtar, o selector'ün kaldırıldığını gösterir. Etkin başka bir anahtar yoksa e-postanız imzasız çıkıyor demektir.","h":"DKIM imzasının etkin olduğunu e-posta sağlayıcınızla doğrulamak."},"dkim.ok1":{"r":"Alan adınız e-postayı imzalıyor: etkin bir DKIM anahtarı bulduk ({sel}).","s":"İmza, mesajın sizin bir hizmetinizden çıktığını ve yolda kimsenin değiştirmediğini doğrulamayı sağlar. DMARC'ın yönlendirmelerle iyi çalışması için gereken budur.","h":"Gerek yok. Adınıza gönderim yapan tüm hizmetlerin (faturalama, bültenler, CRM) de imza attığından emin olun.","h2":"Kısa anahtarı 2048 bitlik bir anahtarla yenilemek."},"dkim.ok":{"r":"Alan adınız e-postayı imzalıyor: {n} etkin DKIM anahtarı bulduk ({sel}).","s":"İmza, mesajın sizin bir hizmetinizden çıktığını ve yolda kimsenin değiştirmediğini doğrulamayı sağlar. DMARC'ın yönlendirmelerle iyi çalışması için gereken budur.","h":"Gerek yok. Adınıza gönderim yapan tüm hizmetlerin (faturalama, bültenler, CRM) de imza attığından emin olun.","h2":"Kısa anahtarları 2048 bitlik anahtarlarla yenilemek."},"dkim.oculto":{"r":"Alan adınızda yayımlanmış DKIM anahtarları var, ancak adları alışılmış adlardan değil.","s":"DKIM anahtarları dışarıdan listelenemez: yalnızca adı (“selector”) biliniyorsa bulunur. {n} yaygın adı denedik ve hiçbiri eşleşmedi, ancak alan adında bir DKIM dalı var.","h":"Doğrulamak için alan adınızdan gönderilmiş gerçek bir e-postanın başlık bilgisine bakılır."},"dkim.ninguna":{"r":"Alan adınızda yayımlanmış hiçbir DKIM anahtarı bulamadık.","s":"DKIM imzası olmadan e-postanız yalnızca SPF'ye bağlıdır; SPF ise mesaj yönlendirildiğinde bozulur. Bu kontrol kesin değildir: alışılmadık bir ada sahip anahtar dışarıdan görünmez.","h":"Alan adınızla e-posta gönderen her hizmette DKIM imzasını etkinleştirmek."},"dkim.no_hallada":{"r":"Alışılmış adlarla hiçbir DKIM anahtarı bulamadık.","s":"DKIM imzası olmadan e-postanız yalnızca SPF'ye bağlıdır; SPF ise mesaj yönlendirildiğinde bozulur. Bu kontrol kesin değildir: alışılmadık bir ada sahip anahtar dışarıdan görünmez.","h":"Alan adınızla e-posta gönderen her hizmette DKIM imzasını etkinleştirmek."},"mx.nulo":{"r":"Bu alan adı e-posta almadığını bildiriyor.","s":"E-posta kullanmayan bir alan adı da taklit edilebilir. Hatta korumak daha kolaydır: kimsenin göndermeye yetkili olmadığını bildirmek yeterlidir."},"mx.sin":{"r":"Bu alan adında yapılandırılmış e-posta sunucusu yok.","s":"E-posta kullanmayan bir alan adı da taklit edilebilir. Hatta korumak daha kolaydır: kimsenin göndermeye yetkili olmadığını bildirmek yeterlidir."},"mx.prov":{"r":"E-postanızı {p} alıyor.","s":"Yalnızca bağlam bilgisidir: ayarların hangi sağlayıcıyla yapılması gerektiğini gösterir."},"mx.uno":{"r":"E-postanızı bir sunucu alıyor ({d}).","s":"Yalnızca bağlam bilgisidir: ayarların hangi sağlayıcıyla yapılması gerektiğini gösterir."},"mx.varios":{"r":"E-postanızı {n} sunucu alıyor ({d}).","s":"Yalnızca bağlam bilgisidir: ayarların hangi sağlayıcıyla yapılması gerektiğini gösterir."},"dnssec.si":{"r":"Alan adınız DNSSEC ile imzalanmış.","s":"DNSSEC, bir saldırganın alan adınız adına sahte verilerle yanıt vermesini önler. Ek bir katmandır: küçük işletmelerin çoğunda yoktur ve düzeltilecek ilk şey değildir.","h":"Gerek yok."},"dnssec.no":{"r":"Alan adınız DNSSEC kullanmıyor.","s":"DNSSEC, bir saldırganın alan adınız adına sahte verilerle yanıt vermesini önler. Ek bir katmandır: küçük işletmelerin çoğunda yoktur ve düzeltilecek ilk şey değildir.","h":"Yukarıdakiler çözüldüğünde, alan adı kayıt kuruluşunuzun panelinden etkinleştirmek."},"transporte.si_rpt":{"r":"Alan adınız, aldığı e-postanın şifreli iletilmesini zorunlu kılıyor ve hata raporları istiyor.","s":"Bu politika olmadan ağdaki bir saldırgan, size gönderilen bir e-postanın şifresiz iletilmesini sağlayabilir. Gelişmiş bir ayardır.","h":"Gerek yok."},"transporte.si":{"r":"Alan adınız, aldığı e-postanın şifreli iletilmesini zorunlu kılıyor.","s":"Bu politika olmadan ağdaki bir saldırgan, size gönderilen bir e-postanın şifresiz iletilmesini sağlayabilir. Gelişmiş bir ayardır.","h":"Gerek yok."},"transporte.no":{"r":"Alan adınız, aldığı e-postanın şifreli iletilmesini zorunlu kılmıyor.","s":"Bu politika olmadan ağdaki bir saldırgan, size gönderilen bir e-postanın şifresiz iletilmesini sağlayabilir. Gelişmiş bir ayardır.","h":"E-postayla hassas bilgi yönetiyorsanız değerlendirmek."},"caa.si":{"r":"Alan adınız, hangi kuruluşların sertifika verebileceğini sınırlıyor.","s":"CAA kaydı, birinin alan adınız adına geçerli bir sertifika almasının riskini azaltır.","h":"Gerek yok."},"caa.no":{"r":"Herhangi bir sertifika otoritesi alan adınız için sertifika verebilir.","s":"CAA kaydı, birinin alan adınız adına geçerli bir sertifika almasının riskini azaltır.","h":"Beş dakikalık bir ayardır ve yapılmasında fayda var."},"bimi.si":{"r":"Alan adınız, uyumlu posta kutuları için logonuzu yayımlıyor.","s":"BIMI, uyumlu posta kutularında şirketin logosunu mesajın yanında gösterir. Yalnızca DMARC karantina veya reddetme modundayken çalışır.","h":"Gerek yok."},"bimi.no":{"r":"Alan adınız e-posta için bir logo yayımlamıyor.","s":"BIMI, uyumlu posta kutularında şirketin logosunu mesajın yanında gösterir. Yalnızca DMARC karantina veya reddetme modundayken çalışır.","h":"İsteğe bağlıdır ve en sona kalır."},"spf.roto":{"r":"SPF'niz, geçerli bir SPF'si olmayan bir hizmeti ({d}) içeriyor.","s":"Dahil edilen bir hizmet geçerli bir kayıtla yanıt vermediğinde standart, SPF'nizin tamamının hata sayılmasını emreder: pratikte SPF'niz yok demektir. Bir sağlayıcıyı kapatıp kayıtta bırakınca sık görülür.","h":"Artık var olmayan hizmeti kayıttan kaldırmak veya adını düzeltmek."}},"a":{"spf.a_ptr":"Standardın yavaş ve güvenilmez olduğu için önermediği “ptr” mekanizmasını kullanıyor.","spf.a_desconocido":"Tanınmayan bir terim içeriyor: tüm kaydı geçersiz kılabilir.","spf.a_limite":"İzin verilen 10 DNS sorgusundan {n} tanesinde: bir hizmet daha eklenirse çalışmaz.","dmarc.a_heredado":"Alt alan adının kendi kaydı yok: {d} politikasını devralıyor.","dmarc.a_sin_rua":"Rapor istemiyor (“rua”): alan adınızla kimin e-posta gönderdiğinden haberiniz olmaz.","dmarc.a_sp":"Alt alan adlarınız korumasız (“sp=none”): {d} içindeki herhangi bir alt alan adı taklit edilebilir.","dmarc.a_pct":"Politika, sahte e-postaların yalnızca %{n} kadarına uygulanıyor (“pct={n}”).","dkim.a_corta1":"Bir anahtar 1024 bit. Bugün 2048 öneriliyor.","dkim.a_cortas":"{n} anahtar 1024 bit. Bugün 2048 öneriliyor.","dmarc.a_prueba":"Politika test modunda (“t=y”): sunucular, belirtilenden daha az katı bir düzey uyguluyor."},"v":{"alto_sin":{"t":"Bugün e-postanız taklit edilebilir","x":"Alan adınız hiçbir e-posta sağlayıcısına sahte mesajları reddetmesini söylemiyor. Bir dolandırıcı müşterilerinize, bankanıza veya muhasebecinize tam olarak sizin adresinizle yazabilir ve mesaj gelen kutusuna ulaşabilir."},"alto_none":{"t":"Bugün e-postanız taklit edilebilir","x":"Alan adınız izliyor ama engellemiyor: politika izleme modunda. Bu böyle kaldığı sürece, tam olarak sizin adresinizle gönderilen sahte bir e-posta yine de ulaşabilir."},"medio":{"t":"E-postanız yarım korunuyor","x":"Sahte e-postalara karşı harekete geçen bir politikanız var, ancak bir dolandırıcının yararlanabileceği boşluklar kalmış. Aşağıda önem sırasına göre ayrıntılı olarak listelenmiştir."},"bajo":{"t":"E-postanız taklide karşı iyi korunuyor","x":"Alan adınız, adresinizi izinsiz kullanan e-postaların reddedilmesini emrediyor. Büyük e-posta sağlayıcılarının istediği düzey budur."}},"ui":{"riesgo":{"alto":"Yüksek taklit riski","medio":"Orta taklit riski","bajo":"Düşük taklit riski"},"rotulo":{"ok":"İyi","aviso":"Geliştirilebilir","falla":"Hata","info":"Bilgi"},"significa":"Ne anlama geliyor","hacer":"Ne yapılmalı","publica":"Alan adınızın bugün yayımladığı","calif":"Puan {n}","de100":"/ 100","btn_wa":"WhatsApp'tan düzeltilmesini isteyin","btn_wa_bajo":"WhatsApp'tan ikinci bir kontrol isteyin","btn_imp":"Raporu kaydedin veya yazdırın","btn_cop":"Sonuç bağlantısını kopyalayın","copiado":"Bağlantı kopyalandı","copie":"Bağlantıyı kopyalayın:","pie":"Kontrol tarihi {f} · herkese açık DNS kayıtlarına {n} sorgu · grupoalmadia.com · Puan, yayımlanmış yapılandırmayı özetler; posta kutularını, şifreleri veya cihazları kontrol etmez.","revisar":"Ücretsiz kontrol et","revisando":"Kontrol ediliyor…","buscando":"Alan adı aranıyor…","listo":"Tamam","pasos":["E-posta sunucuları","Gönderen listesi (SPF)","Sahteciliğe karşı politika (DMARC)","E-posta imzası (DKIM)","Ek katmanlar"]},"err":{"invalido":"sirketim.com gibi bir alan adı veya satis@sirketim.com gibi bir e-posta adresi yazın.","inexistente":"Bu alan adı yok veya DNS'i bulunmuyor. Doğru yazıldığını kontrol edin.","fetch":"Tarayıcınız bu araç için çok eski. Güncel bir tarayıcı deneyin.","red":"Şu anda DNS'i sorgulayamadık. Bağlantınızı kontrol edip tekrar deneyin.","gratuito":"Bu ücretsiz bir e-posta alan adıdır: sağlayıcı tarafından yönetilir ve siz değiştiremezsiniz. Şirketinizin kendi alan adını yazın."},"wa":{"msg":"İyi günler. Alan adımı Almadía'nın aracıyla kontrol ettim ve korunmasını istiyorum.","msg_bajo":"İyi günler. Alan adımı Almadía'nın aracıyla kontrol ettim ve ikinci bir kontrol istiyorum.","dominio":"Alan adı","resultado":"Sonuç","corregir":"Düzeltilecekler"}}</script>
+<script defer src="/assets/js/revisor-correo.js?v=a3263afd93"></script>
+<script defer src="/assets/js/revisor-ui.js?v=8a805825de"></script>
+</head>
+<body>
+<script>document.documentElement.className+=" js"</script>
+
+<header class="hdr">
+  <div class="wrap">
+    <a class="marca" href="/">
+      <img src="/assets/img/icono-192.png" alt="" width="34" height="34" loading="eager" decoding="async">
+      <span><b>Almadía</b><span>Grupo Empresarial</span></span>
+    </a>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="/#lineas">Líneas</a>
+      <a href="/invertir-en-colombia/">Invertir</a>
+      <a href="/licitaciones/">Licitaciones</a>
+      <a href="/empresas/">Crear empresa</a>
+      <a href="/servicios-digitales/">Digital e IA</a>
+      <a href="/proteccion-digital/">Paquetes pyme</a>
+      <a class="btn btn-p btn-sm" href="https://wa.me/573223623930?text=%C4%B0yi%20g%C3%BCnler.%20Almad%C3%ADa'n%C4%B1n%20%C5%9Firketimin%20e-postas%C4%B1n%C4%B1%20taklide%20kar%C5%9F%C4%B1%20kontrol%20edip%20korumas%C4%B1n%C4%B1%20istiyorum.%20%5Btr%5D" rel="noopener">Cotizar</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap" id="rv" data-wa="573223623930" data-url="https://grupoalmadia.com/tr/tools/spf-dkim-dmarc-checker/">
+    <nav class="idiomas" aria-label="Language"><ul style="list-style:none;display:flex;flex-wrap:wrap;gap:6px 14px;padding:0;margin:0 0 26px;font-size:13.5px"><li><a href="/ar/tools/spf-dkim-dmarc-checker/" hreflang="ar" lang="ar" style="color:#8fd8c6">العربية</a></li><li><a href="/de/tools/spf-dkim-dmarc-checker/" hreflang="de" lang="de" style="color:#8fd8c6">Deutsch</a></li><li><a href="/en/tools/spf-dkim-dmarc-checker/" hreflang="en" lang="en" style="color:#8fd8c6">English</a></li><li><a href="/herramientas/verificar-spf-dkim-dmarc/" hreflang="es" lang="es" style="color:#8fd8c6">Español</a></li><li><a href="/fr/tools/spf-dkim-dmarc-checker/" hreflang="fr" lang="fr" style="color:#8fd8c6">Français</a></li><li><a href="/hi/tools/spf-dkim-dmarc-checker/" hreflang="hi" lang="hi" style="color:#8fd8c6">हिन्दी</a></li><li><a href="/it/tools/spf-dkim-dmarc-checker/" hreflang="it" lang="it" style="color:#8fd8c6">Italiano</a></li><li><a href="/ja/tools/spf-dkim-dmarc-checker/" hreflang="ja" lang="ja" style="color:#8fd8c6">日本語</a></li><li><a href="/nl/tools/spf-dkim-dmarc-checker/" hreflang="nl" lang="nl" style="color:#8fd8c6">Nederlands</a></li><li><a href="/pt/tools/spf-dkim-dmarc-checker/" hreflang="pt" lang="pt" style="color:#8fd8c6">Português</a></li><li><a href="/ru/tools/spf-dkim-dmarc-checker/" hreflang="ru" lang="ru" style="color:#8fd8c6">Русский</a></li><li><b style="color:#fff">Türkçe</b></li><li><a href="/zh/tools/spf-dkim-dmarc-checker/" hreflang="zh" lang="zh" style="color:#8fd8c6">中文</a></li></ul></nav>
+    <span class="eyebrow">Ücretsiz araç · Kayıt gerekmez · Türkçe</span>
+    <h1 style="max-width:24ch;font-size:clamp(2.1rem,5vw,3.7rem)">SPF, DKIM ve DMARC kontrolü: şirketiniz adına e-posta gönderilebilir mi?</h1>
+    <p class="lead">Alan adınızı yazın; bir dolandırıcının müşterilerinize tam olarak sizin adresinizle e-posta gönderip gönderemeyeceğini birkaç saniyede öğrenin. SPF, DKIM ve DMARC kayıtlarını kontrol eder, sonucu teknik terimlere boğmadan açıklarız.</p>
+    <form class="rv-form" id="rv-form" novalidate>
+      <label for="rv-dominio">Alan adınız veya şirketinizin bir e-posta adresi</label>
+      <div class="rv-fila">
+        <input id="rv-dominio" name="d" type="text" dir="ltr" inputmode="url" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="sirketim.com" maxlength="260" required aria-describedby="rv-aviso rv-priv">
+        <button class="btn btn-p" id="rv-boton" type="submit">Ücretsiz kontrol et</button>
+      </div>
+      <details class="rv-sel"><summary>DKIM selector'ünüzü biliyor musunuz? (isteğe bağlı)</summary><input id="rv-selector" name="s" type="text" dir="ltr" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="63" placeholder="örneğin: selector1" aria-label="DKIM selector'ünüzü biliyor musunuz? (isteğe bağlı)"></details>
+      <p class="rv-aviso" id="rv-aviso" role="status" aria-live="polite"></p>
+      <div class="rv-progreso" id="rv-progreso" hidden>
+        <div class="rv-via"><div class="rv-barra" id="rv-barra"></div></div>
+        <p class="rv-etapa" id="rv-etapa"></p>
+      </div>
+      <p class="rv-priv" id="rv-priv">Kontrol tarayıcınızda çalışır ve yalnızca herkese açık DNS kayıtlarını, Google ve Cloudflare çözümleyicileri üzerinden okur. Almadía yazdığınız alan adını almaz ve saklamaz.</p>
+    </form>
+    <noscript><p class="lead" style="margin-top:20px">Bu araç JavaScript gerektirir. Dilerseniz alan adınızı WhatsApp'tan bize yazın, kontrolü size gönderelim. <a href="https://wa.me/573223623930?text=%C4%B0yi%20g%C3%BCnler.%20Almad%C3%ADa'n%C4%B1n%20%C5%9Firketimin%20e-postas%C4%B1n%C4%B1%20taklide%20kar%C5%9F%C4%B1%20kontrol%20edip%20korumas%C4%B1n%C4%B1%20istiyorum.%20%5Btr%5D" style="color:#8fd8c6">WhatsApp 322 362 3930</a></p></noscript>
+    <dl class="datos">
+      <div><dt>Fiyat</dt><dd>Ücretsiz, kayıt gerekmez</dd></div>
+      <div><dt>Kontrol eder</dt><dd>SPF, DKIM, DMARC ve 5 ek katman</dd></div>
+      <div><dt>Süre</dt><dd>Yaklaşık 10 saniye</dd></div>
+      <div><dt>Verileriniz</dt><dd>Almadía bunları almaz</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="rv-zona" aria-label="Kontrol sonucu">
+  <div class="wrap">
+    <div id="rv-resultado" hidden></div>
+  </div>
+</section>
+
+<section class="seccion" id="how">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">Sahte fatura dolandırıcılığı</span>
+      <h2>E-postanızı taklit etmek için şifrenize ihtiyaç yoktur.</h2>
+      <p class="lead">E-posta, göndereni doğrulamadan çalışacak şekilde tasarlandı. Herhangi bir sunucu “bu mesaj mudur@sirketiniz.com adresinden geliyor” diyebilir. Buna engel olan tek şey, alan adınızda yayımladığınız üç kayıttır. Bu kayıtlar yoksa ya da yarım kalmışsa sahte mesaj ulaşabilir.</p>
+    </div>
+    <div class="pasos rev">
+      <div class="paso"><span class="num">01</span><h3>Dolandırıcı kime yazacağını seçer</h3><p>Müşterileriniz, muhasebeciniz, bankanız veya kendi ödeme ekibiniz. İsimler çoğu zaman web sitenizde ve sosyal medyada bulunur.</p></div>
+      <div class="paso"><span class="num">02</span><h3>E-postayı tam olarak sizin adresinizle gönderir</h3><p>Benzer bir alan adı değil, sizinki. Başka bir banka hesabı içeren bir fatura, bir “ödeme bilgisi değişikliği” ya da müdürden gelen acil bir talimat.</p></div>
+      <div class="paso"><span class="num">03</span><h3>Alıcının sunucusu alan adınızı sorgular</h3><p>Bu göndericinin yetkili olup olmadığını ve değilse ne yapılacağını sorar. Alan adınız hiçbir yanıt vermiyorsa mesaj teslim edilebilir.</p></div>
+      <div class="paso"><span class="num">04</span><h3>Müşteri öder ve hesabı sizden sorar</h3><p>Para başka bir hesaba gitti ve e-posta, herkesin gözünde şirketinizden çıktı. Ticari ve hukuki sorun burada başlar.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion seccion-clara" id="checks">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">Araç neyi kontrol eder</span>
+      <h2>E-postanızın taklit edilip edilemeyeceğini üç kayıt belirler.</h2>
+      <p class="lead">Üçü de alan adınızın DNS'inde yayımlanır ve herkese açıktır: her e-posta sunucusu, bir mesajı kabul etmeden önce bunları okur. Araç aynı okumayı yapar ve sonucu size anlaşılır biçimde aktarır.</p>
+    </div>
+    <div class="tabla-envoltura rev">
+      <table class="tabla">
+        <thead><tr><th scope="col">Kayıt</th><th scope="col">Nedir</th><th scope="col">Eksik veya hatalıysa ne olur</th><th scope="col">Neyi kontrol ediyoruz</th></tr></thead>
+        <tbody><tr><th scope="row">SPF</th><td>Alan adınızla e-posta göndermeye yetkili sunucuların listesi.</td><td>Hiçbir sunucu, e-postanızın nereden çıkması gerektiğini bilmez. Birden fazla kayıt varsa, 10'dan fazla DNS sorgusu gerekiyorsa veya dahil edilen bir hizmet mevcut değilse kayıt geçersiz sayılır.</td><td>Kaydın var olduğunu ve tek olduğunu, nasıl bittiğini (reddeder, işaretler ya da geçirir), kaç DNS sorgusu gerektirdiğini ve dahil edilen hizmetlerin geçerli olup olmadığını.</td></tr>
+          <tr><th scope="row">DKIM</th><td>Her mesajdaki dijital imza; alan adınızdaki bir açık anahtarla doğrulanır.</td><td>E-postanız yalnızca SPF'ye bağlı kalır; SPF ise mesaj yönlendirildiğinde bozulur.</td><td>Sağlayıcıların en sık kullandığı adlarla yayımlanmış anahtarların bulunduğunu, bunların etkin olduğunu ve boyutlarını.</td></tr>
+          <tr><th scope="row">DMARC</th><td>Talimat: alan adınızı kullanan ve bu alan adı adına SPF ile DKIM'den de geçemeyen bir e-postaya ne yapılacağı.</td><td><b>DMARC yoksa ya da “p=none” ise sahte e-posta gelen kutusuna ulaşabilir.</b> Belirleyici olan kayıt budur.</td><td>Kaydın var olduğunu ve tek olduğunu, politikayı (izleme, karantina veya reddetme), test modunda olup olmadığını ya da yalnızca bir kısma uygulanıp uygulanmadığını, alt alan adlarına ne olduğunu ve rapor isteyip istemediğini.</td></tr>
+          <tr><th scope="row">Ek katmanlar</th><td>DNSSEC, MTA-STS, TLS-RPT, CAA ve BIMI.</td><td>Doğrudan taklide kapı açmazlar, ancak doğru yapılandırılmış bir alan adı ile özenle korunan bir alan adı arasındaki farkı oluştururlar.</td><td>Yayımlanıp yayımlanmadıklarını. Puanda ağırlıkları azdır ve yukarıdakilerden sonra gelir.</td></tr></tbody>
+      </table>
+    </div>
+    <p class="nota-catalogo rev">0 ile 100 arasındaki puanda ağırlıklar şöyledir: DMARC 45, SPF 25, DKIM 15 ve ek katmanlar 15. Risk değerlendirmesi esas olarak DMARC'a bağlıdır, çünkü üçü arasında engellemeyi emreden tek kayıt odur.</p>
+  </div>
+</section>
+
+<section class="seccion" id="levels">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">Sonuç nasıl okunur</span>
+      <h2>Her risk düzeyi ne anlama gelir.</h2>
+    </div>
+    <div class="duo">
+      <div class="rev">
+        <h3 style="font-family:var(--ff-display);font-size:1.5rem;margin-bottom:14px">Yüksek risk</h3>
+        <ul class="lista"><li>Alan adınızda DMARC yok ya da yalnızca izleme modunda (“p=none”).</li><li>Bugün adresinizi kullanan sahte bir e-posta gelen kutusuna ulaşabilir.</li><li>Küçük işletmelerde en sık görülen durum budur ve e-posta sağlayıcınızı değiştirmeden düzeltilir.</li></ul>
+      </div>
+      <div class="rev">
+        <h3 style="font-family:var(--ff-display);font-size:1.5rem;margin-bottom:14px">Orta veya düşük risk</h3>
+        <ul class="lista"><li><b>Orta:</b> harekete geçen bir politika (karantina) var, ancak boşluklar kalmış: yalnızca bir kısma uygulanıyor veya test modunda, alt alan adları korunmuyor ya da SPF herkese izin veriyor.</li><li><b>Düşük:</b> alan adınız sahte e-postaların reddedilmesini emrediyor. Geriye, tüm gönderim hizmetlerinizin imza attığını kontrol etmek ve raporları okumak kalıyor.</li><li>Her iki durumda da ayrıntılar, nelerin iyileştirileceğini önem sırasına göre gösterir.</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion seccion-clara" id="why">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">Neden şimdi önemli</span>
+      <h2>Artık isteğe bağlı değil: büyük posta hizmetleri bunu zorunlu tutuyor.</h2>
+    </div>
+    <div class="rev"><ul class="lista"><li><b>Google (Şubat 2024'ten itibaren):</b> Gmail hesaplarına günde 5.000'den fazla e-posta gönderenlerden SPF, DKIM ve DMARC'ı; diğer herkesten en az SPF veya DKIM'i şart koşuyor. Yahoo, toplu gönderim yapanlar için eşdeğer kurallar uyguluyor.</li><li><b>Microsoft (Mayıs 2025'ten itibaren):</b> Outlook, Hotmail ve Live'a günde 5.000'den fazla e-posta gönderen alan adlarından SPF, DKIM ve DMARC'ı şart koşuyor.</li><li><b>Teslim edilebilirlik:</b> Bu kayıtları olmayan bir alan adı yalnızca taklit edilmekle kalmaz; faturalar ve teklifler dahil meşru e-postaları da daha sık gereksiz (spam) klasörüne düşer.</li><li><b>Veri koruma:</b> Hiçbir yasa DMARC'ı adıyla anmaz, ancak Avrupa'da GDPR (madde 32) veya Kolombiya'da 2012 tarihli 1581 sayılı Kanun gibi düzenlemeler, kişisel verileri işleyenleri yetkisiz veya hileli kullanıma karşı uygun teknik önlemler almakla yükümlü kılar. Taklit edilebilen bir kurumsal e-posta, açık bir zayıf noktadır.</li><li><b>Dolandırıcının peşine düşmek mümkündür, ancak yavaştır.</b> Örneğin Kolombiya'da 2009 tarihli 1273 sayılı Kanun, veri çalmak için site taklit edilmesini ve rızasız varlık transferini cezalandırır. Kapıyı kapatmak ise birkaç hafta sürer.</li></ul></div>
+  </div>
+</section>
+
+<section class="seccion" id="limits">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">Açık konuşalım</span>
+      <h2>Bu kontrolün size söylemedikleri.</h2>
+    </div>
+    <div class="rev"><ul class="lista"><li><b>E-posta kutularını ve şifreleri kontrol etmez.</b> Ekibinizden birinin şifresi çalındıysa e-posta gerçekten hesabınızdan çıkar ve hiçbir DNS kaydı bunu durduramaz. Bu, iki adımlı doğrulamayla kapatılır.</li><li><b>Benzer alan adlarını tespit etmez.</b> Bir dolandırıcı sirketiniz-odemeler.com gibi bir alan adı kaydedebilir. DMARC sizin alan adınızı korur, size benzeyenleri değil.</li><li><b>DKIM sonucu kesin değildir.</b> Anahtarlar dışarıdan listelenemez; sizinki alışılmadık bir ada sahipse görünmez.</li><li><b>Sızma testi ya da sertifikalı denetim değildir.</b> Alan adınızın herkese açık yapılandırmasının okunmasıdır; e-posta dolandırıcılıklarının çoğu da buradan başlar.</li><li><b>İyi bir puan teslimatı garanti etmez.</b> Sağlayıcılar ayrıca gönderenin itibarına ve içeriğe de bakar.</li></ul></div>
+  </div>
+</section>
+
+<section class="seccion seccion-clara" id="faq">
+  <div class="wrap">
+    <div class="cab rev">
+      <span class="eyebrow">Sık sorulan sorular</span>
+      <h2>Taklit edilen e-posta hakkında bize sorulanlar.</h2>
+    </div>
+    <div class="catalogo rev">
+      <section class="cat-grupo"><h3>E-postamın taklit edilmesi ne demek?</h3><p style="padding:0 2px">Birinin, posta kutunuza girmeden, “Kimden:” alanına tam olarak sizin adresinizi (örneğin fatura@sirketiniz.com) yazarak mesaj göndermesi demektir. Şifrenize ihtiyaç duymaz: alan adınızın, e-posta sunucularına sizden çıkmayan mesajları reddetmelerini söylememesi yeterlidir. Bu sahte e-postayla ödeme istenir, bir faturadaki hesap numarası değiştirilir veya şifreler çalınır.</p></section>
+      <section class="cat-grupo"><h3>Alan adımın korunup korunmadığını nasıl anlarım?</h3><p style="padding:0 2px">Bu sayfadaki kontrol aracına yazın. Birkaç saniye içinde alan adınızın SPF, DKIM ve DMARC yayımlayıp yayımlamadığını ve özellikle DMARC politikasının sahte e-postaları gerçekten engelleyip engellemediğini, yoksa yalnızca izleyip izlemediğini söyler. Sonuç “yüksek risk” ise bugün adınıza e-posta gönderilebilir.</p></section>
+      <section class="cat-grupo"><h3>SPF, DKIM ve DMARC arasındaki fark nedir?</h3><p style="padding:0 2px">SPF, alan adınızla e-posta göndermeye yetkili sunucuların listesidir. DKIM, mesajın sizin bir hizmetinizden çıktığını ve kimsenin değiştirmediğini kanıtlayan dijital bir imzadır. DMARC ikisini birleştirir ve talimat verir: alan adınızı kullanan ve bu alan adı adına iki testi de geçemeyen bir e-postaya ne yapılacağı (geçirmek, gereksiz klasörüne göndermek veya reddetmek). DMARC olmadan diğer ikisi taklidi engellemez.</p></section>
+      <section class="cat-grupo"><h3>DMARC'ım “p=none” modunda. Korunuyor muyum?</h3><p style="padding:0 2px">Hayır. “p=none” izleme modudur: alan adınız sahte mesajlara karşı hiçbir işlem istemez ve bu mesajlar yine de ulaşabilir. Kayıt rapor istiyorsa adınıza kimlerin e-posta gönderdiğine dair ayrıntıları alırsınız. Bu doğru bir ilk adımdır; raporlar meşru gönderimlerinizin geçtiğini doğruladığında politikayı aşama aşama önce karantinaya, sonra reddetmeye yükseltmek gerekir.</p></section>
+      <section class="cat-grupo"><h3>Neden hemen “p=reject” yapmıyorum?</h3><p style="padding:0 2px">Çünkü meşru hizmetlerinizden biri (e-fatura, bültenler, CRM, web sitesi formları) adınıza doğru yapılandırılmadan e-posta gönderiyorsa, kendi mesajlarınız reddedilir. Bu yüzden işlem aşamalarla, her değişiklikten önce raporlar okunarak yapılır.</p></section>
+      <section class="cat-grupo"><h3>Araç alan adımı veya verilerimi saklıyor mu?</h3><p style="padding:0 2px">Hayır. Kontrol tarayıcınızda çalışır: sorgular doğrudan Google ve Cloudflare'ın herkese açık DNS çözümleyicilerine gider; onlar da alan adını her DNS sorgusunda olduğu gibi alır. Almadía yazdığınız alan adını almaz, e-posta veya kayıt istemez ve sayfada analitik yoktur. Biz yalnızca siz WhatsApp'tan yazmaya karar verirseniz haberdar oluruz.</p></section>
+      <section class="cat-grupo"><h3>Bu bir sızma testi mi?</h3><p style="padding:0 2px">Hayır. Araç yalnızca tasarım gereği herkese açık olan DNS kayıtlarını okur: bir e-posta sunucusunun mesajı kabul etmeden önce sorguladığı bilgilerin aynısıdır. Sistemlerinize dokunmaz, şifre denemez ve hiçbir e-posta göndermez. Bu nedenle bir tedarikçinin veya müşterinin alan adını da kontrol edebilirsiniz.</p></section>
+      <section class="cat-grupo"><h3>E-posta adresim @gmail.com veya @hotmail.com. Bu bana uygun mu?</h3><p style="padding:0 2px">Bu kontrol kendi alan adları içindir (adiniz.com, sirketiniz.com). Ücretsiz bir hesap kullanıyorsanız taklide karşı koruma sağlayıcı tarafından yönetilir ve siz değiştiremezsiniz. Bir şirket için e-postanın kendi alan adında ve doğru yapılandırılmış olması ilk adımdır.</p></section>
+      <section class="cat-grupo"><h3>DKIM bende var, neden bulunamadı diyor?</h3><p style="padding:0 2px">DKIM anahtarları dışarıdan listelenemez: her sağlayıcının seçtiği bir adla (“selector”) yayımlanırlar. Araç en sık kullanılan adları dener; sizinki farklıysa görünmez. Biliyorsanız isteğe bağlı selector alanına yazın. Alan adınızdan gönderilmiş gerçek bir e-postanın başlık bilgisine bakarak da doğrulanabilir.</p></section>
+      <section class="cat-grupo"><h3>Google ve Microsoft bunu zorunlu tutuyor mu?</h3><p style="padding:0 2px">Evet, yüksek hacimde gönderenler için. Google, Şubat 2024'ten itibaren Gmail'e günde 5.000'den fazla e-posta gönderenlerden SPF, DKIM ve DMARC'ı şart koşuyor; Yahoo da toplu gönderim yapanlar için eşdeğer kurallar uyguluyor. Microsoft, Mayıs 2025'ten itibaren Outlook, Hotmail ve Live'a günde 5.000'den fazla gönderenlerden aynısını istiyor. Küçük göndericilerden Google en az SPF veya DKIM istiyor. Uygulamada bu kayıtları olmayan bir alan adı giderek daha sık gereksiz klasörüne düşüyor.</p></section>
+      <section class="cat-grupo"><h3>Düzeltmek ne kadara mal olur?</h3><p style="padding:0 2px">Kontrol ücretsizdir. E-postanın düzeltilmesi (SPF, DKIM ve DMARC yapılandırılır, test edilir ve reddetmeye kadar aşama aşama yükseltilir) fiyatı yayımlanmış olan Korumalı KOBİ paketine dahildir. Yalnızca e-postaya ihtiyacınız varsa alan adınızı bize yazın, başlamadan önce yazılı sabit bir fiyat verelim.</p></section>
+      <section class="cat-grupo"><h3>Hangi ülkelerde çalışıyorsunuz?</h3><p style="padding:0 2px">Herhangi birinde. Uzaktan hizmet veriyoruz: siz bize alan adınızın DNS paneline erişim verirsiniz veya size ilettiğimiz değişiklikleri kendiniz uygularsınız; iletişimi WhatsApp, e-posta veya görüntülü görüşmeyle yürütürüz. Araç ve hizmet 13 dilde sunulmaktadır.</p></section>
+    </div>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="wrap">
+    <div class="cta rev">
+      <h2>Sonuç yüksek risk mi çıktı? Sizi reddetme düzeyine, aşama aşama ve e-postanızı aksatmadan getiriyoruz.</h2>
+      <p>Adınıza gönderim yapan her hizmetle birlikte SPF, DKIM ve DMARC'ı yapılandırır, raporları okur ve sahte e-postalar reddedilene kadar politikayı adım adım yükseltiriz. Korumalı KOBİ paketine dahildir; yalnızca e-postaya ihtiyacınız varsa başlamadan önce yazılı sabit bir fiyat veririz. Her ülkeden şirketlerle uzaktan çalışıyoruz.</p>
+      <div class="btns">
+        <a class="btn btn-p" href="https://wa.me/573223623930?text=%C4%B0yi%20g%C3%BCnler.%20Almad%C3%ADa'n%C4%B1n%20%C5%9Firketimin%20e-postas%C4%B1n%C4%B1%20taklide%20kar%C5%9F%C4%B1%20kontrol%20edip%20korumas%C4%B1n%C4%B1%20istiyorum.%20%5Btr%5D" rel="noopener">WhatsApp 322 362 3930</a>
+        <a class="btn btn-claro" href="/tr/packages/#proteccion">Korumalı KOBİ paketini görün</a>
+      </div>
+      <p style="margin-top:14px"><a href="#rv-dominio">Başka bir alan adını kontrol edin ↑</a> · <a href="/tr/packages/#proteccion">Düzeltmenin kapsamı ve maliyeti →</a></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div style="text-align:center;padding:6px 0 16px"><img src="/assets/img/logo-pie.jpg" alt="Grupo Empresarial Almadía" width="260" height="185" loading="lazy" decoding="async" style="width:230px;height:auto;border-radius:14px"></div>
+    <div class="ftr-legal">
+      <span>Grupo Empresarial Almadía S.A.S. · NIT 902.090.075-9 · Matrícula 04133931 Cámara de Comercio de Bogotá</span>
+      <span>© 2026 Almadía · <a href="/invertir-en-colombia/">Invertir en Colombia</a> · <a href="/licitaciones/">Licitaciones</a> · <a href="/empresas/">Crear empresa</a> · <a href="/crear-empresa/bogota/">Crear empresa en Bogotá</a> · <a href="/empresa-llave-en-mano/">Llave en mano</a> · <a href="/contador-publico/">Contador público</a> · <a href="/cobranza/cobro-de-cartera-empresas/">Cobranza de cartera</a> · <a href="/incentivos-tributarios/">Incentivos tributarios</a> · <a href="/tramites-desde-el-exterior/">Trámites desde el exterior</a> · <a href="/tarifas-abogados-colombia-2026/">Tarifas de abogados 2026</a> · <a href="/servicios-digitales/">Digital e IA</a> · <a href="/proteccion-digital/">Paquetes pyme</a></span>
+      <span style="display:block;margin-top:6px;font-size:.82rem">Todos los derechos reservados. Prohibida la reproducción total o parcial de textos, imágenes, datos y diseño sin autorización escrita (Ley 23 de 1982). · <a href="/politica-de-datos/">Política de tratamiento de datos personales</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
